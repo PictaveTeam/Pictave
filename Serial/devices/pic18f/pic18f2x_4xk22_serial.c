@@ -8,7 +8,39 @@
 */
 
 #if USE_UART1 != 0
-	#info [Serial Library] Building Serial for PIC18F45K22
+	#ifdef _PIC18LF23K22_H_
+		#info [Serial Library] Building Serial for PIC18LF23K22
+	#elif defined _PIC18LF24K22_H_ 
+		#info [Serial Library] Building Serial for PIC18LF24K22
+	#elif defined _PIC18LF25K22_H_
+		#info [Serial Library] Building Serial for PIC18LF25K22
+	#elif defined _PIC18LF26K22_H_
+		#info [Serial Library] Building Serial for PIC18LF26K22
+    #elif defined _PIC18LF43K22_H_ 
+		#info [Serial Library] Building Serial for PIC18LF43K22
+	#elif defined _PIC18LF44K22_H_ 
+		#info [Serial Library] Building Serial for PIC18LF44K22
+	#elif defined _PIC18LF45K22_H_ 
+		#info [Serial Library] Building Serial for PIC18LF45K22
+	#elif defined _PIC18LF46K22_H_ 
+		#info [Serial Library] Building Serial for PIC18LF46K22
+    #elif defined _PIC18F23K22_H_  
+		#info [Serial Library] Building Serial for PIC18LF23K22
+	#elif defined _PIC18F24K22_H_  
+		#info [Serial Library] Building Serial for PIC18LF24K22
+	#elif defined _PIC18F25K22_H_  
+		#info [Serial Library] Building Serial for PIC18LF25K22
+	#elif defined _PIC18F26K22_H_ 
+		#info [Serial Library] Building Serial for PIC18LF26K22
+    #elif defined _PIC18F43K22_H_
+		#info [Serial Library] Building Serial for PIC18LF43K22
+	#elif defined _PIC18F44K22_H_  
+		#info [Serial Library] Building Serial for PIC18LF24K22
+	#elif defined _PIC18F45K22_H_  
+		#info [Serial Library] Building Serial for PIC18LF45K22
+	#elif defined _PIC18F46K22_H_ 
+		#info [Serial Library] Building Serial for PIC18LF46K22
+	#endif
 	
 	static float Serial_DeviceInit(float baudrate)
 	{
@@ -81,9 +113,41 @@
 
 #if USE_UART2 != 0
 
-	#info [Serial Library] Building Serial2 for PIC18F45K22
+	#ifdef _PIC18LF23K22_H_
+		#info [Serial Library] Building Serial2 for PIC18LF23K22
+	#elif defined _PIC18LF24K22_H_ 
+		#info [Serial Library] Building Serial2 for PIC18LF24K22
+	#elif defined _PIC18LF25K22_H_
+		#info [Serial Library] Building Serial2 for PIC18LF25K22
+	#elif defined _PIC18LF26K22_H_
+		#info [Serial Library] Building Serial2 for PIC18LF26K22
+    #elif defined _PIC18LF43K22_H_ 
+		#info [Serial Library] Building Serial2 for PIC18LF43K22
+	#elif defined _PIC18LF44K22_H_ 
+		#info [Serial Library] Building Serial2 for PIC18LF44K22
+	#elif defined _PIC18LF45K22_H_ 
+		#info [Serial Library] Building Serial2 for PIC18LF45K22
+	#elif defined _PIC18LF46K22_H_ 
+		#info [Serial Library] Building Serial2 for PIC18LF46K22
+    #elif defined _PIC18F23K22_H_  
+		#info [Serial Library] Building Serial2 for PIC18F23K22
+	#elif defined _PIC18F24K22_H_  
+		#info [Serial Library] Building Serial2 for PIC18F24K22
+	#elif defined _PIC18F25K22_H_  
+		#info [Serial Library] Building Serial2 for PIC18F25K22
+	#elif defined _PIC18F26K22_H_ 
+		#info [Serial Library] Building Serial2 for PIC18F26K22
+    #elif defined _PIC18F43K22_H_
+		#info [Serial Library] Building Serial2 for PIC18F43K22
+	#elif defined _PIC18F44K22_H_  
+		#info [Serial Library] Building Serial2 for PIC18F24K22
+	#elif defined _PIC18F45K22_H_  
+		#info [Serial Library] Building Serial2 for PIC18F45K22
+	#elif defined _PIC18F46K22_H_ 
+		#info [Serial Library] Building Serial2 for PIC18F46K22
+	#endif
 
-	static void Serial2_DeviceInit(float baudrate)
+	static float Serial2_DeviceInit(float baudrate)
 	{
 		//----------------------[CALCUL DU BAUDRATE]----------------------------
 		float baudL, baudH, errorL, errorH;

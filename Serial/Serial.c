@@ -193,10 +193,10 @@ static int FloatToInt(float v);
 //----------------------[DEVICE SPECIFIC CODE]----------------------------------
 //------------------------------------------------------------------------------
     
-#if defined _PIC18F45K22_H_
-    #include "devices/pic18f/pic18f45k22_serial.dev"
-#elif defined __24FJ64GA006_H
-    #include "devices/pic24f/pic24fj64ga006_serial.dev"
+#if defined PIC18F2X_4XK22_FAMILY
+    #include "devices/pic18f/pic18f2x_4xk22_serial.c"
+#elif defined PIC24FJ128GA010_FAMILY
+    #include "devices/pic24f/pic24fj128ga010_family_serial.c"
 #else
     #error [Serial Library] Device not supported
 #endif

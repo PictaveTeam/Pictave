@@ -9,8 +9,27 @@
 
 
 #if USE_UART1 != 0
-	#warning [Serial Library] Building Serial for PIC24FJ64GA006
-	
+
+	#if defined __24FJ64GA006_H
+		#warning [Serial Library] Building Serial for PIC24FJ64GA006
+	#elif defined __24FJ96GA006_H 
+		#warning [Serial Library] Building Serial for PIC24FJ96GA006
+	#elif  defined __24FJ128GA006_H 
+		#warning [Serial Library] Building Serial for PIC24FJ128GA006
+    #elif defined __24FJ64GA008_H 
+		#warning [Serial Library] Building Serial for PIC24FJ64GA008
+	#elif  defined __24FJ96GA008_H 
+		#warning [Serial Library] Building Serial for PIC24FJ96GA008
+	#elif  defined __24FJ128GA008_H
+		#warning [Serial Library] Building Serial for PIC24FJ128GA008
+    #elif defined __24FJ64GA010_H 
+		#warning [Serial Library] Building Serial for PIC24FJ64GA010
+	#elif  defined __24FJ96GA010_H 
+		#warning [Serial Library] Building Serial for PIC24FJ96GA010
+	#elif  defined __24FJ128GA010_H
+		#warning [Serial Library] Building Serial for PIC24FJ128GA010
+	#endif
+		
 	static float Serial_DeviceInit(float baudrate){
 		//----------------------[CALCUL DU BAUDRATE]----------------------------
 		float baudL, baudH, errorL, errorH;
@@ -89,7 +108,25 @@
 #endif
 
 #if USE_UART2 != 0
-	#warning [Serial Library] Building Serial2 for PIC24FJ64GA006
+	#if defined __24FJ64GA006_H
+		#warning [Serial Library] Building Serial2 for PIC24FJ64GA006
+	#elif defined __24FJ96GA006_H 
+		#warning [Serial Library] Building Serial2 for PIC24FJ96GA006
+	#elif  defined __24FJ128GA006_H 
+		#warning [Serial Library] Building Serial2 for PIC24FJ128GA006
+    #elif defined __24FJ64GA008_H 
+		#warning [Serial Library] Building Serial2 for PIC24FJ64GA008
+	#elif  defined __24FJ96GA008_H 
+		#warning [Serial Library] Building Serial2 for PIC24FJ96GA008
+	#elif  defined __24FJ128GA008_H
+		#warning [Serial Library] Building Serial2 for PIC24FJ128GA008
+    #elif defined __24FJ64GA010_H 
+		#warning [Serial Library] Building Serial2 for PIC24FJ64GA010
+	#elif  defined __24FJ96GA010_H 
+		#warning [Serial Library] Building Serial2 for PIC24FJ96GA010
+	#elif  defined __24FJ128GA010_H
+		#warning [Serial Library] Building Serial2 for PIC24FJ128GA010
+	#endif
 
 	static float Serial2_DeviceInit(float baudrate)
 	{

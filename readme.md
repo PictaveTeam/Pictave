@@ -11,14 +11,14 @@ Pour le moment, le seul format supporté est 8 bits de données, pas de parité 
 - [ ] -> Librairie compatible, mais pas testé sur le composant
 
 - PIC18F :
-	- [ ] PIC18F23K22
-	- [ ] PIC18F24K22
-	- [ ] PIC18F25K22
-	- [ ] PIC18F26K22
-	- [ ] PIC18F43K22
-	- [ ] PIC18F44K22
-	- [x] PIC18F45K22
-	- [ ] PIC18F46K22
+	- [ ] PIC18(L)F23K22
+	- [ ] PIC18(L)F24K22
+	- [ ] PIC18(L)F25K22
+	- [ ] PIC18(L)F26K22
+	- [ ] PIC18(L)F43K22
+	- [ ] PIC18(L)F44K22
+	- [x] PIC18(L)F45K22
+	- [ ] PIC18(L)F46K22
 - PIC24F :
 	- [x] PIC24FJ64GA006 
 	- [ ] PIC24FJ96GA006
