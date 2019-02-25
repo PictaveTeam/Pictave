@@ -6,7 +6,7 @@ Pour le moment, le seul format supporté est 8 bits de données, pas de parité 
 ### Pour les PICs ayant un vecteur d'interruption partagé, il faudra inclure la fonction `Serial_ISR()` pour l'UART1 ou `SerialX_ISR()` pour l'UARTX (avec X > 1)
 
 ## Sommaire :
-- [Microcontrôleurs compatibles](#Microcontrôleurs) 
+- [Microcontrôleurs compatibles](#microcontrôleurs-compatibles-) 
 - [Exemples](#exemple)
 - [Documentation](#Documentation)
 
