@@ -2,7 +2,7 @@
 #define	SERIAL_H
 
 #include <xc.h>
-#include "Serial_UserPref.h"
+#include "LibKit_UserPref.h"
 
 //------------------------------------------------------------------------------
 //-------------------------[DETECTION DU PIC]-----------------------------------
@@ -28,7 +28,7 @@ typedef unsigned char uchar;
 typedef unsigned int uint;
 
 #if SERIAL_BUFFER_SIZE > 255
-    #define SERIAL_SIZE_TYPE unsigned int
+    #define SERIAL_SIZE_TYPE uint
 #else
     #define SERIAL_SIZE_TYPE uchar
 #endif
