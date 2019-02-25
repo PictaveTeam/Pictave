@@ -7,7 +7,7 @@ Pour le moment, le seul format supporté est 8 bits de données, pas de parité 
 
 ## Sommaire :
 - [Microcontrôleurs compatibles](#Microcontrôleurs) 
-- [Exemples](#Exemples)
+- [Exemples](#exemple)
 - [Documentation](#Documentation)
 
 ## Microcontrôleurs compatibles :
