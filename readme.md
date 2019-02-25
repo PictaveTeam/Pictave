@@ -1,5 +1,5 @@
 
-# Kit de pour microprocesseur PIC
+# Kit de bibliothèques pour microprocesseur PIC
 
 **La liste des PICs supportées par les Librairies se trouve dans leur fichier "readme"**
 
