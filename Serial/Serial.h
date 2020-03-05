@@ -2,30 +2,7 @@
 #define	SERIAL_H
 
 #include <xc.h>
-#include "LibKit_UserPref.h"
-
-//------------------------------------------------------------------------------
-//-------------------------[DETECTION DU PIC]-----------------------------------
-//------------------------------------------------------------------------------
-#if defined _PIC18LF23K22_H_ || defined _PIC18LF24K22_H_ || defined _PIC18LF25K22_H_ || defined _PIC18LF26K22_H_ || \
-    defined _PIC18LF43K22_H_ || defined _PIC18LF44K22_H_ || defined _PIC18LF45K22_H_ || defined _PIC18LF46K22_H_ || \
-    defined _PIC18F23K22_H_  || defined _PIC18F24K22_H_  || defined _PIC18F25K22_H_  || defined _PIC18F26K22_H_  || \
-    defined _PIC18F43K22_H_  || defined _PIC18F44K22_H_  || defined _PIC18F45K22_H_  || defined _PIC18F46K22_H_ 
-#include "devices/pic18f/pic18f2x_4xk22_serial.h"
-#define PIC18F2X_4XK22_FAMILY
-#elif   defined __24FJ64GA006_H || defined __24FJ96GA006_H || defined __24FJ128GA006_H || \
-        defined __24FJ64GA008_H || defined __24FJ96GA008_H || defined __24FJ128GA008_H || \
-        defined __24FJ64GA010_H || defined __24FJ96GA010_H || defined __24FJ128GA010_H
-#include "devices/pic24f/pic24fj128ga010_family_serial.h"
-#define PIC24FJ128GA010_FAMILY
-#endif
-
-
-//------------------------------------------------------------------------------
-//----------------[DETECTION DU TYPE DE DONNEES A UTILISER]---------------------
-//------------------------------------------------------------------------------
-typedef unsigned char uchar;
-typedef unsigned int uint;
+#include "../core.h"
 
 #if SERIAL_BUFFER_SIZE > 255
     #define SERIAL_SIZE_TYPE uint
@@ -33,6 +10,8 @@ typedef unsigned int uint;
     #define SERIAL_SIZE_TYPE uchar
 #endif
 
+struct Uart_t;
+typedef struct Uart_t* Uart;
 
 enum Serial_StopInfo{
     Serial_1Stop,
@@ -63,8 +42,8 @@ enum Serial_DataParityInfo{
 #if SERIAL1_ENABLED == 1
     float Serial_Init(float baudrate);
     /*
-     * Retourne le premier caractère disponible
-     * Retourne -1 si aucun caractère n'est disponible
+     * Retourne le premier caractï¿½re disponible
+     * Retourne -1 si aucun caractï¿½re n'est disponible
      */
     int Serial_Peek(void);
     int Serial_Read(void); 
@@ -74,10 +53,10 @@ enum Serial_DataParityInfo{
     void Serial_Write(const uchar* data, int len);
     void Serial_WriteString(const char* str);
     SERIAL_SIZE_TYPE Serial_WriteAvailable(void); // Return the number of character waiting to be written to the serial port
-    void Serial_Flush(void); // Attends jusqu'à ce que les données 
+    void Serial_Flush(void); // Attends jusqu'ï¿½ ce que les donnï¿½es 
 
-    // A mettre dans l'interuption générale si une seule routine ISR est disponible
-    // Incrémente le compteur de réception et Ajoute les caractères reçus au RxBuffer
+    // A mettre dans l'interuption gï¿½nï¿½rale si une seule routine ISR est disponible
+    // Incrï¿½mente le compteur de rï¿½ception et Ajoute les caractï¿½res reï¿½us au RxBuffer
     #ifdef SINGLE_ISR
         void Serial_ISR(void); // Device specific
     #endif
@@ -95,8 +74,8 @@ enum Serial_DataParityInfo{
         
     float Serial2_Init(float baudrate);
     /*
-     * Retourne le premier caractère disponible
-     * Retourne -1 si aucun caractère n'est disponible
+     * Retourne le premier caractï¿½re disponible
+     * Retourne -1 si aucun caractï¿½re n'est disponible
      */
     int Serial2_Peek(void);
     int Serial2_Read(void); 
@@ -106,10 +85,10 @@ enum Serial_DataParityInfo{
     void Serial2_Write(const uchar* data, int len);
     void Serial2_WriteString(const char* str);
     SERIAL2_SIZE_TYPE Serial2_WriteAvailable(void); // Return the number of character waiting to be written to the serial port
-    void Serial2_Flush(void); // Attends jusqu'à ce que les données 
+    void Serial2_Flush(void); // Attends jusqu'ï¿½ ce que les donnï¿½es 
 
-    // A mettre dans l'interuption générale si une seule routine ISR est disponible
-    // Incrémente le compteur de réception et Ajoute les caractères reçus au RxBuffer
+    // A mettre dans l'interuption gï¿½nï¿½rale si une seule routine ISR est disponible
+    // Incrï¿½mente le compteur de rï¿½ception et Ajoute les caractï¿½res reï¿½us au RxBuffer
     #ifdef SINGLE_ISR
         void Serial2_ISR(void); // Device specific
     #endif
