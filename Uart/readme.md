@@ -11,18 +11,10 @@ Pour le moment, le seul format supporté est 8 bits de données, pas de parité 
 - [Documentation](#Documentation)
 
 ## Microcontrôleurs compatibles :
-- [x]  -> Testé sur le composant
+- [x] -> Librairie compatible, testé sur le composant
 - [ ] -> Librairie compatible, mais pas testé sur le composant
 
-- PIC18F :
-	- [ ] PIC18(L)F23K22
-	- [ ] PIC18(L)F24K22
-	- [ ] PIC18(L)F25K22
-	- [ ] PIC18(L)F26K22
-	- [ ] PIC18(L)F43K22
-	- [ ] PIC18(L)F44K22
-	- [x] PIC18(L)F45K22
-	- [ ] PIC18(L)F46K22
+
 - PIC24F :
 	- [x] PIC24FJ64GA006 
 	- [ ] PIC24FJ96GA006
@@ -34,7 +26,7 @@ Pour le moment, le seul format supporté est 8 bits de données, pas de parité 
 	- [ ] PIC24FJ96GA010 
 	- [ ] PIC24FJ128GA010 
 
-## Exemple
+## Exemple (INVALIDE ! Doit être mis à jour)
 ```
 #include <xc.h>
 #include "Serial.h"

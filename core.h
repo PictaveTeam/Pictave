@@ -1,6 +1,8 @@
 #ifndef PICTAVE_CORE_H
 #define PICTAVE_CORE_H
 
+#include <xc.h>
+
 //------------------------------------------------------------------------------
 //-------------------------[DETECTION DU PIC]-----------------------------------
 //------------------------------------------------------------------------------
@@ -16,8 +18,19 @@
 #define DEVICE_PIC24FJ128GA010_FAMILY
 #endif
 
-
+#define FOSC 8000000
+#define FCY  FOSC/2
 // TYPES PERSONNALISES
 
+#include <stdbool.h>
+#include <stdint.h>
+
 typedef unsigned char uchar;
+typedef uint8_t byte_t;
 typedef unsigned int uint;
+
+#define PINMODE_INPUT 1
+#define PINMODE_OUTPUT 0
+
+
+#endif // !PICTAVE_CORE_H

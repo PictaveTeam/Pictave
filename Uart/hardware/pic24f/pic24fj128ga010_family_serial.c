@@ -7,6 +7,122 @@
 *This file must be included in Serial.c
 */
 
+#include "../../Uart_t.h"
+#include "../../Uart.h"
+
+#if UART1_ENABLE == 1
+
+static float uart1_start(uint baudrate);
+static void uart1_stop(void);
+
+static byte_t uart1_rxBuffer[UART1_RX_BUFFER_SIZE];
+static byte_t uart1_txBuffer[UART1_TX_BUFFER_SIZE];
+
+static struct Uart_t uart1 = {
+    .rxBuffer = uart1_rxBuffer,
+    .txBuffer = uart1_txBuffer,
+    .start_fnc = uart1_start,
+    .stop_fnc = uart1_stop,
+};;
+
+Uart Uart1 = &uart1;
+
+// Initialisation des registres de l'uart1
+static float uart1_start(uint baudrate)
+{ 
+   /*-------------------------------------*
+    * Configuration du mode de RX et TX   * 
+    *-------------------------------------*/   
+    TRISFbits.TRISF2 = PINMODE_INPUT; // rx1
+    TRISFbits.TRISF3 = PINMODE_OUTPUT; // tx1
+        
+   /*-------------------------------------*
+    * Calcul du baudrate, et de l'erreur  * 
+    *-------------------------------------*/
+
+    // U1BRG = (fcy)/(16*baudrate)-1; <- erreur !! (16*baudrate) overflow, ne loge pas dans 16 bits
+    float fbaud = baudrate;
+    U1BRG = (FCY)/(fbaud*16.0f)-1;
+    float realBaud = ((float)FCY)/((float)(16*(U1BRG+1)));
+    float thBaud = (float) FCY;
+    float error = (realBaud-thBaud)/thBaud;    
+    
+   /*---------------------------------------*
+    * Config de l'uart et des interruptions * 
+    *---------------------------------------*/
+    U1MODEbits.STSEL = 0;       // un bit de stop 
+    U1MODEbits.PDSEL = 0b00;    // 8 bits, pas de paritÃ©
+    U1MODEbits.BRGH = 0;        // mode basse vitesse 
+    
+    // Netoyage des flags d'interruption
+    IFS0bits.U1RXIF = 0; 
+    IFS0bits.U1TXIF = 0;
+    // Activation des interruptions
+    IEC0bits.U1TXIE = 1;
+    IEC0bits.U1RXIE = 1;
+    
+    // interruption quand toute la pile d'envoi vient d'Ãªtre vidÃ©e
+    U1STAbits.UTXISEL1 = 1;
+    U1STAbits.UTXISEL0 = 0;
+    
+    /*-------------------------------------*
+     * Activation de l'uart                * 
+     *-------------------------------------*/
+    U1MODEbits.UARTEN = 1; // Active l'UART 1
+    U1TXREG = 0;
+    U1STAbits.UTXEN = 1; // provoque un envoi, donc une interruption non voulue
+
+    return error;
+}
+
+static void uart1_stop(void)
+{
+   /*-------------------------------------*
+    * DÃ©sactivation des interruptions     * 
+    *-------------------------------------*/
+    IEC0bits.U1TXIE = 0; // DÃ©sactive interruption TX 
+    IEC0bits.U1RXIE = 0; // DÃ©sactive interruption TX 
+    
+   /*-------------------------------------*
+    * DÃ©sactivation de l'UART             * 
+    *-------------------------------------*/
+    U1STAbits.UTXEN = 0; // DÃ©sactive l'envoi des donnÃ©es
+    U1MODEbits.UARTEN = 0; // DÃ©sactive l'UART
+}
+
+
+void __attribute__((interrupt, auto_psv)) _U1RXInterrupt ( void ){
+	IFS0bits.U1RXIF = 0;
+    byte_t x = U1RXREG;
+    PORTE = x;
+	/*while(U1STAbits.URXDA){ // Clear the RX Fifo (FIFO is 4 bytes deep)
+        // on place la nouvelle valeur dans le buffer
+        // et on incrÃ©mente le curseur
+        sUart->rxBuffer[sUart->receiveCursor] = (byte_t) U1RXREG;
+        INCREMENT_CURSOR(sUart->receiveCursor, UART_RX_BUFFER_SIZE);
+	}*/
+}
+	
+void __attribute__((interrupt, auto_psv)) _U1TXInterrupt ( void ){
+	// At least one character is free in TX fifo
+	IFS0bits.U1TXIF = 0;	
+    
+    TRISD = 0x0;
+    PORTD++;
+    // On remplit le FIFO TX si possible	
+	/*while((sUart->txPendingBytes > 0) && !U1STAbits.UTXBF){ // Tant qu'il y a des donn?es en buffer, et que la FIFO TX n'est pas pleine on met les donn?es dans la pile
+		U1TXREG = sUart->txBuffer[sUart->sendCursor]; // On Ã©crit le caractÃ¨re sur le port sÃ©rie
+        INCREMENT_CURSOR(sUart->sendCursor, UART_TX_BUFFER_SIZE); // On incrÃ©mente la tÃªte d'Ã©criture
+        sUart->txPendingBytes -= 1;
+	}*/
+}
+
+/* On ne fait rien si il y a une erreur */	
+void __attribute__((interrupt, auto_psv)) _U1ErrInterrupt(void){
+    IFS4bits.U1ERIF = 0;
+}
+
+#endif //UART1_ENABLE == 1
 
 #if USE_UART1 != 0
 
@@ -69,7 +185,7 @@
 		IEC0bits.U1RXIE = 1;           //  Interrupt on RX2
 		IEC0bits.U1TXIE = 1;         
 		IFS0bits.U1TXIF = 0;
-		IPC2bits.U1RXIP = 0b101;      //  Priorité 5 sur la reception (prioritaires sur l'UART1)
+		IPC2bits.U1RXIP = 0b101;      //  Prioritï¿½ 5 sur la reception (prioritaires sur l'UART1)
 		IPC3bits.U1TXIP = 0b101;
 		return baudL;
 	}
@@ -91,14 +207,14 @@
 		// At least one character is free in TX fifo
 		IFS0bits.U1TXIF = 0;
 		
-		if(!Serial_WriteAvailable()){ // Tous les caractères ont été envoyés
+		if(!Serial_WriteAvailable()){ // Tous les caractï¿½res ont ï¿½tï¿½ envoyï¿½s
 			U1STAbits.UTXEN = 0; // Disable TX2
 			return;
 		}
 		
-		while(Serial_WriteAvailable() && !U1STAbits.UTXBF){ // Tant qu'il y a des données en buffer, et que la FIFO TX n'est pas pleine on met les données dans la pile
-			incrementCursor(&txCursor1); // On incrémente la tête d'écriture
-			U1TXREG = txBuffer1[txCursor1]; // On écrit le caractère sur le port série
+		while(Serial_WriteAvailable() && !U1STAbits.UTXBF){ // Tant qu'il y a des donnï¿½es en buffer, et que la FIFO TX n'est pas pleine on met les donnï¿½es dans la pile
+			incrementCursor(&txCursor1); // On incrï¿½mente la tï¿½te d'ï¿½criture
+			U1TXREG = txBuffer1[txCursor1]; // On ï¿½crit le caractï¿½re sur le port sï¿½rie
 		}
 	}
 	
@@ -170,7 +286,7 @@
 		IEC1bits.U2RXIE = 1;           //  Interrupt on RX2
 		IEC1bits.U2TXIE = 1;         
 		IFS1bits.U2TXIF = 0;
-		IPC7bits.U2RXIP = 0b101;      //  Priorité 5 sur la reception (prioritaires sur l'UART1)
+		IPC7bits.U2RXIP = 0b101;      //  Prioritï¿½ 5 sur la reception (prioritaires sur l'UART1)
 		IPC7bits.U2TXIP = 0b101;
 		
 		return baudL;
@@ -197,14 +313,14 @@
 		// At least one character is free in TX fifo
 		IFS1bits.U2TXIF = 0;
 		
-		if(!Serial2_WriteAvailable()){ // Tous les caractères ont été envoyés
+		if(!Serial2_WriteAvailable()){ // Tous les caractï¿½res ont ï¿½tï¿½ envoyï¿½s
 			U2STAbits.UTXEN = 0; // Disable TX2
 			return;
 		}
 		
-		while(Serial2_WriteAvailable() && !U2STAbits.UTXBF){ // Tant qu'il y a des données en buffer, et que la FIFO TX n'est pas pleine on met les données dans la pile
-			incrementCursor2(&txCursor2); // On incrémente la tête d'écriture
-			U2TXREG = txBuffer2[txCursor2]; // On écrit le caractère sur le port série
+		while(Serial2_WriteAvailable() && !U2STAbits.UTXBF){ // Tant qu'il y a des donnï¿½es en buffer, et que la FIFO TX n'est pas pleine on met les donnï¿½es dans la pile
+			incrementCursor2(&txCursor2); // On incrï¿½mente la tï¿½te d'ï¿½criture
+			U2TXREG = txBuffer2[txCursor2]; // On ï¿½crit le caractï¿½re sur le port sï¿½rie
 		}
 	}
 #endif // UART2
