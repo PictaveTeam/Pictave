@@ -29,6 +29,7 @@ static struct Uart_t uart1 = {
 
 Uart Uart1 = &uart1;
 
+/******************************************************************************/
 // Initialisation des registres de l'uart1
 static float uart1_start(uint baudrate)
 { 
@@ -77,6 +78,7 @@ static float uart1_start(uint baudrate)
     return error;
 }
 
+/******************************************************************************/
 static void uart1_stop(void)
 {
    /*-------------------------------------*
@@ -92,9 +94,7 @@ static void uart1_stop(void)
     U1MODEbits.UARTEN = 0; // Désactive l'UART
 }
 
-
-
-
+/******************************************************************************/
 void __attribute__((interrupt, auto_psv)) _U1RXInterrupt ( void ){
     IFS0bits.U1RXIF = 0;
     Uart1->onRxInterrupt(Uart1, (byte_t) U1RXREG);
@@ -107,7 +107,8 @@ void __attribute__((interrupt, auto_psv)) _U1RXInterrupt ( void ){
         INCREMENT_CURSOR(sUart->receiveCursor, UART_RX_BUFFER_SIZE);
 	}*/
 }
-	
+
+/******************************************************************************/
 void __attribute__((interrupt, auto_psv)) _U1TXInterrupt ( void ){
 	// At least one character is free in TX fifo
 	IFS0bits.U1TXIF = 0;	

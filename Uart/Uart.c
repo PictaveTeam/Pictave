@@ -20,8 +20,9 @@ float Uart_Start(Uart uart, float baudrate){
     uart->receiveCursor = 0;
     uart->transmitCursor = 0;
     uart->writeCursor = 0;
+    uart->readBytesAvailable = 0;
     
-    uart->rxBufferStatus = UART_BUFFER_EMPTY;
+//    uart->rxBufferStatus = UART_BUFFER_EMPTY;
     
    /*-------------------------------------*
     * Démarrage de l'UART                 * 
@@ -41,7 +42,7 @@ bool Uart_Peek(Uart uart, byte_t* pVal){
     __conditional_software_breakpoint(uart != NULL);
     __conditional_software_breakpoint(pVal != NULL);
     
-    if(uart->rxBufferStatus == UART_BUFFER_EMPTY){
+    if(uart->readBytesAvailable == 0){
         return false;
     }
     
@@ -54,7 +55,7 @@ bool Uart_Read(Uart uart, byte_t* pVal){
     __conditional_software_breakpoint(uart != NULL);
     __conditional_software_breakpoint(pVal != NULL);
 
-    if(uart->rxBufferStatus == UART_BUFFER_EMPTY){
+    if(uart->readBytesAvailable == 0){
         return false;
     }
     
@@ -76,18 +77,15 @@ bool Uart_Read(Uart uart, byte_t* pVal){
     
     *pVal = uart->rxBuffer[uart->readCursor];
     uart->readCursor = GET_CURSOR_INCREMENT(uart->readCursor, uart->RX_BUFFER_SIZE);
-    
-   /*
-    * Si les deux curseur sont egaux on vient de lire le dernier caractère
-    * Le buffer est donc vide
-    */
-    uart->rxBufferStatus = (uart->readCursor == uart->receiveCursor) ? UART_BUFFER_EMPTY : UART_BUFFER_OK;
-    
+    uart->readBytesAvailable--;
+
     return true;
 }
 
 uint Uart_Available(Uart uart){
-    return -1;
+    __conditional_software_breakpoint(uart != NULL);
+    
+    return uart->readBytesAvailable;
 }
 
 void Uart_WriteByte(Uart uart, byte_t data){
@@ -154,7 +152,7 @@ void Uart_Flush(const Uart uart)
      
 static void Uart_OnRxInterrupt(Uart uart, byte_t rxValue){
     // Si l'uart est plein, on ne lit pas
-    if(uart->rxBufferStatus == UART_BUFFER_FULL){
+    if(uart->readBytesAvailable == uart->RX_BUFFER_SIZE){
         return;
     }
     
@@ -162,10 +160,7 @@ static void Uart_OnRxInterrupt(Uart uart, byte_t rxValue){
     // Le code de cette fonction est donc thread safe
     uart->rxBuffer[uart->receiveCursor] = rxValue;
     uart->receiveCursor = GET_CURSOR_INCREMENT(uart->receiveCursor, uart->RX_BUFFER_SIZE);
-    
-    // Si la condition est vérifiée alors ça signifie qu'on vient de rejoindre la case de lecture utilisateur
-    // Dans ce cas on bloque l'ajout de données au buffer
-    uart->rxBufferStatus = (uart->receiveCursor == uart->readCursor) ? UART_BUFFER_FULL : UART_BUFFER_OK;
+    uart->readBytesAvailable++;
 }
     
 //------------------------------------------------------------------------------

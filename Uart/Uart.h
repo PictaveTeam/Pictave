@@ -79,7 +79,7 @@ bool Uart_Peek(Uart uart, byte_t* pVal);
  * 
  * Si pVal est NULL ou ne pointe pas vers une adresse valide, le comportement de la fonction n'est pas défini.
  */
-bool Uart_Read(Uart uart, byte_t* pVal); 
+bool Uart_Read(Uart uart, byte_t* pBuffer); 
 
 
 /**
@@ -87,6 +87,7 @@ bool Uart_Read(Uart uart, byte_t* pVal);
  * @return 
  */
 uint Uart_Available(Uart uart);
+
 void Uart_WriteByte(Uart uart, byte_t data);
 void Uart_Write(Uart uart, const byte_t* data, uint len);
 

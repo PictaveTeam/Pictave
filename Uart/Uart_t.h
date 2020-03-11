@@ -3,12 +3,6 @@
 
 #include "../core.h"
 
-enum UartBufferState{
-    UART_BUFFER_FULL,
-    UART_BUFFER_EMPTY,
-    UART_BUFFER_OK
-};
-
 struct Uart_t{
     byte_t* rxBuffer;
     byte_t* txBuffer;
@@ -21,7 +15,7 @@ struct Uart_t{
     uint transmitCursor;
     uint writeCursor;
     
-    enum UartBufferState rxBufferStatus;
+    uint readBytesAvailable;
     
     float(*start_fnc)(uint);
     void(*stop_fnc)(void);
