@@ -35,11 +35,14 @@ int main(void){
     
     Uart_Start(m_Uart, 9600);
 
-    byte_t val;
+    byte_t val[255];
+    
+    
     while(true){
-       if(Uart_Read(m_Uart, &val)){
-           U1TXREG = val;
-       }
+        Uart_Read(m_Uart, val, 10);
+       //if(Uart_Read(m_Uart, &val)){
+       U1TXREG = 'O';
+       //}
     }
     
     return 0;

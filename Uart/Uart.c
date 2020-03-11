@@ -51,8 +51,8 @@ bool Uart_Peek(Uart uart, byte_t* pVal){
 }
 
 /******************************************************************************/
-bool Uart_Read(Uart uart, byte_t* pVal){
-    __conditional_software_breakpoint(uart != NULL);
+bool Uart_ReadByte(Uart uart, byte_t* pVal){
+     __conditional_software_breakpoint(uart != NULL);
     __conditional_software_breakpoint(pVal != NULL);
 
     if(uart->readBytesAvailable == 0){
@@ -82,6 +82,27 @@ bool Uart_Read(Uart uart, byte_t* pVal){
     return true;
 }
 
+/******************************************************************************/
+uint Uart_Read(Uart uart, byte_t* pBuffer, uint size){
+    __conditional_software_breakpoint(uart != NULL);
+    __conditional_software_breakpoint(pBuffer != NULL);
+
+    // Attendre les données
+    while(uart->readBytesAvailable < size);
+    /*if(uart->readBytesAvailable < size){
+        return false;
+    }*/
+    
+    for(int i=0; i < size; i++){
+        pBuffer[i] =  uart->rxBuffer[uart->readCursor];
+        uart->readCursor = GET_CURSOR_INCREMENT(uart->readCursor, uart->RX_BUFFER_SIZE);
+        uart->readBytesAvailable--;
+    }
+    
+    return true;
+}
+
+/******************************************************************************/
 uint Uart_Available(Uart uart){
     __conditional_software_breakpoint(uart != NULL);
     
