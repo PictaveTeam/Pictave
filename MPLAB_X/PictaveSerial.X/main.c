@@ -37,7 +37,7 @@ int main(void){
 
     byte_t val;
     while(true){
-       if(Uart_Read(m_Uart, &val)){
+       if(Uart_Peek(m_Uart, &val)){
            U1TXREG = val;
        }
     }

@@ -4,11 +4,11 @@ Tool Name:
   c:\program files\microchip\xc16\v1.50\bin\bin\..\bin/elf-ld.exe
 
 Command:
-  -TC:\\Users\\ALEXAN~1\\AppData\\Local\\Temp\\tmp00003570.00 \
-  -TC:\\Users\\ALEXAN~1\\AppData\\Local\\Temp\\tmp00003570.01 \
-  -TC:\\Users\\ALEXAN~1\\AppData\\Local\\Temp\\tmp00003570.02 \
-  -TC:\\Users\\ALEXAN~1\\AppData\\Local\\Temp\\tmp00003570.03 \
-  -TC:\\Users\\ALEXAN~1\\AppData\\Local\\Temp\\tmp00003570.04 \
+  -TC:\\Users\\ALEXAN~1\\AppData\\Local\\Temp\\tmp00003e40.00 \
+  -TC:\\Users\\ALEXAN~1\\AppData\\Local\\Temp\\tmp00003e40.01 \
+  -TC:\\Users\\ALEXAN~1\\AppData\\Local\\Temp\\tmp00003e40.02 \
+  -TC:\\Users\\ALEXAN~1\\AppData\\Local\\Temp\\tmp00003e40.03 \
+  -TC:\\Users\\ALEXAN~1\\AppData\\Local\\Temp\\tmp00003e40.04 \
   -p24FJ64GA006 \
   --mdfp=C:/Program Files (x86)/Microchip/MPLABX/v5.30/packs/Microchip/PIC24F-GA-GB_DFP/1.1.74/xc16 \
   -o \
@@ -23,8 +23,8 @@ Command:
   -Lc:/program files/microchip/xc16/v1.50/bin/bin/../../support/dsPIC33C/gld \
   -Lc:/program files/microchip/xc16/v1.50/bin/bin/../../support/dsPIC33E/gld \
   -Lc:/program files/microchip/xc16/v1.50/bin/bin/../../support/dsPIC33F/gld \
-  build/default/debug/main.o \
   build/default/debug/_ext/1852933006/Uart.o \
+  build/default/debug/main.o \
   --defsym=__MPLAB_BUILD=1 \
   --defsym=__MPLAB_DEBUG=1 \
   --defsym=__DEBUG=1 \
@@ -97,10 +97,10 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x45a           0x687  (1671)
-.text                        0x65a               0x228           0x33c  (828)
-.dinit                       0x882                0x28            0x3c  (60)
+.text                        0x65a               0x226           0x339  (825)
+.dinit                       0x880                0x28            0x3c  (60)
 
-                 Total "program" memory used (bytes):          0x9ff  (2559) 3%
+                 Total "program" memory used (bytes):          0x9fc  (2556) 3%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
@@ -261,8 +261,8 @@ reserve_data_0x826
                     0x0826         0x2a
                     0x0850                  . = 0x2a
  *fill*             0x0826         0x2a00
-LOAD build/default/debug/main.o
 LOAD build/default/debug/_ext/1852933006/Uart.o
+LOAD build/default/debug/main.o
                     0x0001                  __MPLAB_BUILD = 0x1
                     0x0001                  __MPLAB_DEBUG = 0x1
                     0x0001                  __DEBUG = 0x1
@@ -363,24 +363,24 @@ __CONFIG1
 
 .debug_info       0x000000       0x1205
  *(.debug_info)
- .debug_info      0x000000        0x28f build/default/debug/main.o
- .debug_info      0x00028f        0xf76 build/default/debug/_ext/1852933006/Uart.o
+ .debug_info      0x000000        0xf76 build/default/debug/_ext/1852933006/Uart.o
+ .debug_info      0x000f76        0x28f build/default/debug/main.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x2c9
  *(.debug_abbrev)
- .debug_abbrev    0x000000         0x8f build/default/debug/main.o
- .debug_abbrev    0x00008f        0x23a build/default/debug/_ext/1852933006/Uart.o
+ .debug_abbrev    0x000000        0x23a build/default/debug/_ext/1852933006/Uart.o
+ .debug_abbrev    0x00023a         0x8f build/default/debug/main.o
 
 .debug_line       0x000000        0x33e
  *(.debug_line)
- .debug_line      0x000000        0x13e build/default/debug/main.o
- .debug_line      0x00013e        0x200 build/default/debug/_ext/1852933006/Uart.o
+ .debug_line      0x000000        0x200 build/default/debug/_ext/1852933006/Uart.o
+ .debug_line      0x000200        0x13e build/default/debug/main.o
 
 .debug_frame      0x000000        0x228
  *(.debug_frame)
- .debug_frame     0x000000         0x2e build/default/debug/main.o
- .debug_frame     0x00002e        0x1fa build/default/debug/_ext/1852933006/Uart.o
+ .debug_frame     0x000000        0x1fa build/default/debug/_ext/1852933006/Uart.o
+ .debug_frame     0x0001fa         0x2e build/default/debug/main.o
 
 .debug_str        0x000000         0x48
  *(.debug_str)
@@ -396,9 +396,9 @@ __CONFIG1
                   0x000000        0x118
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0x1b build/default/debug/main.o
+                  0x000000         0xfd build/default/debug/_ext/1852933006/Uart.o
  .debug_pubnames
-                  0x00001b         0xfd build/default/debug/_ext/1852933006/Uart.o
+                  0x0000fd         0x1b build/default/debug/main.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -406,9 +406,9 @@ __CONFIG1
 .debug_aranges    0x000000         0x30
  *(.debug_aranges)
  .debug_aranges
-                  0x000000         0x18 build/default/debug/main.o
+                  0x000000         0x18 build/default/debug/_ext/1852933006/Uart.o
  .debug_aranges
-                  0x000018         0x18 build/default/debug/_ext/1852933006/Uart.o
+                  0x000018         0x18 build/default/debug/main.o
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -983,16 +983,16 @@ LOAD data_init
 .debug_pubtypes
                   0x000030        0x166
  .debug_pubtypes
-                  0x000030         0x3f build/default/debug/main.o
+                  0x000030        0x127 build/default/debug/_ext/1852933006/Uart.o
  .debug_pubtypes
-                  0x00006f        0x127 build/default/debug/_ext/1852933006/Uart.o
+                  0x000157         0x3f build/default/debug/main.o
 
 __c30_signature
                   0x000196         0x60
  __c30_signature
-                  0x000196          0x6 build/default/debug/main.o
+                  0x000196          0x6 build/default/debug/_ext/1852933006/Uart.o
  __c30_signature
-                  0x00019c          0x6 build/default/debug/_ext/1852933006/Uart.o
+                  0x00019c          0x6 build/default/debug/main.o
  __c30_signature
                   0x0001a2          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
@@ -1032,13 +1032,6 @@ __c30_signature
 .data               0x08d2         0x1a
  .data              0x08d2         0x1a build/default/debug/_ext/1852933006/Uart.o
 
-.config_JTAGEN    0x00abfe          0x2
- .config_JTAGEN
-                  0x00abfe          0x2 build/default/debug/main.o
-
-.config_IESO      0x00abfc          0x2
- .config_IESO     0x00abfc          0x2 build/default/debug/main.o
-
 .ivt._U1RXInterrupt
                   0x00002a          0x2
  .ivt._U1RXInterrupt
@@ -1054,7 +1047,14 @@ __c30_signature
  .ivt._U1ErrInterrupt
                   0x000096          0x2 build/default/debug/_ext/1852933006/Uart.o
 
-.text             0x00065a        0x228
+.config_JTAGEN    0x00abfe          0x2
+ .config_JTAGEN
+                  0x00abfe          0x2 build/default/debug/main.o
+
+.config_IESO      0x00abfc          0x2
+ .config_IESO     0x00abfc          0x2 build/default/debug/main.o
+
+.text             0x00065a        0x226
  .text            0x00065a        0x1fa build/default/debug/_ext/1852933006/Uart.o
                   0x00065a                  _Uart_Start
                   0x0006c0                  _Uart_Read
@@ -1069,8 +1069,8 @@ __c30_signature
                   0x000770                  build/default/debug/_ext/1852933006/Uart.o:_Uart_OnRxInterrupt
                   0x0007c2                  build/default/debug/_ext/1852933006/Uart.o:_uart1_start
                   0x000846                  build/default/debug/_ext/1852933006/Uart.o:_uart1_stop
- .text            0x000854         0x2e build/default/debug/main.o
+ .text            0x000854         0x2c build/default/debug/main.o
                   0x000854                  _main
 
-.dinit            0x000882         0x28
- .dinit           0x000882         0x28 data_init
+.dinit            0x000880         0x28
+ .dinit           0x000880         0x28 data_init

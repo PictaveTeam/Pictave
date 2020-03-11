@@ -11,7 +11,7 @@ float Uart_Start(Uart uart, float baudrate){
     __conditional_software_breakpoint(baudrate > 0.0f);
 
     uart->onRxInterrupt = Uart_OnRxInterrupt;
-    uart->stop_fnc();
+    Uart_Stop(uart);
     
    /*-------------------------------------*
     * Configuration de la structure       * 
@@ -29,6 +29,27 @@ float Uart_Start(Uart uart, float baudrate){
     return uart->start_fnc(baudrate);
 }
 
+/******************************************************************************/
+void Uart_Stop(Uart uart){
+    __conditional_software_breakpoint(uart != NULL);
+    
+    uart->stop_fnc();
+}
+
+/******************************************************************************/
+bool Uart_Peek(Uart uart, byte_t* pVal){
+    __conditional_software_breakpoint(uart != NULL);
+    __conditional_software_breakpoint(pVal != NULL);
+    
+    if(uart->rxBufferStatus == UART_BUFFER_EMPTY){
+        return false;
+    }
+    
+    *pVal = uart->rxBuffer[uart->readCursor];
+    return true;
+}
+
+/******************************************************************************/
 bool Uart_Read(Uart uart, byte_t* pVal){
     __conditional_software_breakpoint(uart != NULL);
     __conditional_software_breakpoint(pVal != NULL);
@@ -90,15 +111,6 @@ void Uart_Flush(const Uart uart)
         rxCursor1 = 0;
         return Serial_DeviceInit(baudrate);*/
 } 
-    
-    int Serial_Peek(void)
-    {
-        /* if(!Serial_Available()){
-            return -1;
-        }
-        return rxBuffer1[readCursor1+1];*/
-        return -1;
-    }
 
     int Serial_Read(void)
     {
