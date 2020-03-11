@@ -3,8 +3,8 @@
 \author Alexandre Brunet
 \date 20/02/2019
 *
-*This file cannot be used alone.
-*This file must be included in Serial.c
+* THIS FILE MUST NOT BE ADDED TO COMPILATION 
+* THIS FILE WILL BE INCLUDED BY Uart.c 
 */
 
 #include "../../Uart_t.h"
@@ -21,6 +21,8 @@ static byte_t uart1_txBuffer[UART1_TX_BUFFER_SIZE];
 static struct Uart_t uart1 = {
     .rxBuffer = uart1_rxBuffer,
     .txBuffer = uart1_txBuffer,
+    .RX_BUFFER_SIZE = UART1_TX_BUFFER_SIZE,
+    .TX_BUFFER_SIZE = UART1_RX_BUFFER_SIZE,
     .start_fnc = uart1_start,
     .stop_fnc = uart1_stop,
 };;
@@ -91,10 +93,13 @@ static void uart1_stop(void)
 }
 
 
+
+
 void __attribute__((interrupt, auto_psv)) _U1RXInterrupt ( void ){
-	IFS0bits.U1RXIF = 0;
-    byte_t x = U1RXREG;
-    PORTE = x;
+    IFS0bits.U1RXIF = 0;
+    Uart1->onRxInterrupt(Uart1, (byte_t) U1RXREG);
+   // byte_t x = U1RXREG;
+   // PORTE = x;
 	/*while(U1STAbits.URXDA){ // Clear the RX Fifo (FIFO is 4 bytes deep)
         // on place la nouvelle valeur dans le buffer
         // et on incrémente le curseur

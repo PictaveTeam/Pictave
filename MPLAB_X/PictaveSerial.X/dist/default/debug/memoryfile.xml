@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <executable name="dist/default/production/PictaveSerial.X.production.elf">
+  <executable name="dist/default/debug/PictaveSerial.X.debug.elf">
     <memory name="data">
       <units>bytes</units>
       <length>8192</length>
-      <used>156</used>
-      <free>8036</free>
+      <used>236</used>
+      <free>7956</free>
     </memory>
     <memory name="program">
       <units>bytes</units>
       <length>65274</length>
-      <used>2403</used>
-      <free>62871</free>
+      <used>2559</used>
+      <free>62715</free>
     </memory>
   </executable>
 </project>

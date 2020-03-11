@@ -1,10 +1,16 @@
 #include "Uart.h"
-
-// Si sous XC16, la directive #info n'existe pas. Pr�vient qu'on doit utiliser #warning � la place
-
 #include "Uart_t.h"
 
+#define GET_CURSOR_INCREMENT(cursor, maxValue) (((cursor)+1)%(maxValue))
+    
+
+static void Uart_OnRxInterrupt(Uart uart, byte_t rxValue);
+
 float Uart_Start(Uart uart, float baudrate){
+    __conditional_software_breakpoint(uart != NULL);
+    __conditional_software_breakpoint(baudrate > 0.0f);
+
+    uart->onRxInterrupt = Uart_OnRxInterrupt;
     uart->stop_fnc();
     
    /*-------------------------------------*
@@ -15,6 +21,8 @@ float Uart_Start(Uart uart, float baudrate){
     uart->transmitCursor = 0;
     uart->writeCursor = 0;
     
+    uart->rxBufferStatus = UART_BUFFER_EMPTY;
+    
    /*-------------------------------------*
     * Démarrage de l'UART                 * 
     *-------------------------------------*/
@@ -22,11 +30,39 @@ float Uart_Start(Uart uart, float baudrate){
 }
 
 bool Uart_Read(Uart uart, byte_t* pVal){
-   /* if(Uart_Available(uart)){
-        
-        
-    }*/
-    return -1;
+    __conditional_software_breakpoint(uart != NULL);
+    __conditional_software_breakpoint(pVal != NULL);
+
+    if(uart->rxBufferStatus == UART_BUFFER_EMPTY){
+        return false;
+    }
+    
+   /* Ici on peut avoir une interruption sur rx.
+    * Si on incrémente readCursor avant l'interruption, mais 
+    * qu'on ne lit pas la valeur avant l'interrution ie
+    * 
+    * uart->readCursor++;
+    * -- Interruption ici 
+    * *pVal = uart->rxBuffer[uart->readCursor-1];
+    *
+    * Alors il est possible de perdre la valeur qu'on voulait lire si 
+    * l'interruption vient de remplir le buffer.
+    * 
+    * Conclusion :
+    * Il faut d'abbord lire la value, et incrémenter le curseur ensuite
+    * 
+    */
+    
+    *pVal = uart->rxBuffer[uart->readCursor];
+    uart->readCursor = GET_CURSOR_INCREMENT(uart->readCursor, uart->RX_BUFFER_SIZE);
+    
+   /*
+    * Si les deux curseur sont egaux on vient de lire le dernier caractère
+    * Le buffer est donc vide
+    */
+    uart->rxBufferStatus = (uart->readCursor == uart->receiveCursor) ? UART_BUFFER_EMPTY : UART_BUFFER_OK;
+    
+    return true;
 }
 
 uint Uart_Available(Uart uart){
@@ -103,7 +139,23 @@ void Uart_Flush(const Uart uart)
             (*cursor) = 0;
         }
     }*/
-       
+     
+static void Uart_OnRxInterrupt(Uart uart, byte_t rxValue){
+    // Si l'uart est plein, on ne lit pas
+    if(uart->rxBufferStatus == UART_BUFFER_FULL){
+        return;
+    }
+    
+    // On est dans l'interruption RX, impossible d'avoir de la concurrence avec la réception d'un autre caractère
+    // Le code de cette fonction est donc thread safe
+    uart->rxBuffer[uart->receiveCursor] = rxValue;
+    uart->receiveCursor = GET_CURSOR_INCREMENT(uart->receiveCursor, uart->RX_BUFFER_SIZE);
+    
+    // Si la condition est vérifiée alors ça signifie qu'on vient de rejoindre la case de lecture utilisateur
+    // Dans ce cas on bloque l'ajout de données au buffer
+    uart->rxBufferStatus = (uart->receiveCursor == uart->readCursor) ? UART_BUFFER_FULL : UART_BUFFER_OK;
+}
+    
 //------------------------------------------------------------------------------
 //----------------------[DEVICE SPECIFIC CODE]----------------------------------
 //------------------------------------------------------------------------------

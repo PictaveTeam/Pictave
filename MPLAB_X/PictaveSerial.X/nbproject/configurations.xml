@@ -76,6 +76,18 @@
       <item path="../../Uart/hardware/pic24f/pic24fj128ga010_family_serial.c"
             ex="true"
             overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-CO>
+        </C30-CO>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <C30>
         <property key="code-model" value="default"/>
@@ -202,6 +214,11 @@
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
       </C30Global>
+      <pk4hybrid>
+        <property key="memories.programmemory.ranges" value="0-abfb"/>
+        <property key="programmerToGoFilePath"
+                  value="D:/alexandre/Documents/L3_Info/S5/PPP/GIT/Pictave/MPLAB_X/PictaveSerial.X/debug/default/PictaveSerial_ptg"/>
+      </pk4hybrid>
     </conf>
   </confs>
 </configurationDescriptor>

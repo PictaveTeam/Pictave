@@ -24,6 +24,11 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <assert.h>
+
+#ifndef NULL
+#define NULL 0
+#endif // !NULL
 
 typedef unsigned char uchar;
 typedef uint8_t byte_t;
