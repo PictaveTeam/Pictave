@@ -1,3 +1,4 @@
 ./.git
 ./doxygen.exe
 **/build
+*.o

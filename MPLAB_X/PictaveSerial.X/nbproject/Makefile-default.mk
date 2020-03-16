@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../../Uart/Uart.c main.c
+SOURCEFILES_QUOTED_IF_SPACED=../../Uart/Uart.c main.c ../../Utils/ByteQueue.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1852933006/Uart.o ${OBJECTDIR}/main.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1852933006/Uart.o.d ${OBJECTDIR}/main.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1852933006/Uart.o ${OBJECTDIR}/main.o ${OBJECTDIR}/_ext/1606905585/ByteQueue.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1852933006/Uart.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/_ext/1606905585/ByteQueue.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1852933006/Uart.o ${OBJECTDIR}/main.o
+OBJECTFILES=${OBJECTDIR}/_ext/1852933006/Uart.o ${OBJECTDIR}/main.o ${OBJECTDIR}/_ext/1606905585/ByteQueue.o
 
 # Source Files
-SOURCEFILES=../../Uart/Uart.c main.c
+SOURCEFILES=../../Uart/Uart.c main.c ../../Utils/ByteQueue.c
 
 
 
@@ -109,6 +109,13 @@ ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  main.c  -o ${OBJECTDIR}/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/main.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
 	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/_ext/1606905585/ByteQueue.o: ../../Utils/ByteQueue.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/1606905585" 
+	@${RM} ${OBJECTDIR}/_ext/1606905585/ByteQueue.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1606905585/ByteQueue.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../Utils/ByteQueue.c  -o ${OBJECTDIR}/_ext/1606905585/ByteQueue.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1606905585/ByteQueue.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1606905585/ByteQueue.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 else
 ${OBJECTDIR}/_ext/1852933006/Uart.o: ../../Uart/Uart.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/_ext/1852933006" 
@@ -123,6 +130,13 @@ ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  main.c  -o ${OBJECTDIR}/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/main.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
 	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1606905585/ByteQueue.o: ../../Utils/ByteQueue.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/1606905585" 
+	@${RM} ${OBJECTDIR}/_ext/1606905585/ByteQueue.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1606905585/ByteQueue.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../Utils/ByteQueue.c  -o ${OBJECTDIR}/_ext/1606905585/ByteQueue.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1606905585/ByteQueue.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -std=c99 -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1606905585/ByteQueue.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 

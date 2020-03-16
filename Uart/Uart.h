@@ -6,23 +6,23 @@
 struct Uart_t;
 typedef struct Uart_t* Uart;
 
-#define UART_DEFAULT_BUFFER_SIZE 64
+#define UART_DEFAULT_QUEUE_CAPACITY 64
 
-#define UART1_ENABLE 1
+#define UART1_ENABLED 1
 //#define UART1_READ_ENABLED 1
 //#define UART1_WRITE_ENABLED 1
-#define UART1_RX_BUFFER_SIZE UART_DEFAULT_BUFFER_SIZE
-#define UART1_TX_BUFFER_SIZE UART_DEFAULT_BUFFER_SIZE
+#define UART1_RECEIVE_QUEUE_CAPACITY UART_DEFAULT_QUEUE_CAPACITY
+#define UART1_TRANSMIT_QUEUE_CAPACITY UART_DEFAULT_QUEUE_CAPACITY
 
-#define UART2_ENABLE 1
-#define UART2_RX_BUFFER_SIZE UART_DEFAULT_BUFFER_SIZE
-#define UART2_TX_BUFFER_SIZE UART_DEFAULT_BUFFER_SIZE
+#define UART2_ENABLED 1
+#define UART2_RECEIVE_QUEUE_CAPACITY UART_DEFAULT_QUEUE_CAPACITY
+#define UART2_TRANSMIT_QUEUE_CAPACITY UART_DEFAULT_QUEUE_CAPACITY
 
-#if UART1_ENABLE == 1
+#if UART1_ENABLED == 1
 extern Uart Uart1;
 #endif
 
-#if UART2_ENABLE == 1
+#if UART2_ENABLED == 1
 extern Uart Uart2;
 #endif
 
@@ -102,4 +102,28 @@ void Uart_Write(Uart uart, const byte_t* data, uint len);
  */
 void Uart_Flush(const Uart uart);
 
+
 #endif // !PICTAVE_UART_H
+
+#if !defined(UART_DEFINITION_INCLUDED) && defined(INCLUDE_UART_DEFINITION)
+#define UART_DEFINITION_INCLUDED
+
+#include "../Utils/ByteQueue.h"
+struct Uart_t{
+    ByteQueue m_TransmitQueue;
+    ByteQueue m_ReceiveQueue;
+   
+    // Fonctions qui changent en fonction de Uart1, Uart2 etc...
+    // Cette fonction configure les registres nÃ©cÃ©ssaires au fonctionnement de l'UART
+    float(*pfn_EnableUart)(uint);
+    
+    // Cette fonction configure les registres pour stopper l'UART
+    void(*pfn_DisableUart)(void);
+    
+    // Cette fonction Ã©crit un octet dans le registre d'envoi de l'uart
+    void(*pfn_TransmitByte)(byte_t);
+    
+    void (*onTransmitQueuePush)(void);
+};
+
+#endif // !UART_DEFINITION_INCLUDED && INCLUDE_UART_DEFINITION

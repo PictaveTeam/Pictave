@@ -21,7 +21,7 @@
 
 // #pragma config statements should precede project file includes.
 // Use project enums instead of #define for ON and OFF.
-
+#include <xc.h>
 #include "../../Uart/Uart.h"
 
 int main(void){
@@ -34,15 +34,27 @@ int main(void){
     PORTE = 0;
     
     Uart_Start(m_Uart, 9600);
-
-    byte_t val[255];
     
+    byte_t val;
+    byte_t valArray[200];
+            
+    uint nbDispo;
+    
+   /* Uart_WriteByte(m_Uart, 'O');
+    Uart_WriteByte(m_Uart, 'K');
+    Uart_WriteByte(m_Uart, 'N');*/
     
     while(true){
-        Uart_Read(m_Uart, val, 10);
-       //if(Uart_Read(m_Uart, &val)){
-       U1TXREG = 'O';
-       //}
+      //  nbDispo = Uart_Available(m_Uart);
+        Uart_Read(m_Uart, valArray, 10);
+        for(int i=0; i < 10; i++){
+            while(U1STAbits.UTXBF); // Attendre qu'il y ai au moins une place dans la queue d'attente
+            U1TXREG = valArray[i];
+        }
+       /*if(Uart_ReadByte(m_Uart, &val)){
+           // Uart_WriteByte(m_Uart, val);
+           U1TXREG = val;
+       }*/
     }
     
     return 0;

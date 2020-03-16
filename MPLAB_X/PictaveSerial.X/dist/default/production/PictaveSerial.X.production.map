@@ -20,6 +20,7 @@ Command:
   -Lc:/program files/microchip/xc16/v1.50/bin/bin/../../support/dsPIC33F/gld \
   build/default/production/_ext/1852933006/Uart.o \
   build/default/production/main.o \
+  build/default/production/_ext/1606905585/ByteQueue.o \
   --defsym=__MPLAB_BUILD=1 \
   -Tp24FJ64GA006.gld.00 \
   --stack=16 \
@@ -86,11 +87,10 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x420           0x630  (1584)
-.text                        0x620               0x246           0x369  (873)
-.dinit                       0x866                0x28            0x3c  (60)
-.text                        0x88e                0x26            0x39  (57)
+.text                        0x620               0x300           0x480  (1152)
+.dinit                       0x920                0x1e            0x2d  (45)
 
-                 Total "program" memory used (bytes):          0xa0e  (2574) 3%
+                 Total "program" memory used (bytes):          0xadd  (2781) 4%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
@@ -98,10 +98,10 @@ section                    address   length (PC units)   length (bytes) (dec)
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
 .ndata                       0x800                   0             0x2  (2)
-.bss                         0x802                   0            0x80  (128)
-.data                        0x882                   0            0x1a  (26)
+.bss                         0x802                   0            0x94  (148)
+.data                        0x896                   0             0xc  (12)
 
-                 Total "data" memory used (bytes):           0x9c  (156) 1%
+                 Total "data" memory used (bytes):           0xa2  (162) 1%
 
 
 Dynamic Memory Usage
@@ -109,9 +109,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x89c                              0x1f64  (8036)
+stack                        0x8a2                              0x1f5e  (8030)
 
-                 Maximum dynamic memory (bytes):         0x1f64  (8036)
+                 Maximum dynamic memory (bytes):         0x1f5e  (8030)
 
 Info: Project is using a large data memory model when small data memory model is sufficient.
 
@@ -131,7 +131,7 @@ External Symbols in Program Memory (by address):
                   0x000252                  __data_init
                   0x000252                  __data_init_standard
                   0x0002d4                  __U1RXInterrupt
-                  0x000304                  __U1TXInterrupt
+                  0x00030c                  __U1TXInterrupt
                   0x000320                  __U1ErrInterrupt
                   0x000334                  __DefaultInterrupt
                   0x00033a                  ___subsf3
@@ -148,40 +148,52 @@ External Symbols in Program Memory (by address):
                   0x00055a                  ___mulsf3
                   0x0005c2                  ___floatundisf
                   0x000620                  _Uart_Start
-                  0x000666                  _Uart_Stop
-                  0x000674                  _Uart_Peek
-                  0x00069c                  _Uart_ReadByte
-                  0x0006e6                  _Uart_Read
-                  0x000746                  _Uart_Available
-                  0x000752                  _Uart_WriteByte
-                  0x00075c                  _Uart_Write
-                  0x000768                  _Uart_Flush
-                  0x000770                  _Serial_Read
-                  0x000778                  _Serial_WriteByte
-                  0x000780                  _Serial_Write
-                  0x00078a                  build/default/production/_ext/1852933006/Uart.o:_Uart_OnRxInterrupt
-                  0x0007d4                  build/default/production/_ext/1852933006/Uart.o:_uart1_start
-                  0x000858                  build/default/production/_ext/1852933006/Uart.o:_uart1_stop
-                  0x00088e                  _main
+                  0x000642                  _Uart_Stop
+                  0x000650                  _Uart_Peek
+                  0x000674                  _Uart_ReadByte
+                  0x00069e                  _Uart_Read
+                  0x0006e2                  _Uart_Available
+                  0x0006f0                  _Uart_WriteByte
+                  0x0006fa                  _Uart_Write
+                  0x000706                  _Uart_Flush
+                  0x00070e                  _Serial_Read
+                  0x000716                  _Serial_WriteByte
+                  0x00071e                  _Serial_Write
+                  0x000728                  build/default/production/_ext/1852933006/Uart.o:_uart1_start
+                  0x0007d8                  build/default/production/_ext/1852933006/Uart.o:_uart1_stop
+                  0x0007e6                  build/default/production/_ext/1852933006/Uart.o:_uart1_write
+                  0x0007fe                  _ByteQueue_Init
+                  0x000828                  _ByteQueue_Clear
+                  0x000842                  _ByteQueue_Push
+                  0x000888                  _ByteQueue_Pop
+                  0x0008ba                  _ByteQueue_Get
+                  0x0008ce                  _ByteQueue_Size
+                  0x0008da                  _main
 
 External Symbols in Program Memory (by name):
 
-                  0x000770                  _Serial_Read
-                  0x000780                  _Serial_Write
-                  0x000778                  _Serial_WriteByte
-                  0x000746                  _Uart_Available
-                  0x000768                  _Uart_Flush
-                  0x000674                  _Uart_Peek
-                  0x0006e6                  _Uart_Read
-                  0x00069c                  _Uart_ReadByte
+                  0x000828                  _ByteQueue_Clear
+                  0x0008ba                  _ByteQueue_Get
+                  0x0007fe                  _ByteQueue_Init
+                  0x000888                  _ByteQueue_Pop
+                  0x000842                  _ByteQueue_Push
+                  0x0008ce                  _ByteQueue_Size
+                  0x00070e                  _Serial_Read
+                  0x00071e                  _Serial_Write
+                  0x000716                  _Serial_WriteByte
+                  0x0006e2                  _Uart_Available
+                  0x000706                  _Uart_Flush
+                  0x000650                  _Uart_Peek
+                  0x00069e                  _Uart_Read
+                  0x000674                  _Uart_ReadByte
                   0x000620                  _Uart_Start
-                  0x000666                  _Uart_Stop
-                  0x00075c                  _Uart_Write
-                  0x000752                  _Uart_WriteByte
+                  0x000642                  _Uart_Stop
+                  0x0006fa                  _Uart_Write
+                  0x0006f0                  _Uart_WriteByte
                   0x000334                  __DefaultInterrupt
                   0x000320                  __U1ErrInterrupt
                   0x0002d4                  __U1RXInterrupt
-                  0x000304                  __U1TXInterrupt
+                  0x00030c                  __U1TXInterrupt
                   0x00033c                  ___addsf3
                   0x0003f6                  ___divsf3
                   0x00047a                  ___fixunssfsi
@@ -199,10 +211,10 @@ External Symbols in Program Memory (by name):
                   0x00052a                  __funpack2
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x00088e                  _main
-                  0x00078a                  build/default/production/_ext/1852933006/Uart.o:_Uart_OnRxInterrupt
-                  0x0007d4                  build/default/production/_ext/1852933006/Uart.o:_uart1_start
-                  0x000858                  build/default/production/_ext/1852933006/Uart.o:_uart1_stop
+                  0x0008da                  _main
+                  0x000728                  build/default/production/_ext/1852933006/Uart.o:_uart1_start
+                  0x0007d8                  build/default/production/_ext/1852933006/Uart.o:_uart1_stop
+                  0x0007e6                  build/default/production/_ext/1852933006/Uart.o:_uart1_write
 
 Memory Configuration
 
@@ -221,6 +233,7 @@ Linker script and memory map
 
 LOAD build/default/production/_ext/1852933006/Uart.o
 LOAD build/default/production/main.o
+LOAD build/default/production/_ext/1606905585/ByteQueue.o
                     0x0001                  __MPLAB_BUILD = 0x1
 LOAD pPIC24Fxxx
 LOAD c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libfx-elf.a
@@ -254,7 +267,7 @@ LOAD c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libfx-elf.a
  *(.isr*)
  .isr.text        0x0002d4         0x60 build/default/production/_ext/1852933006/Uart.o
                   0x0002d4                  __U1RXInterrupt
-                  0x000304                  __U1TXInterrupt
+                  0x00030c                  __U1TXInterrupt
                   0x000320                  __U1ErrInterrupt
  .isr             0x000334          0x4 default_isr
                   0x000334                  __DefaultInterrupt
@@ -311,30 +324,36 @@ __CONFIG1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x127f
+.debug_info       0x000000       0x17e3
  *(.debug_info)
- .debug_info      0x000000        0xfe0 build/default/production/_ext/1852933006/Uart.o
- .debug_info      0x000fe0        0x29f build/default/production/main.o
+ .debug_info      0x000000        0xfdb build/default/production/_ext/1852933006/Uart.o
+ .debug_info      0x000fdb        0x4a6 build/default/production/main.o
+ .debug_info      0x001481        0x362 build/default/production/_ext/1606905585/ByteQueue.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x2cc
+.debug_abbrev     0x000000        0x415
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x22b build/default/production/_ext/1852933006/Uart.o
- .debug_abbrev    0x00022b         0xa1 build/default/production/main.o
+ .debug_abbrev    0x00022b        0x123 build/default/production/main.o
+ .debug_abbrev    0x00034e         0xc7 build/default/production/_ext/1606905585/ByteQueue.o
 
-.debug_line       0x000000        0x345
+.debug_line       0x000000        0x467
  *(.debug_line)
- .debug_line      0x000000        0x208 build/default/production/_ext/1852933006/Uart.o
- .debug_line      0x000208        0x13d build/default/production/main.o
+ .debug_line      0x000000        0x24e build/default/production/_ext/1852933006/Uart.o
+ .debug_line      0x00024e        0x142 build/default/production/main.o
+ .debug_line      0x000390         0xd7 build/default/production/_ext/1606905585/ByteQueue.o
 
-.debug_frame      0x000000        0x25c
+.debug_frame      0x000000        0x306
  *(.debug_frame)
- .debug_frame     0x000000        0x22e build/default/production/_ext/1852933006/Uart.o
- .debug_frame     0x00022e         0x2e build/default/production/main.o
+ .debug_frame     0x000000        0x228 build/default/production/_ext/1852933006/Uart.o
+ .debug_frame     0x000228         0x2e build/default/production/main.o
+ .debug_frame     0x000256         0xb0 build/default/production/_ext/1606905585/ByteQueue.o
 
-.debug_str        0x000000         0x48
+.debug_str        0x000000         0x61
  *(.debug_str)
  .debug_str       0x000000         0x48 build/default/production/_ext/1852933006/Uart.o
+ .debug_str       0x000048          0xa build/default/production/main.o
+ .debug_str       0x000052          0xf build/default/production/_ext/1606905585/ByteQueue.o
 
 .debug_loc
  *(.debug_loc)
@@ -343,22 +362,26 @@ __CONFIG1
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x136
+                  0x000000        0x1b9
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000        0x11b build/default/production/_ext/1852933006/Uart.o
  .debug_pubnames
                   0x00011b         0x1b build/default/production/main.o
+ .debug_pubnames
+                  0x000136         0x83 build/default/production/_ext/1606905585/ByteQueue.o
 
 .debug_ranges
  *(.debug_ranges)
 
-.debug_aranges    0x000000         0x30
+.debug_aranges    0x000000         0x48
  *(.debug_aranges)
  .debug_aranges
                   0x000000         0x18 build/default/production/_ext/1852933006/Uart.o
  .debug_aranges
                   0x000018         0x18 build/default/production/main.o
+ .debug_aranges
+                  0x000030         0x18 build/default/production/_ext/1606905585/ByteQueue.o
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -931,52 +954,56 @@ LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000030        0x152
+                  0x000048        0x1e8
  .debug_pubtypes
-                  0x000030        0x113 build/default/production/_ext/1852933006/Uart.o
+                  0x000048        0x131 build/default/production/_ext/1852933006/Uart.o
  .debug_pubtypes
-                  0x000143         0x3f build/default/production/main.o
+                  0x000179         0x67 build/default/production/main.o
+ .debug_pubtypes
+                  0x0001e0         0x50 build/default/production/_ext/1606905585/ByteQueue.o
 
 __c30_signature
-                  0x000182         0x54
+                  0x000230         0x5a
  __c30_signature
-                  0x000182          0x6 build/default/production/_ext/1852933006/Uart.o
+                  0x000230          0x6 build/default/production/_ext/1852933006/Uart.o
  __c30_signature
-                  0x000188          0x6 build/default/production/main.o
+                  0x000236          0x6 build/default/production/main.o
  __c30_signature
-                  0x00018e          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+                  0x00023c          0x6 build/default/production/_ext/1606905585/ByteQueue.o
  __c30_signature
-                  0x000194          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+                  0x000242          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x00019a          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(addsf3.eo)
+                  0x000248          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
  __c30_signature
-                  0x0001a0          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(divsf3.eo)
+                  0x00024e          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(addsf3.eo)
  __c30_signature
-                  0x0001a6          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
+                  0x000254          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(divsf3.eo)
  __c30_signature
-                  0x0001ac          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
+                  0x00025a          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
  __c30_signature
-                  0x0001b2          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(fpack.eo)
+                  0x000260          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
  __c30_signature
-                  0x0001b8          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(funpack.eo)
+                  0x000266          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(fpack.eo)
  __c30_signature
-                  0x0001be          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(funpack2.eo)
+                  0x00026c          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(funpack.eo)
  __c30_signature
-                  0x0001c4          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(futil.eo)
+                  0x000272          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(funpack2.eo)
  __c30_signature
-                  0x0001ca          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
+                  0x000278          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(futil.eo)
  __c30_signature
-                  0x0001d0          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
+                  0x00027e          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
+ __c30_signature
+                  0x000284          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
 
 .ndata              0x0800          0x2
  .ndata             0x0800          0x2 build/default/production/_ext/1852933006/Uart.o
                     0x0800                  _Uart1
 
-.bss                0x0802         0x80
- .bss               0x0802         0x80 build/default/production/_ext/1852933006/Uart.o
+.bss                0x0802         0x94
+ .bss               0x0802         0x94 build/default/production/_ext/1852933006/Uart.o
 
-.data               0x0882         0x1a
- .data              0x0882         0x1a build/default/production/_ext/1852933006/Uart.o
+.data               0x0896          0xc
+ .data              0x0896          0xc build/default/production/_ext/1852933006/Uart.o
 
 .ivt._U1RXInterrupt
                   0x00002a          0x2
@@ -1000,27 +1027,32 @@ __c30_signature
 .config_IESO      0x00abfc          0x2
  .config_IESO     0x00abfc          0x2 build/default/production/main.o
 
-.text             0x000620        0x246
- .text            0x000620        0x246 build/default/production/_ext/1852933006/Uart.o
+.text             0x000620        0x300
+ .text            0x000620        0x1de build/default/production/_ext/1852933006/Uart.o
                   0x000620                  _Uart_Start
-                  0x000666                  _Uart_Stop
-                  0x000674                  _Uart_Peek
-                  0x00069c                  _Uart_ReadByte
-                  0x0006e6                  _Uart_Read
-                  0x000746                  _Uart_Available
-                  0x000752                  _Uart_WriteByte
-                  0x00075c                  _Uart_Write
-                  0x000768                  _Uart_Flush
-                  0x000770                  _Serial_Read
-                  0x000778                  _Serial_WriteByte
-                  0x000780                  _Serial_Write
-                  0x00078a                  build/default/production/_ext/1852933006/Uart.o:_Uart_OnRxInterrupt
-                  0x0007d4                  build/default/production/_ext/1852933006/Uart.o:_uart1_start
-                  0x000858                  build/default/production/_ext/1852933006/Uart.o:_uart1_stop
+                  0x000642                  _Uart_Stop
+                  0x000650                  _Uart_Peek
+                  0x000674                  _Uart_ReadByte
+                  0x00069e                  _Uart_Read
+                  0x0006e2                  _Uart_Available
+                  0x0006f0                  _Uart_WriteByte
+                  0x0006fa                  _Uart_Write
+                  0x000706                  _Uart_Flush
+                  0x00070e                  _Serial_Read
+                  0x000716                  _Serial_WriteByte
+                  0x00071e                  _Serial_Write
+                  0x000728                  build/default/production/_ext/1852933006/Uart.o:_uart1_start
+                  0x0007d8                  build/default/production/_ext/1852933006/Uart.o:_uart1_stop
+                  0x0007e6                  build/default/production/_ext/1852933006/Uart.o:_uart1_write
+ .text            0x0007fe         0xdc build/default/production/_ext/1606905585/ByteQueue.o
+                  0x0007fe                  _ByteQueue_Init
+                  0x000828                  _ByteQueue_Clear
+                  0x000842                  _ByteQueue_Push
+                  0x000888                  _ByteQueue_Pop
+                  0x0008ba                  _ByteQueue_Get
+                  0x0008ce                  _ByteQueue_Size
+ .text            0x0008da         0x46 build/default/production/main.o
+                  0x0008da                  _main
 
-.dinit            0x000866         0x28
- .dinit           0x000866         0x28 data_init
-
-.text             0x00088e         0x26
- .text            0x00088e         0x26 build/default/production/main.o
-                  0x00088e                  _main
+.dinit            0x000920         0x1e
+ .dinit           0x000920         0x1e data_init

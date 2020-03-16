@@ -7,9 +7,9 @@
       <logicalFolder name="Uart" displayName="Uart" projectFiles="true">
         <itemPath>../../Uart/Uart.h</itemPath>
         <itemPath>../../Uart/hardware/pic24f/pic24fj128ga010_family_serial.h</itemPath>
-        <itemPath>../../Uart/Uart_t.h</itemPath>
       </logicalFolder>
       <itemPath>../../core.h</itemPath>
+      <itemPath>../../Utils/ByteQueue.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -23,6 +23,7 @@
         <itemPath>../../Uart/hardware/pic24f/pic24fj128ga010_family_serial.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
+      <itemPath>../../Utils/ByteQueue.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

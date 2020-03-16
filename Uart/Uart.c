@@ -1,40 +1,40 @@
+
+#define INCLUDE_UART_DEFINITION
 #include "Uart.h"
-#include "Uart_t.h"
 
 #define GET_CURSOR_INCREMENT(cursor, maxValue) (((cursor)+1)%(maxValue))
-    
 
-static void Uart_OnRxInterrupt(Uart uart, byte_t rxValue);
+#define RETURN_IF_EMPTY(queue, retVal)      \
+    if(ByteQueue_Size(queue) == 0){         \
+        return (retVal);                    \
+    }
 
+/*static void Uart_OnRxInterrupt(Uart uart, byte_t rxValue);
+static void Uart_OnTransmitRequest(Uart uart);
+static void Uart_AddToTransmitQueue(Uart, byte_t value);*/
+
+
+/******************************************************************************/
 float Uart_Start(Uart uart, float baudrate){
     __conditional_software_breakpoint(uart != NULL);
     __conditional_software_breakpoint(baudrate > 0.0f);
 
-    uart->onRxInterrupt = Uart_OnRxInterrupt;
+    //uart->onRxInterrupt = Uart_OnRxInterrupt;
+    //uart->onTxInterrupt = Uart_OnTransmitRequest;
+
     Uart_Stop(uart);
-    
-   /*-------------------------------------*
-    * Configuration de la structure       * 
-    *-------------------------------------*/
-    uart->readCursor = 0;
-    uart->receiveCursor = 0;
-    uart->transmitCursor = 0;
-    uart->writeCursor = 0;
-    uart->readBytesAvailable = 0;
-    
-//    uart->rxBufferStatus = UART_BUFFER_EMPTY;
-    
+     
    /*-------------------------------------*
     * Démarrage de l'UART                 * 
     *-------------------------------------*/
-    return uart->start_fnc(baudrate);
+    return uart->pfn_EnableUart(baudrate);
 }
 
 /******************************************************************************/
 void Uart_Stop(Uart uart){
     __conditional_software_breakpoint(uart != NULL);
     
-    uart->stop_fnc();
+    uart->pfn_DisableUart();
 }
 
 /******************************************************************************/
@@ -42,22 +42,18 @@ bool Uart_Peek(Uart uart, byte_t* pVal){
     __conditional_software_breakpoint(uart != NULL);
     __conditional_software_breakpoint(pVal != NULL);
     
-    if(uart->readBytesAvailable == 0){
-        return false;
-    }
+    RETURN_IF_EMPTY(uart->m_ReceiveQueue, false);
     
-    *pVal = uart->rxBuffer[uart->readCursor];
+    *pVal = ByteQueue_Get(uart->m_ReceiveQueue);
     return true;
 }
 
 /******************************************************************************/
 bool Uart_ReadByte(Uart uart, byte_t* pVal){
-     __conditional_software_breakpoint(uart != NULL);
+    __conditional_software_breakpoint(uart != NULL);
     __conditional_software_breakpoint(pVal != NULL);
 
-    if(uart->readBytesAvailable == 0){
-        return false;
-    }
+    RETURN_IF_EMPTY(uart->m_ReceiveQueue, false);
     
    /* Ici on peut avoir une interruption sur rx.
     * Si on incrémente readCursor avant l'interruption, mais 
@@ -75,9 +71,8 @@ bool Uart_ReadByte(Uart uart, byte_t* pVal){
     * 
     */
     
-    *pVal = uart->rxBuffer[uart->readCursor];
-    uart->readCursor = GET_CURSOR_INCREMENT(uart->readCursor, uart->RX_BUFFER_SIZE);
-    uart->readBytesAvailable--;
+    *pVal = ByteQueue_Get(uart->m_ReceiveQueue);
+    ByteQueue_Pop(uart->m_ReceiveQueue);
 
     return true;
 }
@@ -88,34 +83,55 @@ uint Uart_Read(Uart uart, byte_t* pBuffer, uint size){
     __conditional_software_breakpoint(pBuffer != NULL);
 
     // Attendre les données
-    while(uart->readBytesAvailable < size);
-    /*if(uart->readBytesAvailable < size){
-        return false;
-    }*/
+ 
+    
+    while(ByteQueue_Size(uart->m_ReceiveQueue) < size);
     
     for(int i=0; i < size; i++){
-        pBuffer[i] =  uart->rxBuffer[uart->readCursor];
-        uart->readCursor = GET_CURSOR_INCREMENT(uart->readCursor, uart->RX_BUFFER_SIZE);
-        uart->readBytesAvailable--;
+        pBuffer[i] = ByteQueue_Get(uart->m_ReceiveQueue);
+        ByteQueue_Pop(uart->m_ReceiveQueue);
     }
     
-    return true;
+    return size;
 }
 
 /******************************************************************************/
 uint Uart_Available(Uart uart){
     __conditional_software_breakpoint(uart != NULL);
     
-    return uart->readBytesAvailable;
+    return ByteQueue_Size(uart->m_ReceiveQueue);
 }
 
+
 void Uart_WriteByte(Uart uart, byte_t data){
+    __conditional_software_breakpoint(uart != NULL);
+   
+    // Attendre qu'une place se libère 
+   /* while(uart->transmitQueueSize == uart->TX_BUFFER_SIZE);
+
+    uart->txBuffer[uart->writeCursor] = data;
+    uart->writeCursor = GET_CURSOR_INCREMENT(uart->writeCursor, uart->TX_BUFFER_SIZE);
+    uart->transmitQueueSize++;
     
+    if(uart->isWaitingForWrite()){
+        Uart_OnTransmitRequest(uart);
+    }*/
 }
 
 void Uart_Write(Uart uart, const byte_t* data, uint len){
     
 }
+
+//static void Uart_AddToTransmitQueue(Uart, byte_t value){
+   /* while(uart->transmitQueueSize == uart->TX_BUFFER_SIZE){
+        
+    }
+
+    uart->txBuffer[uart->writeCursor] = data;
+    uart->writeCursor = GET_CURSOR_INCREMENT(uart->writeCursor, uart->TX_BUFFER_SIZE);
+    uart->transmitQueueSize++;*/
+//}
+
 
 /**
  * \fn Uart_Flush(const Uart uart)
@@ -170,19 +186,40 @@ void Uart_Flush(const Uart uart)
             (*cursor) = 0;
         }
     }*/
-     
-static void Uart_OnRxInterrupt(Uart uart, byte_t rxValue){
+  
+
+// Si appellée par software -> vérifier qu'aucune transmission est en cours
+// Sinon doit être appelée lors d'une interruption sur TX
+
+ /*static void Uart_OnTransmitRequest(Uart uart){
+    __conditional_software_breakpoint(uart != NULL);
+    __conditional_software_breakpoint(uart->transmitQueueSize != 0);*/
+    /*
+     * Impossible d'avoir une interruption ici car 
+     * Cas 1) On est déjà dans l'interruption TX
+     * Cas 2) On a vérifié qu'aucune transmission n'est en cours
+     */
+   /* byte_t value = uart->txBuffer[uart->transmitCursor];
+  
+    uart->transmitCursor = GET_CURSOR_INCREMENT(uart->transmitCursor, uart->TX_BUFFER_SIZE);
+    uart->transmitQueueSize--;
+    uart->write_fnc(value);
+    // Je viens d'écrire, potentiellement une interruption ici
+ }*/
+ 
+ 
+//static void Uart_OnRxInterrupt(Uart uart, byte_t rxValue){
     // Si l'uart est plein, on ne lit pas
-    if(uart->readBytesAvailable == uart->RX_BUFFER_SIZE){
+    /*(uart->readBytesAvailable == uart->RX_BUFFER_SIZE){
         return;
-    }
+    }*/
     
     // On est dans l'interruption RX, impossible d'avoir de la concurrence avec la réception d'un autre caractère
     // Le code de cette fonction est donc thread safe
-    uart->rxBuffer[uart->receiveCursor] = rxValue;
+   /* uart->rxBuffer[uart->receiveCursor] = rxValue;
     uart->receiveCursor = GET_CURSOR_INCREMENT(uart->receiveCursor, uart->RX_BUFFER_SIZE);
     uart->readBytesAvailable++;
-}
+}*/
     
 //------------------------------------------------------------------------------
 //----------------------[DEVICE SPECIFIC CODE]----------------------------------
