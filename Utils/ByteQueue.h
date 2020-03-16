@@ -19,6 +19,7 @@ void ByteQueue_Push(ByteQueue queue, byte_t value);
 void ByteQueue_Pop(ByteQueue queue);
 byte_t ByteQueue_Get(ByteQueue queue);
 uint ByteQueue_Size(ByteQueue queue);
+uint ByteQueue_Capacity(ByteQueue queue);
 
 #endif	// !BYTE_QUEUE_H_INCLUDED
 

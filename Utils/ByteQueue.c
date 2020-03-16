@@ -58,3 +58,8 @@ uint ByteQueue_Size(ByteQueue queue){
 
    return queue->size;
 }
+
+uint ByteQueue_Capacity(ByteQueue queue){
+    __conditional_software_breakpoint(queue != NULL);
+    return queue->capacity;
+}
