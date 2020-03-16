@@ -39,18 +39,16 @@ int main(void){
     byte_t valArray[200];
             
     uint nbDispo;
+        
     
-   /* Uart_WriteByte(m_Uart, 'O');
-    Uart_WriteByte(m_Uart, 'K');
-    Uart_WriteByte(m_Uart, 'N');*/
+    Uart_WriteByte(m_Uart, '<');
+    Uart_WriteByte(m_Uart, '3');
+    Uart_WriteByte(m_Uart, '+');
     
     while(true){
       //  nbDispo = Uart_Available(m_Uart);
         Uart_Read(m_Uart, valArray, 10);
-        for(int i=0; i < 10; i++){
-            while(U1STAbits.UTXBF); // Attendre qu'il y ai au moins une place dans la queue d'attente
-            U1TXREG = valArray[i];
-        }
+        Uart_Write(m_Uart, valArray, 10);
        /*if(Uart_ReadByte(m_Uart, &val)){
            // Uart_WriteByte(m_Uart, val);
            U1TXREG = val;

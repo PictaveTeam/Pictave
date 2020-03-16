@@ -19,10 +19,7 @@
 
 static float uart1_start(uint baudrate);
 static void uart1_stop(void);
-static void uart1_write(byte_t value);
-//static void uart1_onTransmitQueuePush(void);
-//static bool uart1_isWaitingForWrite(void);
-
+static void uart1_fillTxFifo(void);
 
 static byte_t uart1_receiveQueueBuffer[UART1_RECEIVE_QUEUE_CAPACITY];
 static byte_t uart1_transmitQueueBuffer[UART1_TRANSMIT_QUEUE_CAPACITY];
@@ -34,7 +31,7 @@ static struct ByteQueue_t uart1_transmitQueue;
 static struct Uart_t uart1 = {
     .pfn_EnableUart = uart1_start,
     .pfn_DisableUart = uart1_stop,
-    .pfn_TransmitByte = uart1_write
+    .pfn_OnTransmitQueuePush = uart1_fillTxFifo
 };
 
 Uart Uart1 = &uart1;
@@ -53,12 +50,12 @@ static float uart1_start(uint baudrate){
    /*-------------------------------------*
     * Configuration du mode de RX et TX   *
     * NE PAS CONFIGURER LES PINS RX ET TX
-    * ILS SONT CONFIGURES AUTOMATIQUEMENT AU DEMARRAGE DE L'UART
+    * ILS SONT CONFIGURÉS AUTOMATIQUEMENT AU DEMARRAGE DE L'UART
     * CHANGER LES TRIS MANUELLEMENT PROVOQUE UN RETARD 
     * D'ACTIVATION DE LA LIGNE D'ENVIRON 1 SECONDE !!!!!!
     *-------------------------------------*/   
-    TRISFbits.TRISF2 = PINMODE_INPUT; // rx1
-    TRISFbits.TRISF3 = PINMODE_OUTPUT; // tx1
+   // TRISFbits.TRISF2 = PINMODE_INPUT; // rx1
+    //TRISFbits.TRISF3 = PINMODE_OUTPUT; // tx1
   
    /*-------------------------------------*
     * Calcul du baudrate, et de l'erreur  * 
@@ -94,10 +91,8 @@ static float uart1_start(uint baudrate){
      *-------------------------------------*/
     U1MODEbits.UARTEN = 1; // Active l'UART 1
     Nop();
-    U1TXREG = 0;
-    Nop();
     U1STAbits.UTXEN = 1; // provoque un envoi, donc une interruption non voulue
-    while(!U1STAbits.TRMT); // Attendre la fin de l'envoi
+  //  while(!U1STAbits.TRMT); // Attendre la fin de l'envoi
     return error;
 }
 
@@ -116,22 +111,25 @@ static void uart1_stop(void){
     U1MODEbits.UARTEN = 0; // Désactive l'UART
 }
 
-/******************************************************************************/
-static void uart1_write(byte_t value){
-    while(U1STAbits.UTXBF); // Attendre qu'il y ai au moins une place dans la queue d'attente
-  
-    U1TXREG = value;
-}
 
-/******************************************************************************/
-/*static bool uart1_isWaitingForWrite(void){
-    // si TRMT = 1 alors aucun transfert en cours.
-    return U1STAbits.TRMT;
-}*/
 
-/*static void uart1_onTransmitQueuePush(void){
+static bool uart1_transmitQueueLock = false;
+static void uart1_fillTxFifo(void){
     
-}*/
+    __conditional_software_breakpoint(false);
+    
+    if(uart1_transmitQueueLock == false){
+        uart1_transmitQueueLock = true;
+        
+        // on essaie de remplir la fifo tx
+        while((!U1STAbits.UTXBF) && (ByteQueue_Size(Uart1->m_TransmitQueue) > 0)){
+            U1TXREG = ByteQueue_Get(Uart1->m_TransmitQueue);
+            ByteQueue_Pop(Uart1->m_TransmitQueue);
+        }
+        
+        uart1_transmitQueueLock = false;
+    }
+}
 
 /******************************************************************************/
 void __attribute__((interrupt, auto_psv)) _U1RXInterrupt ( void ){
@@ -147,19 +145,7 @@ void __attribute__((interrupt, auto_psv)) _U1TXInterrupt ( void ){
     
     // Toute la pile d'envoi est vide, et le dernier caractère vient d'être chargé dans le "transmit shift register" (sur la ligne série)
     // On remplit le FIFO TX si possible	
-    /*if(Uart1->transmitQueueSize == 0){
-        Uart1->waitingForWrite = true;
-        return;
-    }
-    
-    // On sait que UTXBF = 0
-    U1TXREG = Uart->txBuffer[Uart1->transmitCursor];
-    
-    
-    while((Uart1->transmitQueueSize > 0) && !U1STAbits.UTXBF){ // Tant qu'il y a des donn?es en buffer, et que la FIFO TX n'est pas pleine on met les donn?es dans la pile
-		Uart1->onTxInterrupt(Uart1);
-	}*/
-    
+   uart1_fillTxFifo();
    
 }
 

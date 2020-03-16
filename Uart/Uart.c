@@ -19,9 +19,6 @@ float Uart_Start(Uart uart, float baudrate){
     __conditional_software_breakpoint(uart != NULL);
     __conditional_software_breakpoint(baudrate > 0.0f);
 
-    //uart->onRxInterrupt = Uart_OnRxInterrupt;
-    //uart->onTxInterrupt = Uart_OnTransmitRequest;
-
     Uart_Stop(uart);
      
    /*-------------------------------------*
@@ -107,31 +104,20 @@ void Uart_WriteByte(Uart uart, byte_t data){
     __conditional_software_breakpoint(uart != NULL);
    
     // Attendre qu'une place se libère 
-   /* while(uart->transmitQueueSize == uart->TX_BUFFER_SIZE);
-
-    uart->txBuffer[uart->writeCursor] = data;
-    uart->writeCursor = GET_CURSOR_INCREMENT(uart->writeCursor, uart->TX_BUFFER_SIZE);
-    uart->transmitQueueSize++;
+    while(ByteQueue_Size(uart->m_TransmitQueue) == ByteQueue_Capacity(uart->m_TransmitQueue));
+    ByteQueue_Push(uart->m_TransmitQueue, data);
+    uart->pfn_OnTransmitQueuePush();
     
-    if(uart->isWaitingForWrite()){
-        Uart_OnTransmitRequest(uart);
-    }*/
 }
 
 void Uart_Write(Uart uart, const byte_t* data, uint len){
-    
-}
+    __conditional_software_breakpoint(uart != NULL);
+    __conditional_software_breakpoint(data != NULL);
 
-//static void Uart_AddToTransmitQueue(Uart, byte_t value){
-   /* while(uart->transmitQueueSize == uart->TX_BUFFER_SIZE){
-        
+    for(int i=0; i < len; i++){
+        Uart_WriteByte(uart, data[i]);
     }
-
-    uart->txBuffer[uart->writeCursor] = data;
-    uart->writeCursor = GET_CURSOR_INCREMENT(uart->writeCursor, uart->TX_BUFFER_SIZE);
-    uart->transmitQueueSize++;*/
-//}
-
+}
 
 /**
  * \fn Uart_Flush(const Uart uart)
@@ -142,36 +128,9 @@ void Uart_Write(Uart uart, const byte_t* data, uint len){
  */
 void Uart_Flush(const Uart uart)
 {
-    /*readCursor1 = 0;
-        rxCursor1 = 0;
-        return Serial_DeviceInit(baudrate);*/
+    while(ByteQueue_Size(uart->m_TransmitQueue) > 0);
 } 
 
-    int Serial_Read(void)
-    {
-       /* if(!Serial_Available()){
-            return -1;
-        }
-        incrementCursor(&readCursor1);
-        return rxBuffer1[readCursor1];
-    }
-    SERIAL_SIZE_TYPE Serial_Available(void){
-        return (SERIAL_SIZE_TYPE) (rxCursor1 - readCursor1);*/
-        return -1;
-    }
-    void Serial_WriteByte(const uchar data){
-     /*   incrementCursor(&writeCursor1); // Incr�mentation du curseur d'�criture
-        txBuffer1[writeCursor1] = data;  // Ajout de la donn�e au buffer
-        Serial_DeviceEnableTXInterrupt();                    // Envoi des donn�es */
-    }
-    void Serial_Write(const uchar* data, int len){
-      /*  int i;
-        for(i = 0; i < len; i++){
-            incrementCursor(&writeCursor1); // Incr�mentation du curseur d'�criture
-            txBuffer1[writeCursor1] = data[i];  // Ajout de la donn�e au buffer
-        }
-        Serial_DeviceEnableTXInterrupt();*/
-    }
 
     /*SERIAL_SIZE_TYPE Serial_WriteAvailable(void){ 
         return (SERIAL_SIZE_TYPE) (writeCursor1 - txCursor1); 
@@ -229,7 +188,7 @@ void Uart_Flush(const Uart uart)
     #error [Uart Library] PIC18F2X_4XK22_FAMILY not supported
     //#include "devices/pic18f/pic18f2x_4xk22_serial.c"
 #elif defined DEVICE_PIC24FJ128GA010_FAMILY
-    #include "hardware/pic24f/pic24fj128ga010_family_serial.c"
+    //#include "hardware/pic24f/pic24fj128ga010_family_serial.c"
 #else
     #error [Serial Library] Device not supported
 #endif

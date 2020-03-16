@@ -75,7 +75,7 @@
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
       <item path="../../Uart/hardware/pic24f/pic24fj128ga010_family_serial.c"
-            ex="true"
+            ex="false"
             overriding="false">
         <C30>
         </C30>

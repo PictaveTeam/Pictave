@@ -119,11 +119,8 @@ struct Uart_t{
     
     // Cette fonction configure les registres pour stopper l'UART
     void(*pfn_DisableUart)(void);
-    
-    // Cette fonction Ã©crit un octet dans le registre d'envoi de l'uart
-    void(*pfn_TransmitByte)(byte_t);
-    
-    void (*onTransmitQueuePush)(void);
+        
+    void (*pfn_OnTransmitQueuePush)(void);
 };
 
 #endif // !UART_DEFINITION_INCLUDED && INCLUDE_UART_DEFINITION
