@@ -26,7 +26,7 @@
 
 int main(void){
     
-    Uart m_Uart = Uart1;
+    Uart m_Uart = Uart2;
     
     TRISD = 0;
     PORTD = 0;
@@ -41,14 +41,20 @@ int main(void){
     uint nbDispo;
         
     
-    Uart_WriteByte(m_Uart, '<');
-    Uart_WriteByte(m_Uart, '3');
-    Uart_WriteByte(m_Uart, '+');
+    Uart_WriteString(m_Uart, "+++");
+    PORTE = 1;
     
     while(true){
+        while(val != '\r'){
+            Uart_ReadByte(m_Uart, &val);
+        }
+    
+       // Uart_Read(m_Uart, valArray, 3);
+        
+        PORTE = 0x0;
       //  nbDispo = Uart_Available(m_Uart);
-        Uart_Read(m_Uart, valArray, 10);
-        Uart_Write(m_Uart, valArray, 10);
+       // Uart_Read(m_Uart, valArray, 10);
+      //  Uart_Write(m_Uart, valArray, 10);
        /*if(Uart_ReadByte(m_Uart, &val)){
            // Uart_WriteByte(m_Uart, val);
            U1TXREG = val;

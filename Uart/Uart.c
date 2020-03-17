@@ -119,6 +119,17 @@ void Uart_Write(Uart uart, const byte_t* data, uint len){
     }
 }
 
+void Uart_WriteString(Uart uart, const char* str){
+    __conditional_software_breakpoint(uart != NULL);
+    __conditional_software_breakpoint(str != NULL);
+    
+    int i=0;
+    while(str[i] != '\0'){
+        Uart_WriteByte(uart, str[i]);
+        i++;
+    }
+}
+
 /**
  * \fn Uart_Flush(const Uart uart)
  * \brief Bloque jusquà ce que tous les envois soient complétés
@@ -126,8 +137,7 @@ void Uart_Write(Uart uart, const byte_t* data, uint len){
  * 
  * Cette fonction est bloquante jusqu'a ce que tous les envois soient complétés.
  */
-void Uart_Flush(const Uart uart)
-{
+void Uart_Flush(const Uart uart){
     while(ByteQueue_Size(uart->m_TransmitQueue) > 0);
 } 
 

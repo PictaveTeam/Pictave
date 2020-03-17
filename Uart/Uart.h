@@ -92,7 +92,7 @@ uint Uart_Available(Uart uart);
 
 void Uart_WriteByte(Uart uart, byte_t data);
 void Uart_Write(Uart uart, const byte_t* data, uint len);
-
+void Uart_WriteString(Uart uart, const char* str);
 /**
  * \fn Uart_Flush(const Uart uart)
  * \brief Bloque jusquà ce que tous les envois soient complétés

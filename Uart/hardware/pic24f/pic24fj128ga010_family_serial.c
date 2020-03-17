@@ -115,9 +115,7 @@ static void uart1_stop(void){
 
 static bool uart1_transmitQueueLock = false;
 static void uart1_fillTxFifo(void){
-    
-    __conditional_software_breakpoint(false);
-    
+       
     if(uart1_transmitQueueLock == false){
         uart1_transmitQueueLock = true;
         
@@ -154,4 +152,148 @@ void __attribute__((interrupt, auto_psv)) _U1ErrInterrupt(void){
     IFS4bits.U1ERIF = 0;
 }
 
-#endif //UART1_ENABLE == 1
+#endif //UART1_ENABLED == 1
+
+
+
+
+
+
+
+#if UART2_ENABLED == 1
+
+static float uart2_start(uint baudrate);
+static void uart2_stop(void);
+static void uart2_fillTxFifo(void);
+
+static byte_t uart2_receiveQueueBuffer[UART2_RECEIVE_QUEUE_CAPACITY];
+static byte_t uart2_transmitQueueBuffer[UART2_TRANSMIT_QUEUE_CAPACITY];
+
+static struct ByteQueue_t uart2_receiveQueue;
+static struct ByteQueue_t uart2_transmitQueue;
+
+// Ici on met les fonctions
+static struct Uart_t uart2 = {
+    .pfn_EnableUart = uart2_start,
+    .pfn_DisableUart = uart2_stop,
+    .pfn_OnTransmitQueuePush = uart2_fillTxFifo
+};
+
+Uart Uart2 = &uart2;
+
+/******************************************************************************/
+// Initialisation des registres de l'uart1
+static float uart2_start(uint baudrate){ 
+   /*-----------------------------------
+    * Inititialisation des structures
+    *-----------------------------------*/
+    ByteQueue_Init(&uart2_receiveQueue , uart2_receiveQueueBuffer , UART2_RECEIVE_QUEUE_CAPACITY);
+    ByteQueue_Init(&uart2_transmitQueue, uart2_transmitQueueBuffer, UART2_TRANSMIT_QUEUE_CAPACITY);
+
+    Uart2->m_ReceiveQueue = &uart2_receiveQueue;
+    Uart2->m_TransmitQueue = &uart2_transmitQueue;    
+   /*-------------------------------------*
+    * Configuration du mode de RX et TX   *
+    * NE PAS CONFIGURER LES PINS RX ET TX
+    * ILS SONT CONFIGURÉS AUTOMATIQUEMENT AU DEMARRAGE DE L'UART
+    * CHANGER LES TRIS MANUELLEMENT PROVOQUE UN RETARD 
+    * D'ACTIVATION DE LA LIGNE D'ENVIRON 1 SECONDE !!!!!!
+    *-------------------------------------*/   
+
+  
+   /*-------------------------------------*
+    * Calcul du baudrate, et de l'erreur  * 
+    *-------------------------------------*/
+
+    // U1BRG = (fcy)/(16*baudrate)-1; <- erreur !! (16*baudrate) overflow, ne loge pas dans 16 bits
+    float fbaud = baudrate;
+    U2BRG = (FCY)/(fbaud*16.0f)-1;
+    float realBaud = ((float)FCY)/((float)(16*(U2BRG+1)));
+    float thBaud = (float) FCY;
+    float error = (realBaud-thBaud)/thBaud;    
+    
+   /*---------------------------------------*
+    * Config de l'uart et des interruptions * 
+    *---------------------------------------*/
+    U2MODEbits.STSEL = 0;       // un bit de stop 
+    U2MODEbits.PDSEL = 0b00;    // 8 bits, pas de parité
+    U2MODEbits.BRGH = 0;        // mode basse vitesse 
+    
+    // Netoyage des flags d'interruption
+    IFS1bits.U2RXIF = 0; 
+    IFS1bits.U2TXIF = 0;
+    // Activation des interruptions
+    IEC1bits.U2TXIE = 1;
+    IEC1bits.U2RXIE = 1;
+    
+    // interruption quand toute la pile d'envoi vient d'être vidée
+    U2STAbits.UTXISEL1 = 1;
+    U2STAbits.UTXISEL0 = 0;
+    
+    /*-------------------------------------*
+     * Activation de l'uart                * 
+     *-------------------------------------*/
+    U2MODEbits.UARTEN = 1; // Active l'UART 1
+    Nop();
+    U2STAbits.UTXEN = 1; // provoque un envoi, donc une interruption non voulue
+  //  while(!U1STAbits.TRMT); // Attendre la fin de l'envoi
+    return error;
+}
+
+/******************************************************************************/
+static void uart2_stop(void){
+   /*-------------------------------------*
+    * Désactivation des interruptions     * 
+    *-------------------------------------*/
+    IEC1bits.U2TXIE = 0; // Désactive interruption TX 
+    IEC1bits.U2RXIE = 0; // Désactive interruption TX 
+    
+   /*-------------------------------------*
+    * Désactivation de l'UART             * 
+    *-------------------------------------*/
+    U2STAbits.UTXEN = 0; // Désactive l'envoi des données
+    U2MODEbits.UARTEN = 0; // Désactive l'UART
+}
+
+
+
+static bool uart2_transmitQueueLock = false;
+static void uart2_fillTxFifo(void){
+        
+    if(uart2_transmitQueueLock == false){
+        uart2_transmitQueueLock = true;
+        
+        // on essaie de remplir la fifo tx
+        while((!U2STAbits.UTXBF) && (ByteQueue_Size(Uart2->m_TransmitQueue) > 0)){
+            U2TXREG = ByteQueue_Get(Uart2->m_TransmitQueue);
+            ByteQueue_Pop(Uart2->m_TransmitQueue);
+        }
+        
+        uart2_transmitQueueLock = false;
+    }
+}
+
+/******************************************************************************/
+void __attribute__((interrupt, auto_psv)) _U2RXInterrupt ( void ){
+    IFS1bits.U2RXIF = 0;
+	while(U2STAbits.URXDA){ // Clear the RX Fifo (FIFO is 4 bytes deep)
+        ByteQueue_Push(Uart2->m_ReceiveQueue, U2RXREG);
+	}
+}
+
+/******************************************************************************/
+void __attribute__((interrupt, auto_psv)) _U2TXInterrupt ( void ){
+	IFS1bits.U2TXIF = 0;	
+    
+    // Toute la pile d'envoi est vide, et le dernier caractère vient d'être chargé dans le "transmit shift register" (sur la ligne série)
+    // On remplit le FIFO TX si possible	
+   uart2_fillTxFifo();
+   
+}
+
+/* On ne fait rien si il y a une erreur */	
+void __attribute__((interrupt, auto_psv)) _U2ErrInterrupt(void){
+    IFS4bits.U2ERIF = 0;
+}
+
+#endif //UART2_ENABLE == 1
