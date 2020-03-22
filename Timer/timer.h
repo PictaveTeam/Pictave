@@ -13,6 +13,7 @@
 * Ver   Who    Date	    Changes
 * ----- ------ -------- ----------------------------------------------
 * 1.00	epeu   21/03/20 First Release
+* 1.01  epeu   22/03/20 Delete an include because already include in xc.h
 * 
 *****************************************************************************/
 
@@ -37,9 +38,8 @@
 #include "xc.h"
 #include <string.h>
 #ifdef __PIC24FJ64GA006__
-#define PICTAVE
 
-#include "p24FJ64GA006.h"
+#define PICTAVE
 
 #endif /* __PIC24FJ64GA006__ */
 
