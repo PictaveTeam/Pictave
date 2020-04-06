@@ -4,8 +4,8 @@
 * @file timer.c
 * 
 *
-* This file contains the implementation of the interface functions for timer 1.
-* This library has only been experimented with Pictave for the moment.
+* This file contains the implementation of the interface functions for timer 1
+* or timer 0 (PIC18F).
 *
 * <pre>
 * MODIFICATION HISTORY:
@@ -14,6 +14,7 @@
 * ----- ------ -------- ----------------------------------------------
 * 1.00	epeu   21/03/20 First Release
 * 1.01  epeu   22/03/20 Delete an include because already include in xc.h
+* 2.00  epeu   06/04/20 Add support of PIC18F45K22
 * 
 *****************************************************************************/
 
@@ -57,7 +58,22 @@ void __attribute__((interrupt, auto_psv)) _T1Interrupt ( void )
 }
 
 #endif /* PICTAVE */
-
+#ifdef ENEMEA
+void timer_ISR(void)
+{
+    if(TMR0IF)
+    {
+        TMR0 = PicTimer.Pr;
+        u8 i;
+        for(i = 0;i<sizeof(PicTimer.timer);i++)
+        {
+            if(PicTimer.timer[i]!=0)
+                PicTimer.timer[i]--;
+        } 
+        TMR0IF = 0;
+    }
+}
+#endif /* ENEMEA */
 /****************************************************************************/
 /**
 *
@@ -82,7 +98,6 @@ void __attribute__((interrupt, auto_psv)) _T1Interrupt ( void )
 int timerInit(float period)
 {
     memset(&PicTimer,0,sizeof(PicTimer));
-#ifdef PICTAVE
     float min;
     float minB;
     double pr_f;
@@ -91,7 +106,13 @@ int timerInit(float period)
     u16 prescUsed = PRESC_256;
     u16 presc = PRESC_256;
     long double x;
+#ifdef PICTAVE
     x = FCY / ((double)presc);
+#elif defined(ENEMEA)
+    x = FTIMER / ((double)presc);
+#else
+    return PIC_FAILED;
+#endif /* PICTAVE | ENEMEA */
     if((x*period) <= (double)REGISTER_SIZE_16)
     {
         pr_f = x * period;
@@ -108,72 +129,11 @@ int timerInit(float period)
     }
     else
         return PIC_FAILED;
-    presc = PRESC_64;
-    x = FCY / ((double)presc);
-    if((x*period)<=sizeof(u16))
-    {
-        pr_f = x * period;
-        pr = (u16)pr_f;
-        minB = (pr>pr_f)? (pr-pr_f):(pr_f-pr);
-        if(minB<min)
-        {
-            prUsed = pr;
-            prescUsed = PRESC_64;
-            min = minB;
-        }
-        pr++;
-        minB = (pr>pr_f)? (pr-pr_f):(pr_f-pr);
-        if(minB<min)
-        {
-            prUsed = pr;
-            prescUsed = PRESC_64;
-            min = minB;
-        }
-    }
-    presc = PRESC_8;
-    x = FCY / ((double)presc);
-    if((x*period)<=sizeof(u16))
-    {
-        pr_f = x * period;
-        pr = (u16)pr_f;
-        minB = (pr>pr_f)? (pr-pr_f):(pr_f-pr);
-        if(minB<min)
-        {
-            prUsed = pr;
-            prescUsed = PRESC_8;
-            min = minB;
-        }
-        pr++;
-        minB = (pr>pr_f)? (pr-pr_f):(pr_f-pr);
-        if(minB<min)
-        {
-            prUsed = pr;
-            prescUsed = PRESC_8;
-            min = minB;
-        }
-    }
-    presc = PRESC_1;
-    x = FCY / ((double)presc);
-    if((x*period)<=sizeof(u16))
-    {
-        pr_f = x * period;
-        pr = (u16)pr_f;
-        minB = (pr>pr_f)? (pr-pr_f):(pr_f-pr);
-        if(minB<min)
-        {
-            prUsed = pr;
-            prescUsed = PRESC_1;
-            min = minB;
-        }
-        pr++;
-        minB = (pr>pr_f)? (pr-pr_f):(pr_f-pr);
-        if(minB<min)
-        {
-            prUsed = pr;
-            prescUsed = PRESC_1;
-            min = minB;
-        }
-    }
+    
+#ifdef PICTAVE
+    prescaler(period, &prUsed, PRESC_64, &prescUsed, &min);
+    prescaler(period, &prUsed, PRESC_8, &prescUsed, &min);
+    prescaler(period, &prUsed, PRESC_1, &prescUsed, &min);
     switch(prescUsed)
     {
         case PRESC_256:
@@ -198,11 +158,56 @@ int timerInit(float period)
     T1CONbits.TGATE=0;          /* disabled accumulation */
     T1CONbits.TCS=0;            /* internal clock */
     IFS0bits.T1IF=0;            /* overflow cleared */
-    IEC0bits.T1IE=1;            /* timer 1 interrupt enable */
+    IEC0bits.T1IE=1;            /* timer 1 interrupt enable */ 
     IPC0bits.T1IP=1;            /* priority 1(low) */
-#else
-    return PIC_FAILED;
 #endif /* PICTAVE */
+#ifdef ENEMEA
+    T0CONbits.TMR0ON=0;         /* timer 0 disable */
+    T0CONbits.T08BIT=0;         /* timer 0 in 16 bits mode */
+    T0CONbits.PSA=0;            /* timer 0 prescaler enable */
+    T0CONbits.T0CS=0;           /* internal clock */
+    T0CONbits.T0SE=0;           /* increment on low to high */
+    TMR0IE = 1;
+    
+    prescaler(period, &prUsed, PRESC_128, &prescUsed, &min);
+    prescaler(period, &prUsed, PRESC_64, &prescUsed, &min);
+    prescaler(period, &prUsed, PRESC_32, &prescUsed, &min);
+    prescaler(period, &prUsed, PRESC_16, &prescUsed, &min);
+    prescaler(period, &prUsed, PRESC_8, &prescUsed, &min);
+    prescaler(period, &prUsed, PRESC_4, &prescUsed, &min);
+    prescaler(period, &prUsed, PRESC_2, &prescUsed, &min);
+    switch(prescUsed)
+    {
+        case PRESC_256:
+            T0CONbits.T0PS=0b111;
+            break;
+        case PRESC_128:
+            T0CONbits.T0PS=0b110;
+            break;
+        case PRESC_64:
+            T0CONbits.T0PS=0b101;
+            break;
+        case PRESC_32:
+            T0CONbits.T0PS=0b100;
+            break;
+        case PRESC_16:
+            T0CONbits.T0PS=0b011;
+            break;
+        case PRESC_8:
+            T0CONbits.T0PS=0b010;
+            break;
+        case PRESC_4:
+            T0CONbits.T0PS=0b001;
+            break;
+        case PRESC_2:
+            T0CONbits.T0PS=0b000;
+            break;
+        default:
+            return PIC_FAILED;
+            break;
+    }
+    PicTimer.Pr = (u16)(REGISTER_SIZE_16 - prUsed);
+#endif /* ENEMEA */
     timerEnable();
     return PIC_SUCCESS;
 }
@@ -231,9 +236,13 @@ int timerEnable(void)
     IFS0bits.T1IF=0;
     TMR1=0;
     T1CONbits.TON=1;
+#elif defined(ENEMEA)
+    TMR0IF=0;
+    TMR0 = PicTimer.Pr;
+    T0CONbits.TMR0ON=1;
 #else
     return PIC_FAILED;
-#endif /* PICTAVE */
+#endif /* PICTAVE | ENEMEA */
     PicTimer.State = TIMER_READY;
     return PIC_SUCCESS;
 }
@@ -258,6 +267,8 @@ int timerDisable(void)
 {
 #ifdef PICTAVE
     T1CONbits.TON=0; /* timer 1 disable */
+#elif defined(ENEMEA)
+    T0CONbits.TMR0ON=0; /* timer 0 disable */
 #else
     return PIC_FAILED;
 #endif /* PICTAVE */
@@ -330,12 +341,45 @@ int setTimer(u8 timer, u16 value)
 * use your time period. 
 *
 *****************************************************************************/
-void __delay_ms(u16 t)
+void delay(u16 t)
 {
     if(PicTimer.State == TIMER_READY)
     {
         setTimer(0,t);
         while(getTimer(0));
+    }
+}
+
+void prescaler(float period, u16 *prUsed, u16 presc, u16 *prescUsed, float *min)
+{
+    float minB;
+    double pr_f;
+    u16 pr;
+    long double x;
+    #ifdef PICTAVE
+    x = FCY / ((double)presc);
+    #elif defined(ENEMEA)
+    x = FTIMER / ((double)presc);
+    #endif /* PICTAVE | ENEMEA */
+    if((x*period)<=(double)REGISTER_SIZE_16)
+    {
+        pr_f = x * period;
+        pr = (u16)pr_f;
+        minB = (pr>pr_f)? (pr-pr_f):(pr_f-pr);
+        if(minB < *min)
+        {
+            *prUsed = pr;
+            *prescUsed = presc;
+            *min = minB;
+        }
+        pr++;
+        minB = (pr>pr_f)? (pr-pr_f):(pr_f-pr);
+        if(minB < *min)
+        {
+            *prUsed = pr;
+            *prescUsed = presc;
+            *min = minB;
+        }
     }
 }
 

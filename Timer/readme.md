@@ -16,6 +16,8 @@ bloquants (while).
 
 - PIC24F :
 	- [x] PIC24FJ64GA006
+- PIC18F :
+	- [x] PIC18F45K22
 
 ## Exemple
 ```
@@ -42,6 +44,6 @@ void main()
 	while(1)
 	{
 		S0 ^= 1; // on inverse l'état de la sortie 0 (doit-être configurer avant)
-		__delay_ms(10); // on attend 10 ms.
+		delay(10); // on attend 10 ms.
 	}
 }
