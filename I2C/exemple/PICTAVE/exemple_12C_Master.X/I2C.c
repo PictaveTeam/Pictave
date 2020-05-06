@@ -13,6 +13,7 @@
 * ----- ------ -------- ----------------------------------------------
 * 1.00	epeu   26/02/20 First Release
 * 2.00	epeu   02/05/20 Add support of PIC18FXXK22 and non-blocking functions
+* 2.01	epeu   06/05/20 bug fix
 * 
 *****************************************************************************/
 
@@ -52,7 +53,7 @@ void I2C_ISR(void)
     static u8 ack = 0;
     u8 type;
 #ifdef PICTAVE
-    if((IFS1bits.MI2C1IF == 1) || ((IFS0bits.T2IF == 1) && ((I2CConfig.State == DELAY_DA) || (I2CConfig.State == DELAY_INTER))))
+    if((IFS1bits.MI2C1IF == 1) || ((IFS0bits.T2IF == 1) && ((I2CConfig.State == DELAY_DA) || (I2CConfig.State == DELAY_INTER) || (I2CConfig.State == DELAY_TIMEOUT))))
     {
 #elif defined(ENEMEA)
     if((SSP1IF == 1) || ((TMR2IF == 1) && ((I2CConfig.State == DELAY_DA) || (I2CConfig.State == DELAY_INTER))))
