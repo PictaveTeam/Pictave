@@ -110,37 +110,61 @@ void main(void) {
     }
     ISR_ConnectFunction(&I2C_ISR);
     
-    
-    u8 data[3] = {0x10, 0x10, 0x21};
-    u8 dataRcv[2];
-    u8 reg[2] = {0x10, 0x10};
-    u8 *buffer;
-    int bufferSize;
+    u8 bufferSize;
     u8 adresse;
-    t_I2CMyMsg msgToWrite;
-    msgToWrite.data = data;
-    msgToWrite.sizeData = sizeof(data);
+    t_mem buffer;
+    u8 data[3]={0x12, 0x13, 0x21};
+    u8* point;
     
-    Status = I2C_Write(EEPROM_B, msgToWrite.data, msgToWrite.sizeData, 10);
+    Status = I2C_Write(EEPROM_A, data, 3, 10);
     if (Status == PIC_FAILED)
     {
         LATD = 0xFF;
         return;
     }
-    msgToWrite.MsgID = (u8) Status;
-    if(I2C_Get_Status(msgToWrite.MsgID)==I2C_TO_SENT)
-        LATD = LATD | 1;
-    I2C_Read_Register_Request(EEPROM_B, reg, sizeof(reg), dataRcv, 1, 10);
+    
+    data[1] = 0x14;
+    data[2] = 0x32;
+    Status = I2C_Write(EEPROM_B, data, 3, 10);
+    if (Status == PIC_FAILED)
+    {
+        LATD = 0xFF;
+        return;
+    }
+    data[1] = 0x13;
+    Status = I2C_Read_Register_Request(EEPROM_A, data, 2, 1, 10);
+    if (Status == PIC_FAILED)
+    {
+        LATD = 0xFF;
+        return;
+    }
+    data[1] = 0x14;
+    Status = I2C_Read_Register_Request(EEPROM_B, data, 2, 1, 10);
+    if (Status == PIC_FAILED)
+    {
+        LATD = 0xFF;
+        return;
+    }
+    
     while(1)
     {
         buffer = I2C_Read_Buffer(&adresse, &bufferSize);
-        if(buffer != NULL)
+        if(*buffer != NULL)
         {
-            if(buffer[0]==0x21)
-                LATD = LATD | 2;
-            if(I2C_Get_Status(msgToWrite.MsgID)==I2C_SENT)
-                LATD = LATD | 4;
+            point = *buffer;
+            if(adresse == EEPROM_A)
+            {
+                if(point[0]==0x21)
+                    LATD = LATD | 2;
+            }
+            if(adresse == EEPROM_B)
+            {
+                if(point[0]==0x32)
+                    LATD = LATD | 4;
+            }
+            I2C_Free();
         }
     }
+    
     return;
 }

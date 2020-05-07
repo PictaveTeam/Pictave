@@ -9666,12 +9666,53 @@ void ISR_Tasks(void);
 # 77 "main.c" 2
 
 # 1 "./I2C.h" 1
-# 38 "./I2C.h"
+# 24 "./I2C.h"
+# 1 "./I2C_conf/I2C_PIC_Support.h" 1
+# 40 "./I2C_conf/I2C_PIC_Support.h"
+# 1 "./I2C_conf/memory/memory.h" 1
+# 43 "./I2C_conf/memory/memory.h"
+typedef unsigned char u8;
+typedef unsigned int u16;
+typedef u8 **t_mem;
+typedef struct
+{
+    u8 *Pointer;
+    u8 PointerSize;
+    u8 State;
+    u8 ID;
+    u8 indice;
+}t_memoryPoint;
+
+typedef struct
+{
+    u8 pile[64];
+    u8 use;
+}t_memory;
+
+typedef struct
+{
+    t_memoryPoint Tab[10];
+    u8 indice;
+}t_tabPoint;
+
+
+
+void memory_init(void);
+u8* myMalloc(u8 sizeData, u8 memoryNumber);
+t_mem getMemoryPointer(u8 sizeData, u8 memoryNumber);
+void getFree(t_mem Pointer, u8 memoryNumber);
+int getMemorySize(t_mem Pointer, u8 memoryNumber);
+int getMemoryID(t_mem Pointer, u8 memoryNumber);
+void getFreeFull(u8 memoryNumber);
+t_mem getMemoryFromID(u8 ID, u8 memoryNumber);
+# 40 "./I2C_conf/I2C_PIC_Support.h" 2
+# 78 "./I2C_conf/I2C_PIC_Support.h"
 typedef unsigned int u16;
 typedef unsigned char u8;
 
 typedef enum
 {
+    BUS_READY,
     MASTER_START,
     MASTER_ADRESSE,
     MASTER_ACK_AD,
@@ -9683,7 +9724,6 @@ typedef enum
     MASTER_STOP,
     I2C_OVERFLOW,
     I2C_COLISION,
-    BUS_READY,
     DELAY_TIMEOUT,
     DELAY_INTER,
     DELAY_DA,
@@ -9702,7 +9742,12 @@ typedef struct
 {
     t_I2CMsgType type;
     u8 adress;
-    u8 *data;
+
+
+
+    t_mem data;
+    u8 memID;
+
     u8 sizeData;
     u8 delay;
 }t_I2CMsg;
@@ -9713,6 +9758,7 @@ typedef struct
     t_I2CMsg Buffer[10];
     t_I2CMsg RcvBuffer[10];
     u8 MsgID[11];
+    u8 RcvMsgID[11];
     u8 BufferNbr;
     u8 RcvBufferNbr;
     u8 Status;
@@ -9732,15 +9778,16 @@ typedef struct
     u8 sizeData;
     u8 MsgID;
 }t_I2CMyMsg;
+# 158 "./I2C_conf/I2C_PIC_Support.h"
+typedef struct
+{
+    u8 PointTab[10];
+    u8 sizePoint;
+}t_I2CMemory;
 
-void I2C_ISR(void);
-int I2C_Scan(t_I2CScan *Adresses, u8 NbrAdress);
-int I2C_Get_Status(u8 MsgID);
-int I2C_Init(u8 Options);
-int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay);
-int I2C_Read_Request(u8 adresse, u8 *data, u8 sizeData, u8 delay);
-int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 *rcvData, u8 rcvsizeData, u8 delay);
-u8* I2C_Read_Buffer(u8 *adresse, int *sizeData);
+
+
+
 char I2C_Master_Read(unsigned char a);
 int I2C_Master_Stop(void);
 int I2C_Master_Write(int data);
@@ -9749,6 +9796,27 @@ int I2C_Master_RepeatStart(int adresse);
 int I2C_EEPROM_Write(char adresse,int EEadresse, char data);
 int I2C_EEPROM_Read(char adresse, int EEadresse);
 void I2C_timer_prescaler(float period, u16 *prUsed, u16 presc, u16 *prescUsed, float *min);
+# 24 "./I2C.h" 2
+
+
+
+
+void I2C_ISR(void);
+int I2C_Scan(t_I2CScan *Adresses, u8 NbrAdress);
+int I2C_Get_Status(u8 MsgID);
+int I2C_Init(u8 Options);
+int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay);
+int I2C_Read_Request(u8 adresse, u8 sizeData, u8 delay);
+int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvsizeData, u8 delay);
+
+
+
+t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData);
+
+
+
+void I2C_TabRefresh(void);
+int I2C_Free(void);
 # 78 "main.c" 2
 
 
@@ -9777,7 +9845,7 @@ void main(void) {
     int Status;
 
     ISR_Init();
-    Status = I2C_Init((0x01) | (0x02));
+    Status = I2C_Init((0x02) | (0x04));
     if (Status == (-1))
     {
         LATD = 0xFF;
@@ -9785,37 +9853,61 @@ void main(void) {
     }
     ISR_ConnectFunction(&I2C_ISR);
 
-
-    u8 data[3] = {0x10, 0x10, 0x21};
-    u8 dataRcv[2];
-    u8 reg[2] = {0x10, 0x10};
-    u8 *buffer;
-    int bufferSize;
+    u8 bufferSize;
     u8 adresse;
-    t_I2CMyMsg msgToWrite;
-    msgToWrite.data = data;
-    msgToWrite.sizeData = sizeof(data);
+    t_mem buffer;
+    u8 data[3]={0x12, 0x13, 0x21};
+    u8* point;
 
-    Status = I2C_Write((0xAE), msgToWrite.data, msgToWrite.sizeData, 10);
+    Status = I2C_Write((0xA0), data, 3, 10);
     if (Status == (-1))
     {
         LATD = 0xFF;
         return;
     }
-    msgToWrite.MsgID = (u8) Status;
-    if(I2C_Get_Status(msgToWrite.MsgID)==0)
-        LATD = LATD | 1;
-    I2C_Read_Register_Request((0xAE), reg, sizeof(reg), dataRcv, 1, 10);
+
+    data[1] = 0x14;
+    data[2] = 0x32;
+    Status = I2C_Write((0xAE), data, 3, 10);
+    if (Status == (-1))
+    {
+        LATD = 0xFF;
+        return;
+    }
+    data[1] = 0x13;
+    Status = I2C_Read_Register_Request((0xA0), data, 2, 1, 10);
+    if (Status == (-1))
+    {
+        LATD = 0xFF;
+        return;
+    }
+    data[1] = 0x14;
+    Status = I2C_Read_Register_Request((0xAE), data, 2, 1, 10);
+    if (Status == (-1))
+    {
+        LATD = 0xFF;
+        return;
+    }
+
     while(1)
     {
         buffer = I2C_Read_Buffer(&adresse, &bufferSize);
-        if(buffer != ((void*)0))
+        if(*buffer != ((void*)0))
         {
-            if(buffer[0]==0x21)
-                LATD = LATD | 2;
-            if(I2C_Get_Status(msgToWrite.MsgID)==1)
-                LATD = LATD | 4;
+            point = *buffer;
+            if(adresse == (0xA0))
+            {
+                if(point[0]==0x21)
+                    LATD = LATD | 2;
+            }
+            if(adresse == (0xAE))
+            {
+                if(point[0]==0x32)
+                    LATD = LATD | 4;
+            }
+            I2C_Free();
         }
     }
+
     return;
 }

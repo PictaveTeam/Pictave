@@ -13,6 +13,7 @@
 * Ver   Who    Date	    Changes
 * ----- ------ -------- ----------------------------------------------
 * 1.00	epeu   02/05/20 First Release
+* 1.01  epeu   07/05/20 Add of memory library for 8 bits microcontroller.
 * 
 *****************************************************************************/
 
@@ -27,7 +28,6 @@
 
 /************************** Constant Definitions ****************************/
 
-#define I2C_PIC18_SUPPORT (defined(_PIC18F44K22_H_) || defined(_PIC18F45K22_H_)|| defined(_PIC18F46K22_H_))
 
 #ifdef __PIC24FJ64GA006__
 
@@ -35,9 +35,10 @@
 #define _ISR_ROUTINE __attribute__((interrupt, auto_psv))
 
 #endif /* __PIC24FJ64GA006__ */
-#if I2C_PIC18_SUPPORT
+#if defined(_PIC18F44K22_H_) || defined(_PIC18F45K22_H_)|| defined(_PIC18F46K22_H_)
 
 #define ENEMEA
+#include "memory/memory.h"
 
 #endif /* _PIC18F45K22_H_ */
 
@@ -80,6 +81,7 @@ typedef unsigned char u8;
 
 typedef enum
 {
+    BUS_READY,
     MASTER_START,
     MASTER_ADRESSE,
     MASTER_ACK_AD,
@@ -91,7 +93,6 @@ typedef enum
     MASTER_STOP,
     I2C_OVERFLOW,
     I2C_COLISION,
-    BUS_READY,
     DELAY_TIMEOUT,
     DELAY_INTER,
     DELAY_DA,
@@ -110,7 +111,12 @@ typedef struct
 {
     t_I2CMsgType type;
     u8 adress;
+#ifdef PICTAVE
     u8 *data;
+#elif defined(ENEMEA)
+    t_mem data;
+    u8 memID;
+#endif /* PICTAVE | ENEMEA */
     u8 sizeData;
     u8 delay;
 }t_I2CMsg;
@@ -149,7 +155,13 @@ typedef struct
     t_I2CPointerTab PointTab;
     u8 sizePoint;
 }t_I2CMemory;
-#endif /* PICTAVE */
+#elif defined(ENEMEA)
+typedef struct
+{
+    u8 PointTab[10];
+    u8 sizePoint;
+}t_I2CMemory;
+#endif /* PICTAVE | ENEMEA */
 
 /************************** Function Prototypes *****************************/
 

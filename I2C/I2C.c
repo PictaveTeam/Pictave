@@ -14,6 +14,8 @@
 * 1.00	epeu   26/02/20 First Release
 * 2.00	epeu   02/05/20 Add support of PIC18FXXK22 and non-blocking functions
 * 2.01	epeu   06/05/20 bug fix
+* 3.00  epeu   07/05/20 Changing the handling of incoming and outgoing
+*                       messages for PIC18. Correction of a PIC18 bug.
 * 
 *****************************************************************************/
 
@@ -25,12 +27,13 @@
 
 t_I2CConfig I2CConfig;
 t_I2CScan *I2Cadress;
-#ifdef PICTAVE
 t_I2CMemory I2CMemory;
 u16 PointerRefresh;
-#endif /* PICTAVE */
 u16 timer;
 u8 myMsgID;
+#ifdef ENEMEA
+u8 *nulPointer;
+#endif /* ENEMEA */
 
 /****************************************************************************/
 
@@ -52,11 +55,12 @@ void I2C_ISR(void)
     static u8 i = 0;
     static u8 ack = 0;
     u8 type;
+    
 #ifdef PICTAVE
-    if((IFS1bits.MI2C1IF == 1) || ((IFS0bits.T2IF == 1) && ((I2CConfig.State == DELAY_DA) || (I2CConfig.State == DELAY_INTER) || (I2CConfig.State == DELAY_TIMEOUT))))
+    if((IFS1bits.MI2C1IF == 1) || ((IFS0bits.T2IF == 1) && ((I2CConfig.State == DELAY_DA) || (I2CConfig.State == DELAY_INTER))))
     {
 #elif defined(ENEMEA)
-    if((SSP1IF == 1) || ((TMR2IF == 1) && ((I2CConfig.State == DELAY_DA) || (I2CConfig.State == DELAY_INTER))))
+    if((SSP1IF == 1) || ((TMR2IF == 1) && ((I2CConfig.State == DELAY_DA) || (I2CConfig.State == DELAY_INTER) || (I2CConfig.State == DELAY_TIMEOUT))))
     {
 #endif /* PICTAVE | ENEMEA */
         delay_end:
@@ -95,7 +99,10 @@ void I2C_ISR(void)
 #ifdef PICTAVE
                         I2C1TRN = I2CConfig.Buffer[0].data[i];
 #elif defined(ENEMEA)
-                        SSP1BUF = I2CConfig.Buffer[0].data[i];
+                        t_mem Pointeur = I2CConfig.Buffer[0].data;
+                        u8 *point;
+                        point = *Pointeur;
+                        SSP1BUF = point[i];
 #endif /* PICTAVE | ENEMEA */
                         i++;
                         I2CConfig.Buffer[0].sizeData--;
@@ -111,7 +118,10 @@ void I2C_ISR(void)
 #ifdef PICTAVE
                         I2C1TRN = I2CConfig.Buffer[0].data[i];
 #elif defined(ENEMEA)
-                        SSP1BUF = I2CConfig.Buffer[0].data[i];
+                        t_mem Pointeur = I2CConfig.Buffer[0].data;
+                        u8 *point;
+                        point = *Pointeur;
+                        SSP1BUF = point[i];
 #endif /* PICTAVE | ENEMEA */
                         i++;
                         I2CConfig.Buffer[0].sizeData--;
@@ -128,6 +138,7 @@ void I2C_ISR(void)
                 else
                 {
                     ack = 0;
+                    LATD|=1;
 #ifdef PICTAVE
                     I2C1CONbits.SEN = 1;
 #elif defined(ENEMEA)
@@ -160,7 +171,10 @@ void I2C_ISR(void)
                     I2CConfig.Buffer[0].data[i] = I2C1RCV;
 #elif defined(ENEMEA)
                     SSP1CON2bits.ACKDT = 0;
-                    I2CConfig.Buffer[0].data[i] = SSP1BUF;
+                    t_mem Pointeur = I2CConfig.Buffer[0].data;
+                    u8 *point;
+                    point = *Pointeur;
+                    point[i] = SSP1BUF;
 #endif /* PICTAVE | ENEMEA */
                     i++;
                     if(I2CConfig.Buffer[0].delay > 0)
@@ -179,7 +193,10 @@ void I2C_ISR(void)
                     I2CConfig.Buffer[0].data[i] = I2C1RCV;
 #elif defined(ENEMEA)
                     SSP1CON2bits.ACKDT = 1;
-                    I2CConfig.Buffer[0].data[i] = SSP1BUF;
+                    t_mem Pointeur = I2CConfig.Buffer[0].data;
+                    u8 *point;
+                    point = *Pointeur;
+                    point[i] = SSP1BUF;
 #endif /* PICTAVE | ENEMEA */
                     i++;
                     I2CConfig.State = MASTER_ACK_DA;
@@ -215,7 +232,9 @@ void I2C_ISR(void)
                     {
 #ifdef PICTAVE
                         free(I2CConfig.RcvBuffer[0].data);
-#endif /* PICTAVE */
+#elif defined(ENEMEA)
+                        getFree(I2CConfig.RcvBuffer[0].data, MEMORY_A);
+#endif /* PICTAVE | ENEMEA */
                         for(i = 0; i<(I2CConfig.RcvBufferNbr - 1) ; i++)
                         {
                             I2CConfig.RcvBuffer[i] = I2CConfig.RcvBuffer[i+1];
@@ -226,13 +245,23 @@ void I2C_ISR(void)
                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].adress = I2CConfig.Buffer[0].adress;
                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].data = I2CConfig.Buffer[0].data;
                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].sizeData = i;
+#ifdef ENEMEA
+                    I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].memID = I2CConfig.Buffer[0].memID;
+#endif /* ENEMEA */
                     I2CConfig.RcvMsgID[I2CConfig.RcvBufferNbr] = I2CConfig.MsgID[0];
                     I2CConfig.RcvBufferNbr++;
                 }
-#ifdef PICTAVE
+
                 else
+#ifdef PICTAVE
+                {
                     free(I2CConfig.Buffer[0].data);
-#endif /* PICTAVE */
+                }
+#elif defined(ENEMEA)
+                {
+                    getFree(I2CConfig.Buffer[0].data, MEMORY_A);
+                }
+#endif /* PICTAVE | ENEMEA */
                 for(i = 0; i<I2CConfig.BufferNbr ; i++)
                 {
                     I2CConfig.Buffer[i] = I2CConfig.Buffer[i+1];
@@ -374,13 +403,14 @@ void I2C_ISR(void)
 #endif /* PICTAVE | ENEMEA */
         if(timer > 0)
             timer--;
-#ifdef PICTAVE
+
         if(PointerRefresh > 0)
             PointerRefresh--;
         else
         {
             PointerRefresh = 10000;
         }
+#ifdef PICTAVE
         IFS0bits.T2IF = 0;
 #elif defined(ENEMEA)
         TMR2IF = 0;
@@ -632,7 +662,8 @@ int I2C_Init(u8 Options){
 #ifdef ENEMEA
     PEIE = 1;
     GIE = 1;
-    
+    nulPointer = NULL;
+    memory_init();
     float min = 20;
     u16 prescUsed = 0;
     u16 prUsed = 0;
@@ -715,10 +746,8 @@ int I2C_Init(u8 Options){
 *
 * Master mode only.
 * For interrupt mode : 
-*   Warning, if this I2C driver is used on PIC18, be careful not to touch the
-*   array pointed by data as long as the message has not been sent.
-*   On pic24 there is no problem because the driver uses the 
-*   dynamic memory allocation and just makes a copy of the array to send.
+*   On pic24 the driver uses the dynamic memory allocation and just makes
+*   a copy of the array to send.
 * For blocking mode :
 *   If the slave is not on the bus, the function is in an infinite loop. 
 *
@@ -775,17 +804,23 @@ int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay)
             return PIC_FAILED;
         }
         memcpy(myData, data, sizeData * sizeof(u8));
-#endif /* PICTAVE */
-
-        I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_WRITE;
-        I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
-#ifdef PICTAVE
         I2CConfig.Buffer[I2CConfig.BufferNbr].data = myData;
 #elif defined(ENEMEA)
-        I2CConfig.Buffer[I2CConfig.BufferNbr].data = data;
+        t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8), MEMORY_A);
+        I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, MEMORY_A);
+        if(*Pointeur == NULL)
+        {
+            return PIC_FAILED;
+        }
+        memcpy(*Pointeur, data, sizeData * sizeof(u8));
+        I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
 #else
         return PIC_FAILED;
 #endif /* PICTAVE | ENEMEA*/
+        
+
+        I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_WRITE;
+        I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
         I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sizeData;
         I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
         I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
@@ -828,21 +863,13 @@ int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay)
 * @note
 *
 * Master mode and Interrupt mode only.
-* Warning, if this I2C driver is used on PIC18, be careful not to touch the
-* array pointed by data as long as the message has not been received.
-* On pic24 there is no problem because the driver uses the 
-* dynamic memory allocation and just makes a copy of the array to send.
 *
 *****************************************************************************/
 
-#ifdef PICTAVE
+
 int I2C_Read_Request(u8 adresse, u8 sizeData, u8 delay)
 {
     u8 *myData = NULL;
-#elif defined(ENEMEA)
-int I2C_Read_Request(u8 adresse, u8 *data, u8 sizeData, u8 delay)
-{
-#endif /* PICTAVE | ENEMEA */
     if(I2CConfig.Status != I2C_READY)
         return PIC_FAILED;
     if((I2CConfig.Options & SLAVE) != 0)
@@ -857,12 +884,24 @@ int I2C_Read_Request(u8 adresse, u8 *data, u8 sizeData, u8 delay)
 #ifdef PICTAVE
     myData = malloc(sizeData * sizeof(u8));
     if(myData == NULL)
+    {
         return PIC_FAILED;
-#endif /* PICTAVE */
+    }
+    I2CConfig.Buffer[I2CConfig.BufferNbr].data = myData;
+#elif defined(ENEMEA)
+    t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8), MEMORY_A);
+    I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, MEMORY_A);
+    if(*Pointeur == NULL)
+    {
+        return PIC_FAILED;
+    }
+    I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
+#else
+        return PIC_FAILED;
+#endif /* PICTAVE | ENEMEA*/
     
     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_READ;
     I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
-    I2CConfig.Buffer[I2CConfig.BufferNbr].data = myData;
     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sizeData;
     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
@@ -909,31 +948,20 @@ int I2C_Read_Request(u8 adresse, u8 *data, u8 sizeData, u8 delay)
 * @note
 *
 * Master mode and Interrupt mode only.
-* Warning, if this I2C driver is used on PIC18, be careful not to touch the
-* array pointed by data as long as the message has not been received.
-* On pic24 there is no problem because the driver uses the 
-* dynamic memory allocation and just makes a copy of the array to send.
 *
 *****************************************************************************/
 
-#ifdef PICTAVE
+
 int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvsizeData, u8 delay)
 {
-#elif defined(ENEMEA)
-int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 *rcvData, u8 rcvsizeData, u8 delay)
-{
-#endif /* PICTAVE | ENEMEA */
-
-#ifdef PICTAVE
     u8 *myData = NULL;
     u8 *rcvData = NULL;
-#endif /* PICTAVE */
     
     if(I2CConfig.Status != I2C_READY)
         return PIC_FAILED;
     if((I2CConfig.Options & SLAVE) != 0)
         return PIC_FAILED;
-    if(I2CConfig.BufferNbr >= 9)
+    if(I2CConfig.BufferNbr >= 8)
         return I2C_SEND_OVERFLOW;
     
     myMsgID++;
@@ -943,23 +971,45 @@ int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 *rcv
 #ifdef PICTAVE
     myData = malloc(sendsizeData * sizeof(u8));
     if(myData == NULL)
+    {
         return PIC_FAILED;
-    memcpy(myData, sendData, sendsizeData * sizeof(u8));
-    
-    rcvData = malloc(sendsizeData * sizeof(u8));
-    if(rcvData == NULL)
-        return PIC_FAILED;
-#endif /* PICTAVE */
-    
-    I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_WRITE_WITH_RESTART;
-    I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
-#ifdef PICTAVE
+    }
+    memcpy(myData, sendData, sendsizeData*sizeof(u8));
     I2CConfig.Buffer[I2CConfig.BufferNbr].data = myData;
 #elif defined(ENEMEA)
-    I2CConfig.Buffer[I2CConfig.BufferNbr].data = sendData;
+    t_mem Pointeur = getMemoryPointer(sendsizeData * sizeof(u8), MEMORY_A);
+    I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, MEMORY_A);
+    if(*Pointeur == NULL)
+    {
+        return PIC_FAILED;
+    }
+    memcpy(*Pointeur, sendData, sendsizeData*sizeof(u8));
+    I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
+#else
+        return PIC_FAILED;
+#endif /* PICTAVE | ENEMEA*/
+    
+#ifdef PICTAVE
+    rcvData = malloc(rcvsizeData * sizeof(u8));
+    if(rcvData == NULL)
+        return PIC_FAILED;
+    
+    I2CConfig.Buffer[I2CConfig.BufferNbr+1].data = rcvData;
+#elif defined(ENEMEA)
+    Pointeur = getMemoryPointer(rcvsizeData * sizeof(u8), MEMORY_A);
+    if(*Pointeur == NULL)
+    {
+        return PIC_FAILED;
+    }
+    I2CConfig.Buffer[I2CConfig.BufferNbr+1].data = Pointeur;
+    I2CConfig.Buffer[I2CConfig.BufferNbr+1].memID = getMemoryID(Pointeur, MEMORY_A);
 #else
     return PIC_FAILED;
 #endif /* PICTAVE | ENEMEA*/
+    
+    
+    I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_WRITE_WITH_RESTART;
+    I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sendsizeData;
     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
@@ -971,7 +1021,6 @@ int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 *rcv
     I2CConfig.BufferNbr++;
     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_READ;
     I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse | 1;
-    I2CConfig.Buffer[I2CConfig.BufferNbr].data = rcvData;
     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = rcvsizeData;
     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
@@ -1017,17 +1066,33 @@ int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 *rcv
 * 
 *
 *****************************************************************************/
-u8* I2C_Read_Buffer(u8 *adresse, int *sizeData)
+#ifdef PICTAVE
+u8* I2C_Read_Buffer(u8 *adresse, u8 *sizeData)
+#elif defined(ENEMEA)
+t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData)
+#endif /* PICTAVE | ENEMEA */
 {
     u8 i;
     u8 *data;
+    u8 ID;
+#ifdef PICTAVE
     if((I2CConfig.Options & INTERRUPT) == 0)
         return NULL;
+#elif defined(ENEMEA)
+    if((I2CConfig.Options & INTERRUPT) == 0)
+        return &nulPointer;
+#endif /* PICTAVE | ENEMEA */
     if(I2CConfig.RcvBufferNbr > 0)
     {
+#ifdef PICTAVE
         data = I2CConfig.RcvBuffer[0].data;
+#elif defined(ENEMEA)
+        t_mem Pointeur = getMemoryPointer(I2CConfig.RcvBuffer[0].sizeData, MEMORY_B);
+        ID = getMemoryID(Pointeur, MEMORY_B);
+        memcpy(*Pointeur, *I2CConfig.RcvBuffer[0].data, I2CConfig.RcvBuffer[0].sizeData);
+#endif /* PICTAVE | ENEMEA */
         *sizeData = I2CConfig.RcvBuffer[0].sizeData;
-        *adresse = I2CConfig.RcvBuffer[0].adress;
+        *adresse = I2CConfig.RcvBuffer[0].adress & 0xFE;
         for(i = 0; i<I2CConfig.RcvBufferNbr ; i++)
         {
             I2CConfig.RcvBuffer[i] = I2CConfig.RcvBuffer[i+1];
@@ -1041,36 +1106,90 @@ u8* I2C_Read_Buffer(u8 *adresse, int *sizeData)
         I2CMemory.PointTab[I2CMemory.sizePoint] = data;
         I2CMemory.sizePoint++;
         PointerRefresh = 10000;  
-#endif /* PICTAVE */
         return data;
-    }
+        }
     else
         return NULL;
+#elif defined(ENEMEA)
+        if (I2CMemory.sizePoint > 9)
+            I2C_TabRefresh();
+        
+        I2CMemory.PointTab[I2CMemory.sizePoint] = ID;
+        I2CMemory.sizePoint++;
+        PointerRefresh = 10000;
+        return Pointeur;
+        }
+    else
+        return &nulPointer;
+#endif /* PICTAVE | ENEMEA */
+
 }
 
-
-
-#ifdef PICTAVE
+/****************************************************************************/
+/**
+*
+* This function frees up the memory used by old messages so that new ones
+* can be written to them.
+*
+* @param  None. 
+*
+* @return None. 
+*
+* @note
+*
+* This function is used every ten seconds by an interrupt in order to delete
+* old messages if the I2C_Free() function is not used.
+* 
+*
+*****************************************************************************/
 
 void I2C_TabRefresh(void)
 {
     u8 i;
     if(I2CMemory.sizePoint > 0)
     {
+#ifdef PICTAVE
         free(I2CMemory.PointTab[0]);
+#elif defined(ENEMEA)
+        t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[0], MEMORY_B);
+        getFree(Pointer, MEMORY_B);
+#endif /* PICTAVE | ENEMEA */
         for (i = 0; i < I2CMemory.sizePoint; i++)
             I2CMemory.PointTab[i] = I2CMemory.PointTab[i+1];
         I2CMemory.sizePoint--;
     }
 }
 
+/****************************************************************************/
+/**
+*
+* This function frees up all the memory used by old messages so that new
+* ones can be written to them.
+*
+* @param  None. 
+*
+* @return None. 
+*
+* @note
+*
+* It is advisable to use this function frequently.
+* 
+*
+*****************************************************************************/
+
 int I2C_Free(void)
 {
     u8 i;
+#ifdef PICTAVE
     for (i = 0; i < I2CMemory.sizePoint; i++)
         free(I2CMemory.PointTab[i]);
+#elif defined(ENEMEA)
+    for (i = 0; i < I2CMemory.sizePoint; i++)
+    {
+        t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[i], MEMORY_B);
+        getFree(Pointer, MEMORY_B);
+    }
+#endif /* PICTAVE | ENEMEA */
     I2CMemory.sizePoint = 0;
     return PIC_SUCCESS;
 }
-
-#endif /* PICTAVE */

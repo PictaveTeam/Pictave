@@ -7,10 +7,11 @@
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
 # 1 "I2C.c" 2
+# 21 "I2C.c"
 # 1 "./I2C.h" 1
-
-
-
+# 24 "./I2C.h"
+# 1 "./I2C_conf/I2C_PIC_Support.h" 1
+# 24 "./I2C_conf/I2C_PIC_Support.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -9524,7 +9525,7 @@ extern __attribute__((nonreentrant)) void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __attribute__((nonreentrant)) void _delay3(unsigned char);
 # 32 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 4 "./I2C.h" 2
+# 24 "./I2C_conf/I2C_PIC_Support.h" 2
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\string.h" 1 3
 # 25 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\string.h" 3
@@ -9581,13 +9582,52 @@ size_t strxfrm_l (char *restrict, const char *restrict, size_t, locale_t);
 
 
 void *memccpy (void *restrict, const void *restrict, int, size_t);
-# 5 "./I2C.h" 2
-# 38 "./I2C.h"
+# 25 "./I2C_conf/I2C_PIC_Support.h" 2
+# 40 "./I2C_conf/I2C_PIC_Support.h"
+# 1 "./I2C_conf/memory/memory.h" 1
+# 43 "./I2C_conf/memory/memory.h"
+typedef unsigned char u8;
+typedef unsigned int u16;
+typedef u8 **t_mem;
+typedef struct
+{
+    u8 *Pointer;
+    u8 PointerSize;
+    u8 State;
+    u8 ID;
+    u8 indice;
+}t_memoryPoint;
+
+typedef struct
+{
+    u8 pile[64];
+    u8 use;
+}t_memory;
+
+typedef struct
+{
+    t_memoryPoint Tab[10];
+    u8 indice;
+}t_tabPoint;
+
+
+
+void memory_init(void);
+u8* myMalloc(u8 sizeData, u8 memoryNumber);
+t_mem getMemoryPointer(u8 sizeData, u8 memoryNumber);
+void getFree(t_mem Pointer, u8 memoryNumber);
+int getMemorySize(t_mem Pointer, u8 memoryNumber);
+int getMemoryID(t_mem Pointer, u8 memoryNumber);
+void getFreeFull(u8 memoryNumber);
+t_mem getMemoryFromID(u8 ID, u8 memoryNumber);
+# 40 "./I2C_conf/I2C_PIC_Support.h" 2
+# 78 "./I2C_conf/I2C_PIC_Support.h"
 typedef unsigned int u16;
 typedef unsigned char u8;
 
 typedef enum
 {
+    BUS_READY,
     MASTER_START,
     MASTER_ADRESSE,
     MASTER_ACK_AD,
@@ -9599,7 +9639,6 @@ typedef enum
     MASTER_STOP,
     I2C_OVERFLOW,
     I2C_COLISION,
-    BUS_READY,
     DELAY_TIMEOUT,
     DELAY_INTER,
     DELAY_DA,
@@ -9618,7 +9657,12 @@ typedef struct
 {
     t_I2CMsgType type;
     u8 adress;
-    u8 *data;
+
+
+
+    t_mem data;
+    u8 memID;
+
     u8 sizeData;
     u8 delay;
 }t_I2CMsg;
@@ -9629,6 +9673,7 @@ typedef struct
     t_I2CMsg Buffer[10];
     t_I2CMsg RcvBuffer[10];
     u8 MsgID[11];
+    u8 RcvMsgID[11];
     u8 BufferNbr;
     u8 RcvBufferNbr;
     u8 Status;
@@ -9648,15 +9693,16 @@ typedef struct
     u8 sizeData;
     u8 MsgID;
 }t_I2CMyMsg;
+# 158 "./I2C_conf/I2C_PIC_Support.h"
+typedef struct
+{
+    u8 PointTab[10];
+    u8 sizePoint;
+}t_I2CMemory;
 
-void I2C_ISR(void);
-int I2C_Scan(t_I2CScan *Adresses, u8 NbrAdress);
-int I2C_Get_Status(u8 MsgID);
-int I2C_Init(u8 Options);
-int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay);
-int I2C_Read_Request(u8 adresse, u8 *data, u8 sizeData, u8 delay);
-int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 *rcvData, u8 rcvsizeData, u8 delay);
-u8* I2C_Read_Buffer(u8 *adresse, int *sizeData);
+
+
+
 char I2C_Master_Read(unsigned char a);
 int I2C_Master_Stop(void);
 int I2C_Master_Write(int data);
@@ -9665,23 +9711,54 @@ int I2C_Master_RepeatStart(int adresse);
 int I2C_EEPROM_Write(char adresse,int EEadresse, char data);
 int I2C_EEPROM_Read(char adresse, int EEadresse);
 void I2C_timer_prescaler(float period, u16 *prUsed, u16 presc, u16 *prescUsed, float *min);
-# 1 "I2C.c" 2
+# 24 "./I2C.h" 2
+
+
+
+
+void I2C_ISR(void);
+int I2C_Scan(t_I2CScan *Adresses, u8 NbrAdress);
+int I2C_Get_Status(u8 MsgID);
+int I2C_Init(u8 Options);
+int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay);
+int I2C_Read_Request(u8 adresse, u8 sizeData, u8 delay);
+int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvsizeData, u8 delay);
+
+
+
+t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData);
+
+
+
+void I2C_TabRefresh(void);
+int I2C_Free(void);
+# 21 "I2C.c" 2
+
+
 
 
 t_I2CConfig I2CConfig;
 t_I2CScan *I2Cadress;
-int timer;
+t_I2CMemory I2CMemory;
+u16 PointerRefresh;
+u16 timer;
 u8 myMsgID;
 
+u8 *nulPointer;
+# 50 "I2C.c"
 void I2C_ISR(void)
 {
     static u8 i = 0;
-    static u8 test = 0;
     static u8 ack = 0;
     u8 type;
 
-    if((SSP1IF == 1) || ((TMR2IF == 1) && ((I2CConfig.State == DELAY_DA) || (I2CConfig.State == DELAY_INTER))))
+
+
+
+
+    if((SSP1IF == 1) || ((TMR2IF == 1) && ((I2CConfig.State == DELAY_DA) || (I2CConfig.State == DELAY_INTER) || (I2CConfig.State == DELAY_TIMEOUT))))
     {
+
         delay_end:
         switch(I2CConfig.State)
         {
@@ -9700,14 +9777,29 @@ void I2C_ISR(void)
                     I2CConfig.State = DELAY_TIMEOUT;
                 }
 
+
+
                 SSP1BUF = I2CConfig.Buffer[0].adress;
+
                 break;
             case MASTER_WRITE:
+
+
+
+
                 if(SSP1CON2bits.ACKSTAT==0)
                 {
+
                     if(I2CConfig.Buffer[0].sizeData > 1)
                     {
-                        SSP1BUF = I2CConfig.Buffer[0].data[i];
+
+
+
+                        t_mem Pointeur = I2CConfig.Buffer[0].data;
+                        u8 *point;
+                        point = *Pointeur;
+                        SSP1BUF = point[i];
+
                         i++;
                         I2CConfig.Buffer[0].sizeData--;
                         if(I2CConfig.Buffer[0].delay > 0)
@@ -9719,7 +9811,14 @@ void I2C_ISR(void)
                     }
                     else
                     {
-                        SSP1BUF = I2CConfig.Buffer[0].data[i];
+
+
+
+                        t_mem Pointeur = I2CConfig.Buffer[0].data;
+                        u8 *point;
+                        point = *Pointeur;
+                        SSP1BUF = point[i];
+
                         i++;
                         I2CConfig.Buffer[0].sizeData--;
                         if(I2CConfig.Buffer[0].type == I2C_MASTER_WRITE_WITH_RESTART)
@@ -9735,7 +9834,12 @@ void I2C_ISR(void)
                 else
                 {
                     ack = 0;
-                    SSP1CON2bits.PEN = 1;
+                    LATD|=1;
+
+
+
+                    SSP1CON2bits.SEN = 1;
+
                     if(I2CConfig.Buffer[0].delay > 0)
                     {
                         I2CConfig.State = DELAY_INTER;
@@ -9748,14 +9852,26 @@ void I2C_ISR(void)
                 }
                 break;
             case MASTER_READ:
+
+
+
                 SSP1CON2bits.RCEN = 1;
+
                 I2CConfig.State = MASTER_READ_NOACK;
                 break;
             case MASTER_READ_NOACK:
                 if(i < (I2CConfig.Buffer[0].sizeData - 1))
                 {
+
+
+
+
                     SSP1CON2bits.ACKDT = 0;
-                    I2CConfig.Buffer[0].data[i] = SSP1BUF;
+                    t_mem Pointeur = I2CConfig.Buffer[0].data;
+                    u8 *point;
+                    point = *Pointeur;
+                    point[i] = SSP1BUF;
+
                     i++;
                     if(I2CConfig.Buffer[0].delay > 0)
                     {
@@ -9768,16 +9884,32 @@ void I2C_ISR(void)
                 }
                 else
                 {
+
+
+
+
                     SSP1CON2bits.ACKDT = 1;
-                    I2CConfig.Buffer[0].data[i] = SSP1BUF;
+                    t_mem Pointeur = I2CConfig.Buffer[0].data;
+                    u8 *point;
+                    point = *Pointeur;
+                    point[i] = SSP1BUF;
+
                     i++;
                     I2CConfig.State = MASTER_ACK_DA;
                 }
+
+
+
                 SSP1CON2bits.ACKEN=1;
+
                 break;
             case MASTER_ACK_DA:
                 ack = 0;
+
+
+
                 SSP1CON2bits.PEN = 1;
+
                 if(I2CConfig.Buffer[0].delay > 0)
                 {
                     I2CConfig.State = DELAY_INTER;
@@ -9792,11 +9924,40 @@ void I2C_ISR(void)
                 type = I2CConfig.Buffer[0].type;
                 if(I2CConfig.Buffer[0].type == I2C_MASTER_READ)
                 {
+                    if (I2CConfig.RcvBufferNbr > 9)
+                    {
+
+
+
+                        getFree(I2CConfig.RcvBuffer[0].data, 0);
+
+                        for(i = 0; i<(I2CConfig.RcvBufferNbr - 1) ; i++)
+                        {
+                            I2CConfig.RcvBuffer[i] = I2CConfig.RcvBuffer[i+1];
+                            I2CConfig.RcvMsgID[i] = I2CConfig.RcvMsgID[i+1];
+                        }
+                        I2CConfig.RcvBufferNbr--;
+                    }
                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].adress = I2CConfig.Buffer[0].adress;
                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].data = I2CConfig.Buffer[0].data;
                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].sizeData = i;
+
+                    I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].memID = I2CConfig.Buffer[0].memID;
+
+                    I2CConfig.RcvMsgID[I2CConfig.RcvBufferNbr] = I2CConfig.MsgID[0];
                     I2CConfig.RcvBufferNbr++;
                 }
+
+                else
+
+
+
+
+
+                {
+                    getFree(I2CConfig.Buffer[0].data, 0);
+                }
+
                 for(i = 0; i<I2CConfig.BufferNbr ; i++)
                 {
                     I2CConfig.Buffer[i] = I2CConfig.Buffer[i+1];
@@ -9808,17 +9969,32 @@ void I2C_ISR(void)
                     I2CConfig.State = MASTER_START;
                     if(type == I2C_MASTER_WRITE_WITH_RESTART)
                     {
+
+
+
                         SSP1CON2bits.RSEN = 1;
+
                     }
                     else
+                    {
+
+
+
                         SSP1CON2bits.SEN = 1;
+
+                    }
                 }
                 else
                     I2CConfig.State = BUS_READY;
                 break;
             case DELAY_DA:
+
+
+
+
                 if(SSP1IF)
                     ack = 1;
+
                 if((timer == 0) && ack)
                 {
                     if((I2CConfig.Buffer[0].type == I2C_MASTER_WRITE)||(I2CConfig.Buffer[0].type == I2C_MASTER_WRITE_WITH_RESTART))
@@ -9834,14 +10010,24 @@ void I2C_ISR(void)
                 }
                 if((timer == 0) && (ack == 0))
                 {
+
+
+
+
                     SSP1CON2bits.SEN = 0;
                     SSP1CON2bits.SEN = 1;
+
                     I2CConfig.State = MASTER_START;
                 }
                 break;
             case DELAY_TIMEOUT:
+
+
+
+
                 if(SSP1IF)
                 {
+
 
                     if((I2CConfig.Buffer[0].type == I2C_MASTER_WRITE)||(I2CConfig.Buffer[0].type == I2C_MASTER_WRITE_WITH_RESTART))
                     {
@@ -9858,15 +10044,25 @@ void I2C_ISR(void)
                 {
                     if(timer == 0)
                     {
-                        SSP1CON2bits.SEN = 0;
-                        SSP1CON2bits.SEN = 1;
+
+
+
+
+                    SSP1CON2bits.SEN = 0;
+                    SSP1CON2bits.SEN = 1;
+
                         I2CConfig.State = MASTER_START;
                     }
                 }
                 break;
             case DELAY_INTER:
+
+
+
+
                 if(SSP1IF)
                     ack = 1;
+
                 if((timer == 0) && ack)
                 {
                     I2CConfig.State = MASTER_STOP;
@@ -9874,8 +10070,13 @@ void I2C_ISR(void)
                 }
                 if((timer == 0) && (ack == 0))
                 {
+
+
+
+
                     SSP1CON2bits.SEN = 0;
                     SSP1CON2bits.SEN = 1;
+
                     I2CConfig.State = MASTER_START;
                 }
                 break;
@@ -9883,43 +10084,36 @@ void I2C_ISR(void)
             default:
                 break;
         }
+
+
+
         SSP1IF = 0;
+
     }
+
+
+
+
     if(TMR2IF)
     {
+
         if(timer > 0)
             timer--;
+
+        if(PointerRefresh > 0)
+            PointerRefresh--;
+        else
+        {
+            PointerRefresh = 10000;
+        }
+
+
+
         TMR2IF = 0;
+
     }
 }
-
-int I2C_Scan(t_I2CScan *Adresses, u8 NbrMaxAdress)
-{
-    if((I2CConfig.Options & (0x02)) == 0)
-        return (-1);
-    if(I2CConfig.Status != 1)
-        return (-1);
-
-    myMsgID++;
-    if(myMsgID == 0)
-        myMsgID++;
-
-    I2Cadress = Adresses;
-    I2Cadress->NbrAdress = 0;
-    I2Cadress->State = 0;
-    if(I2CConfig.BufferNbr >= 9)
-        return ( 1);
-    I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_SCAN;
-    I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
-    I2CConfig.BufferNbr++;
-    if(I2CConfig.State == BUS_READY)
-    {
-        I2CConfig.State = MASTER_START;
-        SSP1CON2bits.SEN = 1;
-    }
-    return 0;
-}
-
+# 544 "I2C.c"
 int I2C_Get_Status(u8 MsgID)
 {
     u8 i;
@@ -9930,13 +10124,20 @@ int I2C_Get_Status(u8 MsgID)
         if(I2CConfig.MsgID[i] == MsgID)
             return 0;
     }
+    for(i = 0; i<I2CConfig.RcvBufferNbr ; i++)
+    {
+        if(I2CConfig.RcvMsgID[i] == MsgID)
+            return 2;
+    }
     return 1;
 }
-
+# 588 "I2C.c"
 int I2C_Init(u8 Options){
+# 660 "I2C.c"
     PEIE = 1;
     GIE = 1;
-
+    nulPointer = ((void*)0);
+    memory_init();
     float min = 20;
     u16 prescUsed = 0;
     u16 prUsed = 0;
@@ -9972,12 +10173,14 @@ int I2C_Init(u8 Options){
     }
     timer = 0;
     T2CONbits.TMR2ON = 1;
-    if((Options & (0x02)) != 0)
+    if((Options & (0x04)) != 0)
         SSP1IE = 1;
     else
         SSP1IE = 0;
-    if((Options & (0x01)) != 0)
+    if((Options & (0x02)) != 0)
     {
+        if((Options & (0x01)) != 0)
+            return (-1);
         SSP1CON1bits.SSPEN = 0;
         SSP1ADD = 65;
         SSP1STATbits.SMP = 0;
@@ -9988,51 +10191,112 @@ int I2C_Init(u8 Options){
         return 0;
     }
     return (-1);
+
 }
+# 753 "I2C.c"
 int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay)
 {
+    u8 *myData = ((void*)0);
+    u8 i;
+
     if(I2CConfig.Status != 1)
         return (-1);
-    if((I2CConfig.Options & (0x02)) == 0)
+    if((I2CConfig.Options & (0x01)) != 0)
         return (-1);
-    if(I2CConfig.BufferNbr >= 9)
-        return ( 1);
 
-    myMsgID++;
-    if(myMsgID == 0)
-        myMsgID++;
-
-    I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_WRITE;
-    I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
-    I2CConfig.Buffer[I2CConfig.BufferNbr].data = data;
-    I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sizeData;
-    I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
-    I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
-    I2CConfig.BufferNbr++;
-    if(I2CConfig.State == BUS_READY)
+    if((I2CConfig.Options & (0x04)) == 0)
     {
-        I2CConfig.State = MASTER_START;
-        SSP1CON2bits.SEN = 1;
+        I2C_Master_Start(adresse);
+        if(delay > 0)
+        {
+            timer = delay;
+            while(timer != 0);
+        }
+        for(i = 0; i < sizeData; i++)
+        {
+            I2C_Master_Write(data[i]);
+            if(delay > 0)
+        {
+            timer = delay;
+            while(timer != 0);
+        }
+        }
+        I2C_Master_Stop();
+        if(delay > 0)
+        {
+            timer = delay;
+            while(timer != 0);
+        }
+        return 0;
     }
-    return myMsgID;
-}
+    else
+    {
+        if(I2CConfig.BufferNbr >= 9)
+            return (-2);
 
-int I2C_Read_Request(u8 adresse, u8 *data, u8 sizeData, u8 delay)
+        myMsgID++;
+        if(myMsgID == 0)
+            myMsgID++;
+# 806 "I2C.c"
+        t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8), 0);
+        I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, 0);
+        if(*Pointeur == ((void*)0))
+        {
+            return (-1);
+        }
+        memcpy(*Pointeur, data, sizeData * sizeof(u8));
+        I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
+
+
+
+
+
+        I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_WRITE;
+        I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
+        I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sizeData;
+        I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
+        I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
+        I2CConfig.BufferNbr++;
+        if(I2CConfig.State == BUS_READY)
+        {
+            I2CConfig.State = MASTER_START;
+
+
+
+            SSP1CON2bits.SEN = 1;
+
+        }
+        return myMsgID;
+    }
+}
+# 867 "I2C.c"
+int I2C_Read_Request(u8 adresse, u8 sizeData, u8 delay)
 {
+    u8 *myData = ((void*)0);
     if(I2CConfig.Status != 1)
         return (-1);
-    if((I2CConfig.Options & (0x02)) == 0)
+    if((I2CConfig.Options & (0x01)) != 0)
         return (-1);
     if(I2CConfig.BufferNbr >= 9)
-        return ( 1);
+        return (-2);
 
     myMsgID++;
     if(myMsgID == 0)
         myMsgID++;
+# 889 "I2C.c"
+    t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8), 0);
+    I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, 0);
+    if(*Pointeur == ((void*)0))
+    {
+        return (-1);
+    }
+    I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
+
+
+
 
     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_READ;
     I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
-    I2CConfig.Buffer[I2CConfig.BufferNbr].data = data;
     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sizeData;
     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
@@ -10040,34 +10304,65 @@ int I2C_Read_Request(u8 adresse, u8 *data, u8 sizeData, u8 delay)
     if(I2CConfig.State == BUS_READY)
     {
         I2CConfig.State = MASTER_START;
+
+
+
         SSP1CON2bits.SEN = 1;
+
     }
     return myMsgID;
 }
-
-int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 *rcvData, u8 rcvsizeData, u8 delay)
+# 952 "I2C.c"
+int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvsizeData, u8 delay)
 {
+    u8 *myData = ((void*)0);
+    u8 *rcvData = ((void*)0);
+
     if(I2CConfig.Status != 1)
         return (-1);
-    if((I2CConfig.Options & (0x02)) == 0)
+    if((I2CConfig.Options & (0x01)) != 0)
         return (-1);
-    if(I2CConfig.BufferNbr >= 9)
-        return ( 1);
+    if(I2CConfig.BufferNbr >= 8)
+        return (-2);
 
     myMsgID++;
     if(myMsgID == 0)
         myMsgID++;
+# 977 "I2C.c"
+    t_mem Pointeur = getMemoryPointer(sendsizeData * sizeof(u8), 0);
+    I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, 0);
+    if(*Pointeur == ((void*)0))
+    {
+        return (-1);
+    }
+    memcpy(*Pointeur, sendData, sendsizeData*sizeof(u8));
+    I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
+# 996 "I2C.c"
+    Pointeur = getMemoryPointer(rcvsizeData * sizeof(u8), 0);
+    if(*Pointeur == ((void*)0))
+    {
+        return (-1);
+    }
+    I2CConfig.Buffer[I2CConfig.BufferNbr+1].data = Pointeur;
+    I2CConfig.Buffer[I2CConfig.BufferNbr+1].memID = getMemoryID(Pointeur, 0);
+
+
+
+
 
     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_WRITE_WITH_RESTART;
     I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
-    I2CConfig.Buffer[I2CConfig.BufferNbr].data = sendData;
     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sendsizeData;
     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
+
+    myMsgID++;
+    if(myMsgID == 0)
+        myMsgID++;
+
     I2CConfig.BufferNbr++;
     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_READ;
     I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse | 1;
-    I2CConfig.Buffer[I2CConfig.BufferNbr].data = rcvData;
     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = rcvsizeData;
     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
@@ -10075,102 +10370,90 @@ int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 *rcv
     if(I2CConfig.State == BUS_READY)
     {
         I2CConfig.State = MASTER_START;
+
+
+
         SSP1CON2bits.SEN = 1;
+
     }
     return myMsgID;
 }
-u8* I2C_Read_Buffer(u8 *adresse, int *sizeData)
+# 1069 "I2C.c"
+t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData)
+
 {
     u8 i;
     u8 *data;
+    u8 ID;
+
+
+
+
+    if((I2CConfig.Options & (0x04)) == 0)
+        return &nulPointer;
+
     if(I2CConfig.RcvBufferNbr > 0)
     {
-        data = I2CConfig.RcvBuffer[0].data;
+
+
+
+        t_mem Pointeur = getMemoryPointer(I2CConfig.RcvBuffer[0].sizeData, 1);
+        ID = getMemoryID(Pointeur, 1);
+        memcpy(*Pointeur, *I2CConfig.RcvBuffer[0].data, I2CConfig.RcvBuffer[0].sizeData);
+
         *sizeData = I2CConfig.RcvBuffer[0].sizeData;
-        *adresse = I2CConfig.RcvBuffer[0].adress;
+        *adresse = I2CConfig.RcvBuffer[0].adress & 0xFE;
         for(i = 0; i<I2CConfig.RcvBufferNbr ; i++)
+        {
             I2CConfig.RcvBuffer[i] = I2CConfig.RcvBuffer[i+1];
+            I2CConfig.RcvMsgID[i] = I2CConfig.RcvMsgID[i+1];
+        }
         I2CConfig.RcvBufferNbr--;
-        return data;
-    }
+# 1111 "I2C.c"
+        if (I2CMemory.sizePoint > 9)
+            I2C_TabRefresh();
+
+        I2CMemory.PointTab[I2CMemory.sizePoint] = ID;
+        I2CMemory.sizePoint++;
+        PointerRefresh = 10000;
+        return Pointeur;
+        }
     else
-        return ((void*)0);
-}
+        return &nulPointer;
 
-char I2C_Master_Read(unsigned char a){
-    SSP1CON2bits.RCEN =1;
-    while(SSP1CON2bits.RCEN);
-    __nop();
-    SSP1CON2bits.ACKDT = (a)?0:1;
-    SSP1CON2bits.ACKEN=1;
-    while(SSP1CON2bits.ACKEN);
-    __nop();
-    return SSP1BUF;
-}
-int I2C_Master_Stop(void){
-    SSP1CON2bits.PEN = 1;
-    while(SSP1CON2bits.PEN == 1);
-    __nop();
-    return 0;
-}
-int I2C_Master_Write(int data){
-    if(SSP1CON2bits.ACKSTAT==0){
-        SSP1BUF = data;
-        while(SSP1STATbits.BF==1);
-        __nop();
-    }else{
-        SSP1CON2bits.PEN = 1;
-        while(SSP1CON2bits.PEN == 1);
-        __nop();
-    }
-    return 0;
-}
-int I2C_Master_Start(int adresse){
-    SSP1CON2bits.SEN = 1;
-    while(SSP1CON2bits.SEN==1);
-    __nop();
-    SSP1IF=0;
-    SSP1BUF = adresse;
-    while(SSP1STATbits.BF==1);
-    __nop();
-    return 0;
-}
-int I2C_Master_RepeatStart(int adresse){
-    SSP1CON2bits.RSEN = 1;
-    while(SSP1CON2bits.RSEN==1);
-    __nop();
-    SSP1IF=0;
-    SSP1BUF = adresse;
-    while(SSP1STATbits.BF==1);
-    __nop();
-    return 0;
-}
 
-void I2C_timer_prescaler(float period, u16 *prUsed, u16 presc, u16 *prescUsed, float *min)
+}
+# 1143 "I2C.c"
+void I2C_TabRefresh(void)
 {
-    float minB;
-    double pr_f;
-    u16 pr;
-    long double x;
-    x = (((double)80000000)/4) / ((double)presc);
-    if((x*period)<=(double)256)
+    u8 i;
+    if(I2CMemory.sizePoint > 0)
     {
-        pr_f = x * period;
-        pr = (u16)pr_f;
-        minB = (pr>pr_f)? (pr-pr_f):(pr_f-pr);
-        if(minB < *min)
-        {
-            *prUsed = pr;
-            *prescUsed = presc;
-            *min = minB;
-        }
-        pr++;
-        minB = (pr>pr_f)? (pr-pr_f):(pr_f-pr);
-        if(minB < *min)
-        {
-            *prUsed = pr;
-            *prescUsed = presc;
-            *min = minB;
-        }
+
+
+
+        t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[0], 1);
+        getFree(Pointer, 1);
+
+        for (i = 0; i < I2CMemory.sizePoint; i++)
+            I2CMemory.PointTab[i] = I2CMemory.PointTab[i+1];
+        I2CMemory.sizePoint--;
     }
+}
+# 1177 "I2C.c"
+int I2C_Free(void)
+{
+    u8 i;
+
+
+
+
+    for (i = 0; i < I2CMemory.sizePoint; i++)
+    {
+        t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[i], 1);
+        getFree(Pointer, 1);
+    }
+
+    I2CMemory.sizePoint = 0;
+    return 0;
 }
