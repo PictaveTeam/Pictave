@@ -127,10 +127,10 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x856           0xc81  (3201)
-.text                        0xa56               0xd80          0x1440  (5184)
-.dinit                      0x17d6                0x22            0x33  (51)
+.text                        0xa56               0xd84          0x1446  (5190)
+.dinit                      0x17da                0x22            0x33  (51)
 
-                 Total "program" memory used (bytes):         0x20f4  (8436) 12%
+                 Total "program" memory used (bytes):         0x20fa  (8442) 12%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
@@ -229,40 +229,40 @@ External Symbols in Program Memory (by address):
                   0x000a34                  _memset
                   0x000a42                  __Getmem
                   0x000a56                  _I2C_ISR
-                  0x000e48                  _I2C_Get_Status
-                  0x000eaa                  _I2C_Init
-                  0x000ff6                  _I2C_Write
-                  0x001150                  _I2C_Read_Request
-                  0x00122a                  _I2C_Read_Register_Request
-                  0x0013ac                  _I2C_Read_Buffer
-                  0x001460                  _I2C_TabRefresh
-                  0x0014a2                  _I2C_Free
-                  0x0014cc                  _I2C_Master_Start
-                  0x0014f6                  _I2C_Master_RepeatStart
-                  0x001520                  _I2C_Master_Stop
-                  0x001536                  _I2C_Master_Write
-                  0x00156c                  _I2C_Master_Read
-                  0x0015aa                  _I2C_timer_prescaler
-                  0x0016d8                  _main
-                  0x00177c                  _initPictave
+                  0x000e4e                  _I2C_Get_Status
+                  0x000eb0                  _I2C_Init
+                  0x000ffc                  _I2C_Write
+                  0x001156                  _I2C_Read_Request
+                  0x001230                  _I2C_Read_Register_Request
+                  0x0013b4                  _I2C_Read_Buffer
+                  0x00146a                  _I2C_TabRefresh
+                  0x0014ac                  _I2C_Free
+                  0x0014d6                  _I2C_Master_Start
+                  0x001500                  _I2C_Master_RepeatStart
+                  0x00152a                  _I2C_Master_Stop
+                  0x001540                  _I2C_Master_Write
+                  0x001576                  _I2C_Master_Read
+                  0x0015b4                  _I2C_timer_prescaler
+                  0x0016e2                  _main
+                  0x001780                  _initPictave
 
 External Symbols in Program Memory (by name):
 
-                  0x0014a2                  _I2C_Free
-                  0x000e48                  _I2C_Get_Status
+                  0x0014ac                  _I2C_Free
+                  0x000e4e                  _I2C_Get_Status
                   0x000a56                  _I2C_ISR
-                  0x000eaa                  _I2C_Init
-                  0x00156c                  _I2C_Master_Read
-                  0x0014f6                  _I2C_Master_RepeatStart
-                  0x0014cc                  _I2C_Master_Start
-                  0x001520                  _I2C_Master_Stop
-                  0x001536                  _I2C_Master_Write
-                  0x0013ac                  _I2C_Read_Buffer
-                  0x00122a                  _I2C_Read_Register_Request
-                  0x001150                  _I2C_Read_Request
-                  0x001460                  _I2C_TabRefresh
-                  0x000ff6                  _I2C_Write
-                  0x0015aa                  _I2C_timer_prescaler
+                  0x000eb0                  _I2C_Init
+                  0x001576                  _I2C_Master_Read
+                  0x001500                  _I2C_Master_RepeatStart
+                  0x0014d6                  _I2C_Master_Start
+                  0x00152a                  _I2C_Master_Stop
+                  0x001540                  _I2C_Master_Write
+                  0x0013b4                  _I2C_Read_Buffer
+                  0x001230                  _I2C_Read_Register_Request
+                  0x001156                  _I2C_Read_Request
+                  0x00146a                  _I2C_TabRefresh
+                  0x000ffc                  _I2C_Write
+                  0x0015b4                  _I2C_timer_prescaler
                   0x000310                  __DefaultInterrupt
                   0x000a42                  __Getmem
                   0x0002ec                  __MI2C1Interrupt
@@ -304,8 +304,8 @@ External Symbols in Program Memory (by name):
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
                   0x000908                  _free
-                  0x00177c                  _initPictave
-                  0x0016d8                  _main
+                  0x001780                  _initPictave
+                  0x0016e2                  _main
                   0x0009d2                  _malloc
                   0x000a26                  _memcpy
                   0x000a34                  _memset
@@ -470,27 +470,27 @@ __CONFIG1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x291d
+.debug_info       0x000000       0x2988
  *(.debug_info)
- .debug_info      0x000000       0x14f3 build/default/production/I2C.o
- .debug_info      0x0014f3        0x922 build/default/production/config.o
- .debug_info      0x001e15        0x442 build/default/production/main.o
- .debug_info      0x002257        0x6c6 build/default/production/I2C_conf/I2C_PIC_Support.o
+ .debug_info      0x000000       0x1528 build/default/production/I2C.o
+ .debug_info      0x001528        0x934 build/default/production/config.o
+ .debug_info      0x001e5c        0x454 build/default/production/main.o
+ .debug_info      0x0022b0        0x6d8 build/default/production/I2C_conf/I2C_PIC_Support.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x4d4
+.debug_abbrev     0x000000        0x4e1
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x228 build/default/production/I2C.o
- .debug_abbrev    0x000228         0xc7 build/default/production/config.o
- .debug_abbrev    0x0002ef         0xc7 build/default/production/main.o
- .debug_abbrev    0x0003b6        0x11e build/default/production/I2C_conf/I2C_PIC_Support.o
+ .debug_abbrev    0x000000        0x235 build/default/production/I2C.o
+ .debug_abbrev    0x000235         0xc7 build/default/production/config.o
+ .debug_abbrev    0x0002fc         0xc7 build/default/production/main.o
+ .debug_abbrev    0x0003c3        0x11e build/default/production/I2C_conf/I2C_PIC_Support.o
 
-.debug_line       0x000000        0x703
+.debug_line       0x000000        0x714
  *(.debug_line)
- .debug_line      0x000000        0x307 build/default/production/I2C.o
- .debug_line      0x000307        0x133 build/default/production/config.o
- .debug_line      0x00043a        0x141 build/default/production/main.o
- .debug_line      0x00057b        0x188 build/default/production/I2C_conf/I2C_PIC_Support.o
+ .debug_line      0x000000        0x319 build/default/production/I2C.o
+ .debug_line      0x000319        0x133 build/default/production/config.o
+ .debug_line      0x00044c        0x140 build/default/production/main.o
+ .debug_line      0x00058c        0x188 build/default/production/I2C_conf/I2C_PIC_Support.o
 
 .debug_frame      0x000000        0x29e
  *(.debug_frame)
@@ -1234,28 +1234,28 @@ __c30_signature
 .config_IESO      0x00abfc          0x2
  .config_IESO     0x00abfc          0x2 build/default/production/main.o
 
-.text             0x000a56        0xd80
- .text            0x000a56        0xa76 build/default/production/I2C.o
+.text             0x000a56        0xd84
+ .text            0x000a56        0xa80 build/default/production/I2C.o
                   0x000a56                  _I2C_ISR
-                  0x000e48                  _I2C_Get_Status
-                  0x000eaa                  _I2C_Init
-                  0x000ff6                  _I2C_Write
-                  0x001150                  _I2C_Read_Request
-                  0x00122a                  _I2C_Read_Register_Request
-                  0x0013ac                  _I2C_Read_Buffer
-                  0x001460                  _I2C_TabRefresh
-                  0x0014a2                  _I2C_Free
- .text            0x0014cc        0x20c build/default/production/I2C_conf/I2C_PIC_Support.o
-                  0x0014cc                  _I2C_Master_Start
-                  0x0014f6                  _I2C_Master_RepeatStart
-                  0x001520                  _I2C_Master_Stop
-                  0x001536                  _I2C_Master_Write
-                  0x00156c                  _I2C_Master_Read
-                  0x0015aa                  _I2C_timer_prescaler
- .text            0x0016d8         0xa4 build/default/production/main.o
-                  0x0016d8                  _main
- .text            0x00177c         0x5a build/default/production/config.o
-                  0x00177c                  _initPictave
+                  0x000e4e                  _I2C_Get_Status
+                  0x000eb0                  _I2C_Init
+                  0x000ffc                  _I2C_Write
+                  0x001156                  _I2C_Read_Request
+                  0x001230                  _I2C_Read_Register_Request
+                  0x0013b4                  _I2C_Read_Buffer
+                  0x00146a                  _I2C_TabRefresh
+                  0x0014ac                  _I2C_Free
+ .text            0x0014d6        0x20c build/default/production/I2C_conf/I2C_PIC_Support.o
+                  0x0014d6                  _I2C_Master_Start
+                  0x001500                  _I2C_Master_RepeatStart
+                  0x00152a                  _I2C_Master_Stop
+                  0x001540                  _I2C_Master_Write
+                  0x001576                  _I2C_Master_Read
+                  0x0015b4                  _I2C_timer_prescaler
+ .text            0x0016e2         0x9e build/default/production/main.o
+                  0x0016e2                  _main
+ .text            0x001780         0x5a build/default/production/config.o
+                  0x001780                  _initPictave
 
-.dinit            0x0017d6         0x22
- .dinit           0x0017d6         0x22 data_init
+.dinit            0x0017da         0x22
+ .dinit           0x0017da         0x22 data_init
