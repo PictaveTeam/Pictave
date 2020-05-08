@@ -23,10 +23,10 @@ bloquants (while).
 
 ## Exemple
 
-PIC18   : cliquez [ici](/exemple/PIC18/exemple_I2C_Master.X)
+PIC18   : cliquez [ici](/I2C/exemple/PIC18/exemple_I2C_Master.X)
 
-PICTAVE : cliquez [ici](/exemple/PICTAVE/exemple_I2C_Master.X)
+PICTAVE : cliquez [ici](/I2C/exemple/PICTAVE/exemple_I2C_Master.X)
 
 ## Documentation
 
-cliquez [ici](/documentation)
+cliquez [ici](/I2C/documentation)
