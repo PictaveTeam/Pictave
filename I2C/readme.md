@@ -25,7 +25,7 @@ bloquants (while).
 
 PIC18   : cliquez [ici](/I2C/exemple/PIC18/exemple_I2C_Master.X)
 
-PICTAVE : cliquez [ici](/I2C/exemple/PICTAVE/exemple_I2C_Master.X)
+PICTAVE : cliquez [ici](/I2C/exemple/PICTAVE/exemple_12C_Master.X)
 
 ## Documentation
 
