@@ -1,4 +1,4 @@
-# Timer Library for PICs (Timer)
+# I2C Library for PICs (I2C)
 
 Cette librairie permet l'utilisation du bus I2C pouvant être utilisé en non bloquants ou
 bloquants (while).
