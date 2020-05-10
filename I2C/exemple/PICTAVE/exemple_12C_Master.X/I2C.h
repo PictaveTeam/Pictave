@@ -15,6 +15,7 @@
 * 2.00	epeu   02/05/20 Add support of PIC18FXXK22 and non-blocking functions
 * 3.00  epeu   07/05/20 Changing the handling of incoming and outgoing
 *                       messages for PIC18. Correction of a PIC18 bug.
+* 3.01  epeu   10/05/20 Add Bus Speed calcul for PIC18 : 300kbs
 * 
 *****************************************************************************/
 

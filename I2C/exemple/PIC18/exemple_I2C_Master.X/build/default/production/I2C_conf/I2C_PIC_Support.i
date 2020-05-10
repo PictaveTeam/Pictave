@@ -7,9 +7,9 @@
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
 # 1 "I2C_conf/I2C_PIC_Support.c" 2
-# 21 "I2C_conf/I2C_PIC_Support.c"
+# 22 "I2C_conf/I2C_PIC_Support.c"
 # 1 "I2C_conf/I2C_PIC_Support.h" 1
-# 24 "I2C_conf/I2C_PIC_Support.h"
+# 25 "I2C_conf/I2C_PIC_Support.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -9523,7 +9523,7 @@ extern __attribute__((nonreentrant)) void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __attribute__((nonreentrant)) void _delay3(unsigned char);
 # 32 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 24 "I2C_conf/I2C_PIC_Support.h" 2
+# 25 "I2C_conf/I2C_PIC_Support.h" 2
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\string.h" 1 3
 # 25 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\string.h" 3
@@ -9580,8 +9580,8 @@ size_t strxfrm_l (char *restrict, const char *restrict, size_t, locale_t);
 
 
 void *memccpy (void *restrict, const void *restrict, int, size_t);
-# 25 "I2C_conf/I2C_PIC_Support.h" 2
-# 40 "I2C_conf/I2C_PIC_Support.h"
+# 26 "I2C_conf/I2C_PIC_Support.h" 2
+# 41 "I2C_conf/I2C_PIC_Support.h"
 # 1 "I2C_conf/memory/memory.h" 1
 # 43 "I2C_conf/memory/memory.h"
 typedef unsigned char u8;
@@ -9618,8 +9618,8 @@ int getMemorySize(t_mem Pointer, u8 memoryNumber);
 int getMemoryID(t_mem Pointer, u8 memoryNumber);
 void getFreeFull(u8 memoryNumber);
 t_mem getMemoryFromID(u8 ID, u8 memoryNumber);
-# 40 "I2C_conf/I2C_PIC_Support.h" 2
-# 78 "I2C_conf/I2C_PIC_Support.h"
+# 41 "I2C_conf/I2C_PIC_Support.h" 2
+# 79 "I2C_conf/I2C_PIC_Support.h"
 typedef unsigned int u16;
 typedef unsigned char u8;
 
@@ -9691,7 +9691,7 @@ typedef struct
     u8 sizeData;
     u8 MsgID;
 }t_I2CMyMsg;
-# 158 "I2C_conf/I2C_PIC_Support.h"
+# 159 "I2C_conf/I2C_PIC_Support.h"
 typedef struct
 {
     u8 PointTab[10];
@@ -9709,10 +9709,10 @@ int I2C_Master_RepeatStart(int adresse);
 int I2C_EEPROM_Write(char adresse,int EEadresse, char data);
 int I2C_EEPROM_Read(char adresse, int EEadresse);
 void I2C_timer_prescaler(float period, u16 *prUsed, u16 presc, u16 *prescUsed, float *min);
-# 21 "I2C_conf/I2C_PIC_Support.c" 2
-# 43 "I2C_conf/I2C_PIC_Support.c"
+# 22 "I2C_conf/I2C_PIC_Support.c" 2
+# 44 "I2C_conf/I2C_PIC_Support.c"
 int I2C_Master_Start(int adresse){
-# 52 "I2C_conf/I2C_PIC_Support.c"
+# 53 "I2C_conf/I2C_PIC_Support.c"
     SSP1CON2bits.SEN = 1;
     while(SSP1CON2bits.SEN==1);
     __nop();
@@ -9723,9 +9723,9 @@ int I2C_Master_Start(int adresse){
 
     return 0;
 }
-# 80 "I2C_conf/I2C_PIC_Support.c"
+# 81 "I2C_conf/I2C_PIC_Support.c"
 int I2C_Master_RepeatStart(int adresse){
-# 89 "I2C_conf/I2C_PIC_Support.c"
+# 90 "I2C_conf/I2C_PIC_Support.c"
     SSP1CON2bits.RSEN = 1;
     while(SSP1CON2bits.RSEN==1);
     __nop();
@@ -9736,7 +9736,7 @@ int I2C_Master_RepeatStart(int adresse){
 
     return 0;
 }
-# 116 "I2C_conf/I2C_PIC_Support.c"
+# 117 "I2C_conf/I2C_PIC_Support.c"
 int I2C_Master_Stop(void){
 
 
@@ -9749,9 +9749,9 @@ int I2C_Master_Stop(void){
 
     return 0;
 }
-# 145 "I2C_conf/I2C_PIC_Support.c"
+# 146 "I2C_conf/I2C_PIC_Support.c"
 int I2C_Master_Write(int data){
-# 157 "I2C_conf/I2C_PIC_Support.c"
+# 158 "I2C_conf/I2C_PIC_Support.c"
     if(SSP1CON2bits.ACKSTAT==0){
         SSP1BUF = data;
         while(SSP1STATbits.BF==1);
@@ -9764,9 +9764,9 @@ int I2C_Master_Write(int data){
 
     return 0;
 }
-# 186 "I2C_conf/I2C_PIC_Support.c"
+# 187 "I2C_conf/I2C_PIC_Support.c"
 char I2C_Master_Read(unsigned char a){
-# 197 "I2C_conf/I2C_PIC_Support.c"
+# 198 "I2C_conf/I2C_PIC_Support.c"
     SSP1CON2bits.RCEN =1;
     while(SSP1CON2bits.RCEN);
     __nop();
@@ -9777,7 +9777,7 @@ char I2C_Master_Read(unsigned char a){
     return SSP1BUF;
 
 }
-# 230 "I2C_conf/I2C_PIC_Support.c"
+# 231 "I2C_conf/I2C_PIC_Support.c"
 void I2C_timer_prescaler(float period, u16 *prUsed, u16 presc, u16 *prescUsed, float *min)
 {
     float minB;

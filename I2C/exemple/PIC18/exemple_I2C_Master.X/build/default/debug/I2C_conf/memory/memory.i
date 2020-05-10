@@ -7,10 +7,9 @@
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
 # 1 "I2C_conf/memory/memory.c" 2
+# 22 "I2C_conf/memory/memory.c"
 # 1 "I2C_conf/memory/memory.h" 1
-
-
-
+# 25 "I2C_conf/memory/memory.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\string.h" 1 3
 
 
@@ -85,15 +84,8 @@ size_t strxfrm_l (char *restrict, const char *restrict, size_t, locale_t);
 
 
 void *memccpy (void *restrict, const void *restrict, int, size_t);
-# 4 "I2C_conf/memory/memory.h" 2
-
-
-
-
-
-
-
-
+# 25 "I2C_conf/memory/memory.h" 2
+# 43 "I2C_conf/memory/memory.h"
 typedef unsigned char u8;
 typedef unsigned int u16;
 typedef u8 **t_mem;
@@ -108,7 +100,7 @@ typedef struct
 
 typedef struct
 {
-    u8 pile[128];
+    u8 pile[64];
     u8 use;
 }t_memory;
 
@@ -121,86 +113,89 @@ typedef struct
 
 
 void memory_init(void);
-u8* myMalloc(u8 sizeData);
-t_mem getMemoryPointer(u8 sizeData);
-void getFree(t_mem Pointer);
-int getMemorySize(t_mem Pointer);
-int getMemoryID(t_mem Pointer);
-void getFreeFull(void);
-t_mem getMemoryFromID(u8 ID);
-# 1 "I2C_conf/memory/memory.c" 2
+u8* myMalloc(u8 sizeData, u8 memoryNumber);
+t_mem getMemoryPointer(u8 sizeData, u8 memoryNumber);
+void getFree(t_mem Pointer, u8 memoryNumber);
+int getMemorySize(t_mem Pointer, u8 memoryNumber);
+int getMemoryID(t_mem Pointer, u8 memoryNumber);
+void getFreeFull(u8 memoryNumber);
+t_mem getMemoryFromID(u8 ID, u8 memoryNumber);
+# 22 "I2C_conf/memory/memory.c" 2
 
 
-t_tabPoint array;
-t_memory memory;
+
+
+t_tabPoint array[2];
+t_memory memory[2];
 u8 *nulPointer;
-u8 myMemID;
-
+u8 myMemID[2];
+# 47 "I2C_conf/memory/memory.c"
 void memory_init(void)
 {
     nulPointer = ((void*)0);
-    getFreeFull();
+    getFreeFull(0);
+    getFreeFull(1);
 }
-
-u8* myMalloc(u8 sizeData)
+# 72 "I2C_conf/memory/memory.c"
+u8* myMalloc(u8 sizeData,u8 memoryNumber)
 {
-    if((memory.use + sizeData) > (128 -1))
+    if((memory[memoryNumber].use + sizeData) > (64 -1))
             return ((void*)0);
-    memory.use += sizeData;
-    return &memory.pile[memory.use - sizeData];
+    memory[memoryNumber].use += sizeData;
+    return &memory[memoryNumber].pile[memory[memoryNumber].use - sizeData];
 }
-
-t_mem getMemoryPointer(u8 sizeData)
+# 96 "I2C_conf/memory/memory.c"
+t_mem getMemoryPointer(u8 sizeData, u8 memoryNumber)
 {
     t_mem dP;
     u8 i;
     u8 indice;
-    if(array.indice >= 10)
+    if(array[memoryNumber].indice >= 10)
     {
         dP = &nulPointer;
         return dP;
     }
 
     u8 *Pointer;
-    Pointer = myMalloc(sizeData);
+    Pointer = myMalloc(sizeData, memoryNumber);
     if(Pointer == ((void*)0))
     {
         dP = &nulPointer;
         return dP;
     }
-    myMemID++;
-    if(myMemID == 0)
-        myMemID++;
+    myMemID[memoryNumber]++;
+    if(myMemID[memoryNumber] == 0)
+        myMemID[memoryNumber]++;
     for(i = 0; i < 10; i++)
     {
-        if(array.Tab[i].State == 0)
+        if(array[memoryNumber].Tab[i].State == 0)
         {
-            array.Tab[i].Pointer = Pointer;
-            array.Tab[i].PointerSize = sizeData;
-            array.Tab[i].State = 1;
-            array.Tab[i].ID = myMemID;
-            array.Tab[i].indice = (memory.use - sizeData);
+            array[memoryNumber].Tab[i].Pointer = Pointer;
+            array[memoryNumber].Tab[i].PointerSize = sizeData;
+            array[memoryNumber].Tab[i].State = 1;
+            array[memoryNumber].Tab[i].ID = myMemID[memoryNumber];
+            array[memoryNumber].Tab[i].indice = (memory[memoryNumber].use - sizeData);
             indice = i;
             break;
         }
     }
-    array.indice++;
-    dP = &array.Tab[indice].Pointer;
+    array[memoryNumber].indice++;
+    dP = &array[memoryNumber].Tab[indice].Pointer;
     return dP;
 }
-
-void getFree(t_mem Pointer)
+# 152 "I2C_conf/memory/memory.c"
+void getFree(t_mem Pointer, u8 memoryNumber)
 {
     if(*Pointer != ((void*)0))
     {
         u8 i;
         u8 *tabPoint;
-        u8 tab[128];
-        memcpy(tab , memory.pile, 128);
+        u8 tab[64];
+        memcpy(tab , memory[memoryNumber].pile, 64);
         u8 indice = 0;
         for(i = 0; i < 10 ; i++)
         {
-            if(Pointer == &array.Tab[i].Pointer)
+            if(Pointer == &array[memoryNumber].Tab[i].Pointer)
             {
                 indice = i;
                 break;
@@ -208,29 +203,29 @@ void getFree(t_mem Pointer)
         }
         for(i = 0; i < 10 ; i++)
         {
-            if((array.Tab[i].indice > array.Tab[indice].indice) && (array.Tab[i].State == 1))
+            if((array[memoryNumber].Tab[i].indice > array[memoryNumber].Tab[indice].indice) && (array[memoryNumber].Tab[i].State == 1))
             {
-                tabPoint = &tab[array.Tab[indice].indice];
-                memcpy(tabPoint , array.Tab[i].Pointer, 128 - array.Tab[i].indice);
-                memcpy(memory.pile , tab, 128);
+                tabPoint = &tab[array[memoryNumber].Tab[indice].indice];
+                memcpy(tabPoint , array[memoryNumber].Tab[i].Pointer, 64 - array[memoryNumber].Tab[i].indice);
+                memcpy(memory[memoryNumber].pile , tab, 64);
                 break;
             }
         }
         for(i = 0; i < 10 ; i++)
         {
-            if((array.Tab[i].indice > array.Tab[indice].indice ) && (array.Tab[i].State == 1))
+            if((array[memoryNumber].Tab[i].indice > array[memoryNumber].Tab[indice].indice ) && (array[memoryNumber].Tab[i].State == 1))
             {
-                array.Tab[i].indice -= array.Tab[indice].PointerSize;
-                array.Tab[i].Pointer = &memory.pile[array.Tab[i].indice];
+                array[memoryNumber].Tab[i].indice -= array[memoryNumber].Tab[indice].PointerSize;
+                array[memoryNumber].Tab[i].Pointer = &memory[memoryNumber].pile[array[memoryNumber].Tab[i].indice];
             }
         }
-        array.Tab[indice].State = 0;
-        array.indice--;
-        memory.use -= array.Tab[indice].PointerSize;
+        array[memoryNumber].Tab[indice].State = 0;
+        array[memoryNumber].indice--;
+        memory[memoryNumber].use -= array[memoryNumber].Tab[indice].PointerSize;
     }
 }
-
-int GetMemorySize(t_mem Pointer)
+# 211 "I2C_conf/memory/memory.c"
+int GetMemorySize(t_mem Pointer, u8 memoryNumber)
 {
     if(*Pointer == ((void*)0))
         return (-1);
@@ -238,7 +233,7 @@ int GetMemorySize(t_mem Pointer)
     u8 indice = 10 + 1;
     for(i = 0; i < 10 ; i++)
     {
-        if(Pointer == &array.Tab[i].Pointer)
+        if(Pointer == &array[memoryNumber].Tab[i].Pointer)
         {
             indice = i;
             break;
@@ -246,13 +241,13 @@ int GetMemorySize(t_mem Pointer)
     }
     if(indice == (10 + 1))
         return (-1);
-    if(array.Tab[indice].State == 0)
+    if(array[memoryNumber].Tab[indice].State == 0)
         return (-1);
     else
-        return array.Tab[indice].PointerSize;
+        return array[memoryNumber].Tab[indice].PointerSize;
 }
-
-int getMemoryID(t_mem Pointer)
+# 251 "I2C_conf/memory/memory.c"
+int getMemoryID(t_mem Pointer, u8 memoryNumber)
 {
     if(*Pointer == ((void*)0))
         return (-1);
@@ -260,7 +255,7 @@ int getMemoryID(t_mem Pointer)
     u8 indice = 10 + 1;
     for(i = 0; i < 10 ; i++)
     {
-        if(Pointer == &array.Tab[i].Pointer)
+        if(Pointer == &array[memoryNumber].Tab[i].Pointer)
         {
             indice = i;
             break;
@@ -268,29 +263,29 @@ int getMemoryID(t_mem Pointer)
     }
     if(indice == (10 + 1))
         return (-1);
-    if(array.Tab[indice].State == 0)
+    if(array[memoryNumber].Tab[indice].State == 0)
         return (-1);
     else
-        return array.Tab[indice].ID;
+        return array[memoryNumber].Tab[indice].ID;
 }
-
-void getFreeFull(void)
+# 288 "I2C_conf/memory/memory.c"
+void getFreeFull(u8 memoryNumber)
 {
     u8 i;
-    memory.use = 0;
-    array.indice = 0;
+    memory[memoryNumber].use = 0;
+    array[memoryNumber].indice = 0;
     for(i = 0; i < 10 ; i++)
-        array.Tab[i].State = 0;
+        array[memoryNumber].Tab[i].State = 0;
 }
-
-t_mem getMemoryFromID(u8 ID)
+# 316 "I2C_conf/memory/memory.c"
+t_mem getMemoryFromID(u8 ID, u8 memoryNumber)
 {
     u8 i;
     t_mem dP;
     u8 indice = 10 + 1;
     for(i = 0; i < 10 ; i++)
     {
-        if(ID == array.Tab[i].ID)
+        if(ID == array[memoryNumber].Tab[i].ID)
         {
             indice = i;
             break;
@@ -301,14 +296,14 @@ t_mem getMemoryFromID(u8 ID)
         dP = &nulPointer;
         return dP;
     }
-    if(array.Tab[indice].State == 0)
+    if(array[memoryNumber].Tab[indice].State == 0)
     {
         dP = &nulPointer;
         return dP;
     }
     else
     {
-        dP = &array.Tab[indice].Pointer;
+        dP = &array[memoryNumber].Tab[indice].Pointer;
         return dP;
     }
 }

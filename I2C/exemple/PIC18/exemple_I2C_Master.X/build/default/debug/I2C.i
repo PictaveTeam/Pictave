@@ -7,11 +7,11 @@
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
 # 1 "I2C.c" 2
-# 21 "I2C.c"
+# 24 "I2C.c"
 # 1 "./I2C.h" 1
-# 24 "./I2C.h"
+# 26 "./I2C.h"
 # 1 "./I2C_conf/I2C_PIC_Support.h" 1
-# 24 "./I2C_conf/I2C_PIC_Support.h"
+# 25 "./I2C_conf/I2C_PIC_Support.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -9525,7 +9525,7 @@ extern __attribute__((nonreentrant)) void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __attribute__((nonreentrant)) void _delay3(unsigned char);
 # 32 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 24 "./I2C_conf/I2C_PIC_Support.h" 2
+# 25 "./I2C_conf/I2C_PIC_Support.h" 2
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\string.h" 1 3
 # 25 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\string.h" 3
@@ -9582,10 +9582,10 @@ size_t strxfrm_l (char *restrict, const char *restrict, size_t, locale_t);
 
 
 void *memccpy (void *restrict, const void *restrict, int, size_t);
-# 25 "./I2C_conf/I2C_PIC_Support.h" 2
-# 40 "./I2C_conf/I2C_PIC_Support.h"
+# 26 "./I2C_conf/I2C_PIC_Support.h" 2
+# 41 "./I2C_conf/I2C_PIC_Support.h"
 # 1 "./I2C_conf/memory/memory.h" 1
-# 12 "./I2C_conf/memory/memory.h"
+# 43 "./I2C_conf/memory/memory.h"
 typedef unsigned char u8;
 typedef unsigned int u16;
 typedef u8 **t_mem;
@@ -9600,7 +9600,7 @@ typedef struct
 
 typedef struct
 {
-    u8 pile[128];
+    u8 pile[64];
     u8 use;
 }t_memory;
 
@@ -9613,15 +9613,15 @@ typedef struct
 
 
 void memory_init(void);
-u8* myMalloc(u8 sizeData);
-t_mem getMemoryPointer(u8 sizeData);
-void getFree(t_mem Pointer);
-int getMemorySize(t_mem Pointer);
-int getMemoryID(t_mem Pointer);
-void getFreeFull(void);
-t_mem getMemoryFromID(u8 ID);
-# 40 "./I2C_conf/I2C_PIC_Support.h" 2
-# 78 "./I2C_conf/I2C_PIC_Support.h"
+u8* myMalloc(u8 sizeData, u8 memoryNumber);
+t_mem getMemoryPointer(u8 sizeData, u8 memoryNumber);
+void getFree(t_mem Pointer, u8 memoryNumber);
+int getMemorySize(t_mem Pointer, u8 memoryNumber);
+int getMemoryID(t_mem Pointer, u8 memoryNumber);
+void getFreeFull(u8 memoryNumber);
+t_mem getMemoryFromID(u8 ID, u8 memoryNumber);
+# 41 "./I2C_conf/I2C_PIC_Support.h" 2
+# 79 "./I2C_conf/I2C_PIC_Support.h"
 typedef unsigned int u16;
 typedef unsigned char u8;
 
@@ -9693,7 +9693,7 @@ typedef struct
     u8 sizeData;
     u8 MsgID;
 }t_I2CMyMsg;
-# 158 "./I2C_conf/I2C_PIC_Support.h"
+# 159 "./I2C_conf/I2C_PIC_Support.h"
 typedef struct
 {
     u8 PointTab[10];
@@ -9711,7 +9711,7 @@ int I2C_Master_RepeatStart(int adresse);
 int I2C_EEPROM_Write(char adresse,int EEadresse, char data);
 int I2C_EEPROM_Read(char adresse, int EEadresse);
 void I2C_timer_prescaler(float period, u16 *prUsed, u16 presc, u16 *prescUsed, float *min);
-# 24 "./I2C.h" 2
+# 26 "./I2C.h" 2
 
 
 
@@ -9732,7 +9732,7 @@ t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData);
 
 void I2C_TabRefresh(void);
 int I2C_Free(void);
-# 21 "I2C.c" 2
+# 24 "I2C.c" 2
 
 
 
@@ -9743,11 +9743,9 @@ t_I2CMemory I2CMemory;
 u16 PointerRefresh;
 u16 timer;
 u8 myMsgID;
-t_I2CState debugTab[40];
-u8 debugIndice;
 
 u8 *nulPointer;
-# 52 "I2C.c"
+# 53 "I2C.c"
 void I2C_ISR(void)
 {
     static u8 i = 0;
@@ -9762,11 +9760,6 @@ void I2C_ISR(void)
     {
 
         delay_end:
-        if((I2CConfig.State != DELAY_DA) && (I2CConfig.State != DELAY_INTER) && (I2CConfig.State != DELAY_TIMEOUT))
-        {
-            debugIndice++;
-            debugTab[debugIndice] = I2CConfig.State;
-        }
         switch(I2CConfig.State)
         {
             case MASTER_START:
@@ -9936,7 +9929,7 @@ void I2C_ISR(void)
 
 
 
-                        getFree(I2CConfig.RcvBuffer[0].data);
+                        getFree(I2CConfig.RcvBuffer[0].data, 0);
 
                         for(i = 0; i<(I2CConfig.RcvBufferNbr - 1) ; i++)
                         {
@@ -9962,7 +9955,7 @@ void I2C_ISR(void)
 
 
                 {
-                    getFree(I2CConfig.Buffer[0].data);
+                    getFree(I2CConfig.Buffer[0].data, 0);
                 }
 
                 for(i = 0; i<I2CConfig.BufferNbr ; i++)
@@ -10120,7 +10113,7 @@ void I2C_ISR(void)
 
     }
 }
-# 551 "I2C.c"
+# 547 "I2C.c"
 int I2C_Get_Status(u8 MsgID)
 {
     u8 i;
@@ -10138,10 +10131,9 @@ int I2C_Get_Status(u8 MsgID)
     }
     return 1;
 }
-# 595 "I2C.c"
+# 591 "I2C.c"
 int I2C_Init(u8 Options){
-# 667 "I2C.c"
-    debugIndice = 0;
+# 663 "I2C.c"
     PEIE = 1;
     GIE = 1;
     nulPointer = ((void*)0);
@@ -10190,7 +10182,10 @@ int I2C_Init(u8 Options){
         if((Options & (0x01)) != 0)
             return (-1);
         SSP1CON1bits.SSPEN = 0;
-        SSP1ADD = 65;
+        int clock = (((((double)80000000)/ (300000*4)) - 1) >= 0)?((((double)80000000) / (300000*4)) - 1):(-1);
+        if(clock==(-1))
+            return clock;
+        SSP1ADD = (u8)clock;
         SSP1STATbits.SMP = 0;
         SSP1CON1bits.SSPM = 0b1000;
         SSP1CON1bits.SSPEN = 1;
@@ -10201,7 +10196,7 @@ int I2C_Init(u8 Options){
     return (-1);
 
 }
-# 763 "I2C.c"
+# 759 "I2C.c"
 int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay)
 {
     u8 *myData = ((void*)0);
@@ -10245,9 +10240,9 @@ int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay)
         myMsgID++;
         if(myMsgID == 0)
             myMsgID++;
-# 816 "I2C.c"
-        t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8));
-        I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur);
+# 812 "I2C.c"
+        t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8), 0);
+        I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, 0);
         if(*Pointeur == ((void*)0))
         {
             return (-1);
@@ -10277,7 +10272,7 @@ int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay)
         return myMsgID;
     }
 }
-# 881 "I2C.c"
+# 873 "I2C.c"
 int I2C_Read_Request(u8 adresse, u8 sizeData, u8 delay)
 {
     u8 *myData = ((void*)0);
@@ -10291,9 +10286,9 @@ int I2C_Read_Request(u8 adresse, u8 sizeData, u8 delay)
     myMsgID++;
     if(myMsgID == 0)
         myMsgID++;
-# 903 "I2C.c"
-    t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8));
-    I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur);
+# 895 "I2C.c"
+    t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8), 0);
+    I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, 0);
     if(*Pointeur == ((void*)0))
     {
         return (-1);
@@ -10320,7 +10315,7 @@ int I2C_Read_Request(u8 adresse, u8 sizeData, u8 delay)
     }
     return myMsgID;
 }
-# 970 "I2C.c"
+# 958 "I2C.c"
 int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvsizeData, u8 delay)
 {
     u8 *myData = ((void*)0);
@@ -10336,23 +10331,23 @@ int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvs
     myMsgID++;
     if(myMsgID == 0)
         myMsgID++;
-# 995 "I2C.c"
-    t_mem Pointeur = getMemoryPointer(sendsizeData * sizeof(u8));
-    I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur);
+# 983 "I2C.c"
+    t_mem Pointeur = getMemoryPointer(sendsizeData * sizeof(u8), 0);
+    I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, 0);
     if(*Pointeur == ((void*)0))
     {
         return (-1);
     }
     memcpy(*Pointeur, sendData, sendsizeData*sizeof(u8));
     I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
-# 1014 "I2C.c"
-    Pointeur = getMemoryPointer(rcvsizeData * sizeof(u8));
+# 1002 "I2C.c"
+    Pointeur = getMemoryPointer(rcvsizeData * sizeof(u8), 0);
     if(*Pointeur == ((void*)0))
     {
         return (-1);
     }
     I2CConfig.Buffer[I2CConfig.BufferNbr+1].data = Pointeur;
-    I2CConfig.Buffer[I2CConfig.BufferNbr+1].memID = getMemoryID(Pointeur);
+    I2CConfig.Buffer[I2CConfig.BufferNbr+1].memID = getMemoryID(Pointeur, 0);
 
 
 
@@ -10386,7 +10381,7 @@ int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvs
     }
     return myMsgID;
 }
-# 1087 "I2C.c"
+# 1075 "I2C.c"
 t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData)
 
 {
@@ -10405,34 +10400,33 @@ t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData)
 
 
 
-        ID = I2CConfig.RcvBuffer[0].memID;
-        t_mem Pointer = getMemoryFromID(ID);
+        t_mem Pointeur = getMemoryPointer(I2CConfig.RcvBuffer[0].sizeData, 1);
+        ID = getMemoryID(Pointeur, 1);
+        memcpy(*Pointeur, *I2CConfig.RcvBuffer[0].data, I2CConfig.RcvBuffer[0].sizeData);
 
         *sizeData = I2CConfig.RcvBuffer[0].sizeData;
-        *adresse = I2CConfig.RcvBuffer[0].adress;
+        *adresse = I2CConfig.RcvBuffer[0].adress & 0xFE;
         for(i = 0; i<I2CConfig.RcvBufferNbr ; i++)
         {
             I2CConfig.RcvBuffer[i] = I2CConfig.RcvBuffer[i+1];
             I2CConfig.RcvMsgID[i] = I2CConfig.RcvMsgID[i+1];
         }
         I2CConfig.RcvBufferNbr--;
-# 1128 "I2C.c"
+# 1117 "I2C.c"
         if (I2CMemory.sizePoint > 9)
             I2C_TabRefresh();
 
         I2CMemory.PointTab[I2CMemory.sizePoint] = ID;
         I2CMemory.sizePoint++;
         PointerRefresh = 10000;
-        return Pointer;
+        return Pointeur;
         }
     else
         return &nulPointer;
 
 
 }
-
-
-
+# 1149 "I2C.c"
 void I2C_TabRefresh(void)
 {
     u8 i;
@@ -10441,15 +10435,15 @@ void I2C_TabRefresh(void)
 
 
 
-        t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[0]);
-        getFree(Pointer);
+        t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[0], 1);
+        getFree(Pointer, 1);
 
         for (i = 0; i < I2CMemory.sizePoint; i++)
             I2CMemory.PointTab[i] = I2CMemory.PointTab[i+1];
         I2CMemory.sizePoint--;
     }
 }
-
+# 1183 "I2C.c"
 int I2C_Free(void)
 {
     u8 i;
@@ -10459,8 +10453,8 @@ int I2C_Free(void)
 
     for (i = 0; i < I2CMemory.sizePoint; i++)
     {
-        t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[i]);
-        getFree(Pointer);
+        t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[i], 1);
+        getFree(Pointer, 1);
     }
 
     I2CMemory.sizePoint = 0;

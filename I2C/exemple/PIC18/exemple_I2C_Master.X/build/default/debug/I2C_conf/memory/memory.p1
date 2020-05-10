@@ -1,696 +1,710 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"16 I2C_conf/memory/memory.h
-[; ;I2C_conf/memory/memory.h: 16: {
+"47 I2C_conf/memory/memory.h
+[; ;I2C_conf/memory/memory.h: 47: {
 [s S2 `*uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
 [n S2 . Pointer PointerSize State ID indice ]
-"31
-[; ;I2C_conf/memory/memory.h: 31: {
+"62
+[; ;I2C_conf/memory/memory.h: 62: {
 [s S4 `S2 -> 10 `i `uc 1 ]
 [n S4 . Tab indice ]
-"25
-[; ;I2C_conf/memory/memory.h: 25: {
-[s S3 `uc -> 128 `i `uc 1 ]
+"56
+[; ;I2C_conf/memory/memory.h: 56: {
+[s S3 `uc -> 64 `i `uc 1 ]
 [n S3 . pile use ]
-"44
-[; ;I2C_conf/memory/memory.h: 44: void getFreeFull(void);
-[v _getFreeFull `(v ~T0 @X0 0 ef ]
+"75
+[; ;I2C_conf/memory/memory.h: 75: void getFreeFull(u8 memoryNumber);
+[v _getFreeFull `(v ~T0 @X0 0 ef1`uc ]
 "27 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\c99\string.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\c99\string.h: 27: void *memcpy (void *restrict, const void *restrict, size_t);
 [v _memcpy `(*v ~T0 @X0 0 ef3`*v`*Cv`ui ]
-"3 I2C_conf/memory/memory.c
-[; ;I2C_conf/memory/memory.c: 3: t_tabPoint array;
-[v _array `S4 ~T0 @X0 1 e ]
-"4
-[; ;I2C_conf/memory/memory.c: 4: t_memory memory;
-[v _memory `S3 ~T0 @X0 1 e ]
-"5
-[; ;I2C_conf/memory/memory.c: 5: u8 *nulPointer;
+"26 I2C_conf/memory/memory.c
+[; ;I2C_conf/memory/memory.c: 26: t_tabPoint array[2];
+[v _array `S4 ~T0 @X0 -> 2 `i e ]
+"27
+[; ;I2C_conf/memory/memory.c: 27: t_memory memory[2];
+[v _memory `S3 ~T0 @X0 -> 2 `i e ]
+"28
+[; ;I2C_conf/memory/memory.c: 28: u8 *nulPointer;
 [v _nulPointer `*uc ~T0 @X0 1 e ]
-"6
-[; ;I2C_conf/memory/memory.c: 6: u8 myMemID;
-[v _myMemID `uc ~T0 @X0 1 e ]
-"8
-[; ;I2C_conf/memory/memory.c: 8: void memory_init(void)
+"29
+[; ;I2C_conf/memory/memory.c: 29: u8 myMemID[2];
+[v _myMemID `uc ~T0 @X0 -> 2 `i e ]
+"47
+[; ;I2C_conf/memory/memory.c: 47: void memory_init(void)
 [v _memory_init `(v ~T0 @X0 1 ef ]
-"9
-[; ;I2C_conf/memory/memory.c: 9: {
+"48
+[; ;I2C_conf/memory/memory.c: 48: {
 {
 [e :U _memory_init ]
 [f ]
-"10
-[; ;I2C_conf/memory/memory.c: 10:     nulPointer = ((void*)0);
+"49
+[; ;I2C_conf/memory/memory.c: 49:     nulPointer = ((void*)0);
 [e = _nulPointer -> -> -> 0 `i `*v `*uc ]
-"11
-[; ;I2C_conf/memory/memory.c: 11:     getFreeFull();
-[e ( _getFreeFull ..  ]
-"12
-[; ;I2C_conf/memory/memory.c: 12: }
+"50
+[; ;I2C_conf/memory/memory.c: 50:     getFreeFull(0);
+[e ( _getFreeFull (1 -> -> 0 `i `uc ]
+"51
+[; ;I2C_conf/memory/memory.c: 51:     getFreeFull(1);
+[e ( _getFreeFull (1 -> -> 1 `i `uc ]
+"52
+[; ;I2C_conf/memory/memory.c: 52: }
 [e :UE 5 ]
 }
-"14
-[; ;I2C_conf/memory/memory.c: 14: u8* myMalloc(u8 sizeData)
-[v _myMalloc `(*uc ~T0 @X0 1 ef1`uc ]
-"15
-[; ;I2C_conf/memory/memory.c: 15: {
+"72
+[; ;I2C_conf/memory/memory.c: 72: u8* myMalloc(u8 sizeData,u8 memoryNumber)
+[v _myMalloc `(*uc ~T0 @X0 1 ef2`uc`uc ]
+"73
+[; ;I2C_conf/memory/memory.c: 73: {
 {
 [e :U _myMalloc ]
-"14
-[; ;I2C_conf/memory/memory.c: 14: u8* myMalloc(u8 sizeData)
+"72
+[; ;I2C_conf/memory/memory.c: 72: u8* myMalloc(u8 sizeData,u8 memoryNumber)
 [v _sizeData `uc ~T0 @X0 1 r1 ]
-"15
-[; ;I2C_conf/memory/memory.c: 15: {
+[v _memoryNumber `uc ~T0 @X0 1 r2 ]
+"73
+[; ;I2C_conf/memory/memory.c: 73: {
 [f ]
-"16
-[; ;I2C_conf/memory/memory.c: 16:     if((memory.use + sizeData) > (128 -1))
-[e $ ! > + -> . _memory 1 `i -> _sizeData `i - -> 128 `i -> 1 `i 7  ]
-"17
-[; ;I2C_conf/memory/memory.c: 17:             return ((void*)0);
+"74
+[; ;I2C_conf/memory/memory.c: 74:     if((memory[memoryNumber].use + sizeData) > (64 -1))
+[e $ ! > + -> . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 1 `i -> _sizeData `i - -> 64 `i -> 1 `i 7  ]
+"75
+[; ;I2C_conf/memory/memory.c: 75:             return ((void*)0);
 [e ) -> -> -> 0 `i `*v `*uc ]
 [e $UE 6  ]
 [e :U 7 ]
-"18
-[; ;I2C_conf/memory/memory.c: 18:     memory.use += sizeData;
-[e =+ . _memory 1 -> _sizeData `uc ]
-"19
-[; ;I2C_conf/memory/memory.c: 19:     return &memory.pile[memory.use - sizeData];
-[e ) &U *U + &U . _memory 0 * -> -> - -> . _memory 1 `i -> _sizeData `i `ui `ux -> -> # *U &U . _memory 0 `ui `ux ]
+"76
+[; ;I2C_conf/memory/memory.c: 76:     memory[memoryNumber].use += sizeData;
+[e =+ . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 1 -> _sizeData `uc ]
+"77
+[; ;I2C_conf/memory/memory.c: 77:     return &memory[memoryNumber].pile[memory[memoryNumber].use - sizeData];
+[e ) &U *U + &U . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 0 * -> -> - -> . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 1 `i -> _sizeData `i `ui `ux -> -> # *U &U . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 0 `ui `ux ]
 [e $UE 6  ]
-"20
-[; ;I2C_conf/memory/memory.c: 20: }
+"78
+[; ;I2C_conf/memory/memory.c: 78: }
 [e :UE 6 ]
 }
-"22
-[; ;I2C_conf/memory/memory.c: 22: t_mem getMemoryPointer(u8 sizeData)
-[v _getMemoryPointer `(**uc ~T0 @X0 1 ef1`uc ]
-"23
-[; ;I2C_conf/memory/memory.c: 23: {
+"96
+[; ;I2C_conf/memory/memory.c: 96: t_mem getMemoryPointer(u8 sizeData, u8 memoryNumber)
+[v _getMemoryPointer `(**uc ~T0 @X0 1 ef2`uc`uc ]
+"97
+[; ;I2C_conf/memory/memory.c: 97: {
 {
 [e :U _getMemoryPointer ]
-"22
-[; ;I2C_conf/memory/memory.c: 22: t_mem getMemoryPointer(u8 sizeData)
+"96
+[; ;I2C_conf/memory/memory.c: 96: t_mem getMemoryPointer(u8 sizeData, u8 memoryNumber)
 [v _sizeData `uc ~T0 @X0 1 r1 ]
-"23
-[; ;I2C_conf/memory/memory.c: 23: {
+[v _memoryNumber `uc ~T0 @X0 1 r2 ]
+"97
+[; ;I2C_conf/memory/memory.c: 97: {
 [f ]
-"24
-[; ;I2C_conf/memory/memory.c: 24:     t_mem dP;
+"98
+[; ;I2C_conf/memory/memory.c: 98:     t_mem dP;
 [v _dP `**uc ~T0 @X0 1 a ]
-"25
-[; ;I2C_conf/memory/memory.c: 25:     u8 i;
+"99
+[; ;I2C_conf/memory/memory.c: 99:     u8 i;
 [v _i `uc ~T0 @X0 1 a ]
-"26
-[; ;I2C_conf/memory/memory.c: 26:     u8 indice;
+"100
+[; ;I2C_conf/memory/memory.c: 100:     u8 indice;
 [v _indice `uc ~T0 @X0 1 a ]
-"27
-[; ;I2C_conf/memory/memory.c: 27:     if(array.indice >= 10)
-[e $ ! >= -> . _array 1 `i -> 10 `i 9  ]
-"28
-[; ;I2C_conf/memory/memory.c: 28:     {
+"101
+[; ;I2C_conf/memory/memory.c: 101:     if(array[memoryNumber].indice >= 10)
+[e $ ! >= -> . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 1 `i -> 10 `i 9  ]
+"102
+[; ;I2C_conf/memory/memory.c: 102:     {
 {
-"29
-[; ;I2C_conf/memory/memory.c: 29:         dP = &nulPointer;
+"103
+[; ;I2C_conf/memory/memory.c: 103:         dP = &nulPointer;
 [e = _dP &U _nulPointer ]
-"30
-[; ;I2C_conf/memory/memory.c: 30:         return dP;
+"104
+[; ;I2C_conf/memory/memory.c: 104:         return dP;
 [e ) _dP ]
 [e $UE 8  ]
-"31
-[; ;I2C_conf/memory/memory.c: 31:     }
+"105
+[; ;I2C_conf/memory/memory.c: 105:     }
 }
 [e :U 9 ]
-"33
-[; ;I2C_conf/memory/memory.c: 33:     u8 *Pointer;
+"107
+[; ;I2C_conf/memory/memory.c: 107:     u8 *Pointer;
 [v _Pointer `*uc ~T0 @X0 1 a ]
-"34
-[; ;I2C_conf/memory/memory.c: 34:     Pointer = myMalloc(sizeData);
-[e = _Pointer ( _myMalloc (1 _sizeData ]
-"35
-[; ;I2C_conf/memory/memory.c: 35:     if(Pointer == ((void*)0))
+"108
+[; ;I2C_conf/memory/memory.c: 108:     Pointer = myMalloc(sizeData, memoryNumber);
+[e = _Pointer ( _myMalloc (2 , _sizeData _memoryNumber ]
+"109
+[; ;I2C_conf/memory/memory.c: 109:     if(Pointer == ((void*)0))
 [e $ ! == _Pointer -> -> -> 0 `i `*v `*uc 10  ]
-"36
-[; ;I2C_conf/memory/memory.c: 36:     {
+"110
+[; ;I2C_conf/memory/memory.c: 110:     {
 {
-"37
-[; ;I2C_conf/memory/memory.c: 37:         dP = &nulPointer;
+"111
+[; ;I2C_conf/memory/memory.c: 111:         dP = &nulPointer;
 [e = _dP &U _nulPointer ]
-"38
-[; ;I2C_conf/memory/memory.c: 38:         return dP;
+"112
+[; ;I2C_conf/memory/memory.c: 112:         return dP;
 [e ) _dP ]
 [e $UE 8  ]
-"39
-[; ;I2C_conf/memory/memory.c: 39:     }
+"113
+[; ;I2C_conf/memory/memory.c: 113:     }
 }
 [e :U 10 ]
-"40
-[; ;I2C_conf/memory/memory.c: 40:     myMemID++;
-[e ++ _myMemID -> -> 1 `i `uc ]
-"41
-[; ;I2C_conf/memory/memory.c: 41:     if(myMemID == 0)
-[e $ ! == -> _myMemID `i -> 0 `i 11  ]
-"42
-[; ;I2C_conf/memory/memory.c: 42:         myMemID++;
-[e ++ _myMemID -> -> 1 `i `uc ]
+"114
+[; ;I2C_conf/memory/memory.c: 114:     myMemID[memoryNumber]++;
+[e ++ *U + &U _myMemID * -> _memoryNumber `ux -> -> # *U &U _myMemID `ui `ux -> -> 1 `i `uc ]
+"115
+[; ;I2C_conf/memory/memory.c: 115:     if(myMemID[memoryNumber] == 0)
+[e $ ! == -> *U + &U _myMemID * -> _memoryNumber `ux -> -> # *U &U _myMemID `ui `ux `i -> 0 `i 11  ]
+"116
+[; ;I2C_conf/memory/memory.c: 116:         myMemID[memoryNumber]++;
+[e ++ *U + &U _myMemID * -> _memoryNumber `ux -> -> # *U &U _myMemID `ui `ux -> -> 1 `i `uc ]
 [e :U 11 ]
-"43
-[; ;I2C_conf/memory/memory.c: 43:     for(i = 0; i < 10; i++)
+"117
+[; ;I2C_conf/memory/memory.c: 117:     for(i = 0; i < 10; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 12  ]
 [e $U 13  ]
 [e :U 12 ]
-"44
-[; ;I2C_conf/memory/memory.c: 44:     {
+"118
+[; ;I2C_conf/memory/memory.c: 118:     {
 {
-"45
-[; ;I2C_conf/memory/memory.c: 45:         if(array.Tab[i].State == 0)
-[e $ ! == -> . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 2 `i -> 0 `i 15  ]
-"46
-[; ;I2C_conf/memory/memory.c: 46:         {
+"119
+[; ;I2C_conf/memory/memory.c: 119:         if(array[memoryNumber].Tab[i].State == 0)
+[e $ ! == -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 2 `i -> 0 `i 15  ]
+"120
+[; ;I2C_conf/memory/memory.c: 120:         {
 {
-"47
-[; ;I2C_conf/memory/memory.c: 47:             array.Tab[i].Pointer = Pointer;
-[e = . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 0 _Pointer ]
-"48
-[; ;I2C_conf/memory/memory.c: 48:             array.Tab[i].PointerSize = sizeData;
-[e = . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 1 _sizeData ]
-"49
-[; ;I2C_conf/memory/memory.c: 49:             array.Tab[i].State = 1;
-[e = . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 2 -> -> 1 `i `uc ]
-"50
-[; ;I2C_conf/memory/memory.c: 50:             array.Tab[i].ID = myMemID;
-[e = . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 3 _myMemID ]
-"51
-[; ;I2C_conf/memory/memory.c: 51:             array.Tab[i].indice = (memory.use - sizeData);
-[e = . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 4 -> - -> . _memory 1 `i -> _sizeData `i `uc ]
-"52
-[; ;I2C_conf/memory/memory.c: 52:             indice = i;
+"121
+[; ;I2C_conf/memory/memory.c: 121:             array[memoryNumber].Tab[i].Pointer = Pointer;
+[e = . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 0 _Pointer ]
+"122
+[; ;I2C_conf/memory/memory.c: 122:             array[memoryNumber].Tab[i].PointerSize = sizeData;
+[e = . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 1 _sizeData ]
+"123
+[; ;I2C_conf/memory/memory.c: 123:             array[memoryNumber].Tab[i].State = 1;
+[e = . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 2 -> -> 1 `i `uc ]
+"124
+[; ;I2C_conf/memory/memory.c: 124:             array[memoryNumber].Tab[i].ID = myMemID[memoryNumber];
+[e = . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 3 *U + &U _myMemID * -> _memoryNumber `ux -> -> # *U &U _myMemID `ui `ux ]
+"125
+[; ;I2C_conf/memory/memory.c: 125:             array[memoryNumber].Tab[i].indice = (memory[memoryNumber].use - sizeData);
+[e = . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 4 -> - -> . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 1 `i -> _sizeData `i `uc ]
+"126
+[; ;I2C_conf/memory/memory.c: 126:             indice = i;
 [e = _indice _i ]
-"53
-[; ;I2C_conf/memory/memory.c: 53:             break;
+"127
+[; ;I2C_conf/memory/memory.c: 127:             break;
 [e $U 13  ]
-"54
-[; ;I2C_conf/memory/memory.c: 54:         }
+"128
+[; ;I2C_conf/memory/memory.c: 128:         }
 }
 [e :U 15 ]
-"55
-[; ;I2C_conf/memory/memory.c: 55:     }
+"129
+[; ;I2C_conf/memory/memory.c: 129:     }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 12  ]
 [e :U 13 ]
 }
-"56
-[; ;I2C_conf/memory/memory.c: 56:     array.indice++;
-[e ++ . _array 1 -> -> 1 `i `uc ]
-"57
-[; ;I2C_conf/memory/memory.c: 57:     dP = &array.Tab[indice].Pointer;
-[e = _dP &U . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 0 ]
-"58
-[; ;I2C_conf/memory/memory.c: 58:     return dP;
+"130
+[; ;I2C_conf/memory/memory.c: 130:     array[memoryNumber].indice++;
+[e ++ . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 1 -> -> 1 `i `uc ]
+"131
+[; ;I2C_conf/memory/memory.c: 131:     dP = &array[memoryNumber].Tab[indice].Pointer;
+[e = _dP &U . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 0 ]
+"132
+[; ;I2C_conf/memory/memory.c: 132:     return dP;
 [e ) _dP ]
 [e $UE 8  ]
-"59
-[; ;I2C_conf/memory/memory.c: 59: }
+"133
+[; ;I2C_conf/memory/memory.c: 133: }
 [e :UE 8 ]
 }
-"61
-[; ;I2C_conf/memory/memory.c: 61: void getFree(t_mem Pointer)
-[v _getFree `(v ~T0 @X0 1 ef1`**uc ]
-"62
-[; ;I2C_conf/memory/memory.c: 62: {
+"152
+[; ;I2C_conf/memory/memory.c: 152: void getFree(t_mem Pointer, u8 memoryNumber)
+[v _getFree `(v ~T0 @X0 1 ef2`**uc`uc ]
+"153
+[; ;I2C_conf/memory/memory.c: 153: {
 {
 [e :U _getFree ]
-"61
-[; ;I2C_conf/memory/memory.c: 61: void getFree(t_mem Pointer)
+"152
+[; ;I2C_conf/memory/memory.c: 152: void getFree(t_mem Pointer, u8 memoryNumber)
 [v _Pointer `**uc ~T0 @X0 1 r1 ]
-"62
-[; ;I2C_conf/memory/memory.c: 62: {
+[v _memoryNumber `uc ~T0 @X0 1 r2 ]
+"153
+[; ;I2C_conf/memory/memory.c: 153: {
 [f ]
-"63
-[; ;I2C_conf/memory/memory.c: 63:     if(*Pointer != ((void*)0))
+"154
+[; ;I2C_conf/memory/memory.c: 154:     if(*Pointer != ((void*)0))
 [e $ ! != *U _Pointer -> -> -> 0 `i `*v `*uc 17  ]
-"64
-[; ;I2C_conf/memory/memory.c: 64:     {
+"155
+[; ;I2C_conf/memory/memory.c: 155:     {
 {
-"65
-[; ;I2C_conf/memory/memory.c: 65:         u8 i;
+"156
+[; ;I2C_conf/memory/memory.c: 156:         u8 i;
 [v _i `uc ~T0 @X0 1 a ]
-"66
-[; ;I2C_conf/memory/memory.c: 66:         u8 *tabPoint;
+"157
+[; ;I2C_conf/memory/memory.c: 157:         u8 *tabPoint;
 [v _tabPoint `*uc ~T0 @X0 1 a ]
-"67
-[; ;I2C_conf/memory/memory.c: 67:         u8 tab[128];
-[v _tab `uc ~T0 @X0 -> 128 `i a ]
-"68
-[; ;I2C_conf/memory/memory.c: 68:         memcpy(tab , memory.pile, 128);
-[e ( _memcpy (3 , , -> &U _tab `*v -> &U . _memory 0 `*Cv -> -> 128 `i `ui ]
-"69
-[; ;I2C_conf/memory/memory.c: 69:         u8 indice = 0;
+"158
+[; ;I2C_conf/memory/memory.c: 158:         u8 tab[64];
+[v _tab `uc ~T0 @X0 -> 64 `i a ]
+"159
+[; ;I2C_conf/memory/memory.c: 159:         memcpy(tab , memory[memoryNumber].pile, 64);
+[e ( _memcpy (3 , , -> &U _tab `*v -> &U . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 0 `*Cv -> -> 64 `i `ui ]
+"160
+[; ;I2C_conf/memory/memory.c: 160:         u8 indice = 0;
 [v _indice `uc ~T0 @X0 1 a ]
 [e = _indice -> -> 0 `i `uc ]
-"70
-[; ;I2C_conf/memory/memory.c: 70:         for(i = 0; i < 10 ; i++)
+"161
+[; ;I2C_conf/memory/memory.c: 161:         for(i = 0; i < 10 ; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 18  ]
 [e $U 19  ]
 [e :U 18 ]
-"71
-[; ;I2C_conf/memory/memory.c: 71:         {
+"162
+[; ;I2C_conf/memory/memory.c: 162:         {
 {
-"72
-[; ;I2C_conf/memory/memory.c: 72:             if(Pointer == &array.Tab[i].Pointer)
-[e $ ! == _Pointer &U . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 0 21  ]
-"73
-[; ;I2C_conf/memory/memory.c: 73:             {
+"163
+[; ;I2C_conf/memory/memory.c: 163:             if(Pointer == &array[memoryNumber].Tab[i].Pointer)
+[e $ ! == _Pointer &U . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 0 21  ]
+"164
+[; ;I2C_conf/memory/memory.c: 164:             {
 {
-"74
-[; ;I2C_conf/memory/memory.c: 74:                 indice = i;
+"165
+[; ;I2C_conf/memory/memory.c: 165:                 indice = i;
 [e = _indice _i ]
-"75
-[; ;I2C_conf/memory/memory.c: 75:                 break;
+"166
+[; ;I2C_conf/memory/memory.c: 166:                 break;
 [e $U 19  ]
-"76
-[; ;I2C_conf/memory/memory.c: 76:             }
+"167
+[; ;I2C_conf/memory/memory.c: 167:             }
 }
 [e :U 21 ]
-"77
-[; ;I2C_conf/memory/memory.c: 77:         }
+"168
+[; ;I2C_conf/memory/memory.c: 168:         }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 18  ]
 [e :U 19 ]
 }
-"78
-[; ;I2C_conf/memory/memory.c: 78:         for(i = 0; i < 10 ; i++)
+"169
+[; ;I2C_conf/memory/memory.c: 169:         for(i = 0; i < 10 ; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 22  ]
 [e $U 23  ]
 [e :U 22 ]
-"79
-[; ;I2C_conf/memory/memory.c: 79:         {
+"170
+[; ;I2C_conf/memory/memory.c: 170:         {
 {
-"80
-[; ;I2C_conf/memory/memory.c: 80:             if((array.Tab[i].indice > array.Tab[indice].indice) && (array.Tab[i].State == 1))
-[e $ ! && > -> . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 4 `i -> . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 4 `i == -> . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 2 `i -> 1 `i 25  ]
-"81
-[; ;I2C_conf/memory/memory.c: 81:             {
+"171
+[; ;I2C_conf/memory/memory.c: 171:             if((array[memoryNumber].Tab[i].indice > array[memoryNumber].Tab[indice].indice) && (array[memoryNumber].Tab[i].State == 1))
+[e $ ! && > -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 4 `i -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 4 `i == -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 2 `i -> 1 `i 25  ]
+"172
+[; ;I2C_conf/memory/memory.c: 172:             {
 {
-"82
-[; ;I2C_conf/memory/memory.c: 82:                 tabPoint = &tab[array.Tab[indice].indice];
-[e = _tabPoint &U *U + &U _tab * -> . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 4 `ux -> -> # *U &U _tab `ui `ux ]
-"83
-[; ;I2C_conf/memory/memory.c: 83:                 memcpy(tabPoint , array.Tab[i].Pointer, 128 - array.Tab[i].indice);
-[e ( _memcpy (3 , , -> _tabPoint `*v -> . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 0 `*Cv -> - -> 128 `i -> . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 4 `i `ui ]
-"84
-[; ;I2C_conf/memory/memory.c: 84:                 memcpy(memory.pile , tab, 128);
-[e ( _memcpy (3 , , -> &U . _memory 0 `*v -> &U _tab `*Cv -> -> 128 `i `ui ]
-"85
-[; ;I2C_conf/memory/memory.c: 85:                 break;
+"173
+[; ;I2C_conf/memory/memory.c: 173:                 tabPoint = &tab[array[memoryNumber].Tab[indice].indice];
+[e = _tabPoint &U *U + &U _tab * -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 4 `ux -> -> # *U &U _tab `ui `ux ]
+"174
+[; ;I2C_conf/memory/memory.c: 174:                 memcpy(tabPoint , array[memoryNumber].Tab[i].Pointer, 64 - array[memoryNumber].Tab[i].indice);
+[e ( _memcpy (3 , , -> _tabPoint `*v -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 0 `*Cv -> - -> 64 `i -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 4 `i `ui ]
+"175
+[; ;I2C_conf/memory/memory.c: 175:                 memcpy(memory[memoryNumber].pile , tab, 64);
+[e ( _memcpy (3 , , -> &U . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 0 `*v -> &U _tab `*Cv -> -> 64 `i `ui ]
+"176
+[; ;I2C_conf/memory/memory.c: 176:                 break;
 [e $U 23  ]
-"86
-[; ;I2C_conf/memory/memory.c: 86:             }
+"177
+[; ;I2C_conf/memory/memory.c: 177:             }
 }
 [e :U 25 ]
-"87
-[; ;I2C_conf/memory/memory.c: 87:         }
+"178
+[; ;I2C_conf/memory/memory.c: 178:         }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 22  ]
 [e :U 23 ]
 }
-"88
-[; ;I2C_conf/memory/memory.c: 88:         for(i = 0; i < 10 ; i++)
+"179
+[; ;I2C_conf/memory/memory.c: 179:         for(i = 0; i < 10 ; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 26  ]
 [e $U 27  ]
 [e :U 26 ]
-"89
-[; ;I2C_conf/memory/memory.c: 89:         {
+"180
+[; ;I2C_conf/memory/memory.c: 180:         {
 {
-"90
-[; ;I2C_conf/memory/memory.c: 90:             if((array.Tab[i].indice > array.Tab[indice].indice ) && (array.Tab[i].State == 1))
-[e $ ! && > -> . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 4 `i -> . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 4 `i == -> . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 2 `i -> 1 `i 29  ]
-"91
-[; ;I2C_conf/memory/memory.c: 91:             {
+"181
+[; ;I2C_conf/memory/memory.c: 181:             if((array[memoryNumber].Tab[i].indice > array[memoryNumber].Tab[indice].indice ) && (array[memoryNumber].Tab[i].State == 1))
+[e $ ! && > -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 4 `i -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 4 `i == -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 2 `i -> 1 `i 29  ]
+"182
+[; ;I2C_conf/memory/memory.c: 182:             {
 {
-"92
-[; ;I2C_conf/memory/memory.c: 92:                 array.Tab[i].indice -= array.Tab[indice].PointerSize;
-[e =- . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 4 -> . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 1 `uc ]
-"93
-[; ;I2C_conf/memory/memory.c: 93:                 array.Tab[i].Pointer = &memory.pile[array.Tab[i].indice];
-[e = . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 0 &U *U + &U . _memory 0 * -> . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 4 `ux -> -> # *U &U . _memory 0 `ui `ux ]
-"94
-[; ;I2C_conf/memory/memory.c: 94:             }
+"183
+[; ;I2C_conf/memory/memory.c: 183:                 array[memoryNumber].Tab[i].indice -= array[memoryNumber].Tab[indice].PointerSize;
+[e =- . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 4 -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 1 `uc ]
+"184
+[; ;I2C_conf/memory/memory.c: 184:                 array[memoryNumber].Tab[i].Pointer = &memory[memoryNumber].pile[array[memoryNumber].Tab[i].indice];
+[e = . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 0 &U *U + &U . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 0 * -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 4 `ux -> -> # *U &U . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 0 `ui `ux ]
+"185
+[; ;I2C_conf/memory/memory.c: 185:             }
 }
 [e :U 29 ]
-"95
-[; ;I2C_conf/memory/memory.c: 95:         }
+"186
+[; ;I2C_conf/memory/memory.c: 186:         }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 26  ]
 [e :U 27 ]
 }
-"96
-[; ;I2C_conf/memory/memory.c: 96:         array.Tab[indice].State = 0;
-[e = . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 2 -> -> 0 `i `uc ]
-"97
-[; ;I2C_conf/memory/memory.c: 97:         array.indice--;
-[e -- . _array 1 -> -> 1 `i `uc ]
-"98
-[; ;I2C_conf/memory/memory.c: 98:         memory.use -= array.Tab[indice].PointerSize;
-[e =- . _memory 1 -> . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 1 `uc ]
-"99
-[; ;I2C_conf/memory/memory.c: 99:     }
+"187
+[; ;I2C_conf/memory/memory.c: 187:         array[memoryNumber].Tab[indice].State = 0;
+[e = . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 2 -> -> 0 `i `uc ]
+"188
+[; ;I2C_conf/memory/memory.c: 188:         array[memoryNumber].indice--;
+[e -- . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 1 -> -> 1 `i `uc ]
+"189
+[; ;I2C_conf/memory/memory.c: 189:         memory[memoryNumber].use -= array[memoryNumber].Tab[indice].PointerSize;
+[e =- . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 1 -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 1 `uc ]
+"190
+[; ;I2C_conf/memory/memory.c: 190:     }
 }
 [e :U 17 ]
-"100
-[; ;I2C_conf/memory/memory.c: 100: }
+"191
+[; ;I2C_conf/memory/memory.c: 191: }
 [e :UE 16 ]
 }
-"102
-[; ;I2C_conf/memory/memory.c: 102: int GetMemorySize(t_mem Pointer)
-[v _GetMemorySize `(i ~T0 @X0 1 ef1`**uc ]
-"103
-[; ;I2C_conf/memory/memory.c: 103: {
+"211
+[; ;I2C_conf/memory/memory.c: 211: int GetMemorySize(t_mem Pointer, u8 memoryNumber)
+[v _GetMemorySize `(i ~T0 @X0 1 ef2`**uc`uc ]
+"212
+[; ;I2C_conf/memory/memory.c: 212: {
 {
 [e :U _GetMemorySize ]
-"102
-[; ;I2C_conf/memory/memory.c: 102: int GetMemorySize(t_mem Pointer)
+"211
+[; ;I2C_conf/memory/memory.c: 211: int GetMemorySize(t_mem Pointer, u8 memoryNumber)
 [v _Pointer `**uc ~T0 @X0 1 r1 ]
-"103
-[; ;I2C_conf/memory/memory.c: 103: {
+[v _memoryNumber `uc ~T0 @X0 1 r2 ]
+"212
+[; ;I2C_conf/memory/memory.c: 212: {
 [f ]
-"104
-[; ;I2C_conf/memory/memory.c: 104:     if(*Pointer == ((void*)0))
+"213
+[; ;I2C_conf/memory/memory.c: 213:     if(*Pointer == ((void*)0))
 [e $ ! == *U _Pointer -> -> -> 0 `i `*v `*uc 31  ]
-"105
-[; ;I2C_conf/memory/memory.c: 105:         return (-1);
+"214
+[; ;I2C_conf/memory/memory.c: 214:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 30  ]
 [e :U 31 ]
-"106
-[; ;I2C_conf/memory/memory.c: 106:     u8 i;
+"215
+[; ;I2C_conf/memory/memory.c: 215:     u8 i;
 [v _i `uc ~T0 @X0 1 a ]
-"107
-[; ;I2C_conf/memory/memory.c: 107:     u8 indice = 10 + 1;
+"216
+[; ;I2C_conf/memory/memory.c: 216:     u8 indice = 10 + 1;
 [v _indice `uc ~T0 @X0 1 a ]
 [e = _indice -> + -> 10 `i -> 1 `i `uc ]
-"108
-[; ;I2C_conf/memory/memory.c: 108:     for(i = 0; i < 10 ; i++)
+"217
+[; ;I2C_conf/memory/memory.c: 217:     for(i = 0; i < 10 ; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 32  ]
 [e $U 33  ]
 [e :U 32 ]
-"109
-[; ;I2C_conf/memory/memory.c: 109:     {
+"218
+[; ;I2C_conf/memory/memory.c: 218:     {
 {
-"110
-[; ;I2C_conf/memory/memory.c: 110:         if(Pointer == &array.Tab[i].Pointer)
-[e $ ! == _Pointer &U . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 0 35  ]
-"111
-[; ;I2C_conf/memory/memory.c: 111:         {
+"219
+[; ;I2C_conf/memory/memory.c: 219:         if(Pointer == &array[memoryNumber].Tab[i].Pointer)
+[e $ ! == _Pointer &U . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 0 35  ]
+"220
+[; ;I2C_conf/memory/memory.c: 220:         {
 {
-"112
-[; ;I2C_conf/memory/memory.c: 112:             indice = i;
+"221
+[; ;I2C_conf/memory/memory.c: 221:             indice = i;
 [e = _indice _i ]
-"113
-[; ;I2C_conf/memory/memory.c: 113:             break;
+"222
+[; ;I2C_conf/memory/memory.c: 222:             break;
 [e $U 33  ]
-"114
-[; ;I2C_conf/memory/memory.c: 114:         }
+"223
+[; ;I2C_conf/memory/memory.c: 223:         }
 }
 [e :U 35 ]
-"115
-[; ;I2C_conf/memory/memory.c: 115:     }
+"224
+[; ;I2C_conf/memory/memory.c: 224:     }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 32  ]
 [e :U 33 ]
 }
-"116
-[; ;I2C_conf/memory/memory.c: 116:     if(indice == (10 + 1))
+"225
+[; ;I2C_conf/memory/memory.c: 225:     if(indice == (10 + 1))
 [e $ ! == -> _indice `i + -> 10 `i -> 1 `i 36  ]
-"117
-[; ;I2C_conf/memory/memory.c: 117:         return (-1);
+"226
+[; ;I2C_conf/memory/memory.c: 226:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 30  ]
 [e :U 36 ]
-"118
-[; ;I2C_conf/memory/memory.c: 118:     if(array.Tab[indice].State == 0)
-[e $ ! == -> . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 2 `i -> 0 `i 37  ]
-"119
-[; ;I2C_conf/memory/memory.c: 119:         return (-1);
+"227
+[; ;I2C_conf/memory/memory.c: 227:     if(array[memoryNumber].Tab[indice].State == 0)
+[e $ ! == -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 2 `i -> 0 `i 37  ]
+"228
+[; ;I2C_conf/memory/memory.c: 228:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 30  ]
 [e $U 38  ]
-"120
-[; ;I2C_conf/memory/memory.c: 120:     else
+"229
+[; ;I2C_conf/memory/memory.c: 229:     else
 [e :U 37 ]
-"121
-[; ;I2C_conf/memory/memory.c: 121:         return array.Tab[indice].PointerSize;
-[e ) -> . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 1 `i ]
+"230
+[; ;I2C_conf/memory/memory.c: 230:         return array[memoryNumber].Tab[indice].PointerSize;
+[e ) -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 1 `i ]
 [e $UE 30  ]
 [e :U 38 ]
-"122
-[; ;I2C_conf/memory/memory.c: 122: }
+"231
+[; ;I2C_conf/memory/memory.c: 231: }
 [e :UE 30 ]
 }
-"124
-[; ;I2C_conf/memory/memory.c: 124: int getMemoryID(t_mem Pointer)
-[v _getMemoryID `(i ~T0 @X0 1 ef1`**uc ]
-"125
-[; ;I2C_conf/memory/memory.c: 125: {
+"251
+[; ;I2C_conf/memory/memory.c: 251: int getMemoryID(t_mem Pointer, u8 memoryNumber)
+[v _getMemoryID `(i ~T0 @X0 1 ef2`**uc`uc ]
+"252
+[; ;I2C_conf/memory/memory.c: 252: {
 {
 [e :U _getMemoryID ]
-"124
-[; ;I2C_conf/memory/memory.c: 124: int getMemoryID(t_mem Pointer)
+"251
+[; ;I2C_conf/memory/memory.c: 251: int getMemoryID(t_mem Pointer, u8 memoryNumber)
 [v _Pointer `**uc ~T0 @X0 1 r1 ]
-"125
-[; ;I2C_conf/memory/memory.c: 125: {
+[v _memoryNumber `uc ~T0 @X0 1 r2 ]
+"252
+[; ;I2C_conf/memory/memory.c: 252: {
 [f ]
-"126
-[; ;I2C_conf/memory/memory.c: 126:     if(*Pointer == ((void*)0))
+"253
+[; ;I2C_conf/memory/memory.c: 253:     if(*Pointer == ((void*)0))
 [e $ ! == *U _Pointer -> -> -> 0 `i `*v `*uc 40  ]
-"127
-[; ;I2C_conf/memory/memory.c: 127:         return (-1);
+"254
+[; ;I2C_conf/memory/memory.c: 254:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 39  ]
 [e :U 40 ]
-"128
-[; ;I2C_conf/memory/memory.c: 128:     u8 i;
+"255
+[; ;I2C_conf/memory/memory.c: 255:     u8 i;
 [v _i `uc ~T0 @X0 1 a ]
-"129
-[; ;I2C_conf/memory/memory.c: 129:     u8 indice = 10 + 1;
+"256
+[; ;I2C_conf/memory/memory.c: 256:     u8 indice = 10 + 1;
 [v _indice `uc ~T0 @X0 1 a ]
 [e = _indice -> + -> 10 `i -> 1 `i `uc ]
-"130
-[; ;I2C_conf/memory/memory.c: 130:     for(i = 0; i < 10 ; i++)
+"257
+[; ;I2C_conf/memory/memory.c: 257:     for(i = 0; i < 10 ; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 41  ]
 [e $U 42  ]
 [e :U 41 ]
-"131
-[; ;I2C_conf/memory/memory.c: 131:     {
+"258
+[; ;I2C_conf/memory/memory.c: 258:     {
 {
-"132
-[; ;I2C_conf/memory/memory.c: 132:         if(Pointer == &array.Tab[i].Pointer)
-[e $ ! == _Pointer &U . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 0 44  ]
-"133
-[; ;I2C_conf/memory/memory.c: 133:         {
+"259
+[; ;I2C_conf/memory/memory.c: 259:         if(Pointer == &array[memoryNumber].Tab[i].Pointer)
+[e $ ! == _Pointer &U . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 0 44  ]
+"260
+[; ;I2C_conf/memory/memory.c: 260:         {
 {
-"134
-[; ;I2C_conf/memory/memory.c: 134:             indice = i;
+"261
+[; ;I2C_conf/memory/memory.c: 261:             indice = i;
 [e = _indice _i ]
-"135
-[; ;I2C_conf/memory/memory.c: 135:             break;
+"262
+[; ;I2C_conf/memory/memory.c: 262:             break;
 [e $U 42  ]
-"136
-[; ;I2C_conf/memory/memory.c: 136:         }
+"263
+[; ;I2C_conf/memory/memory.c: 263:         }
 }
 [e :U 44 ]
-"137
-[; ;I2C_conf/memory/memory.c: 137:     }
+"264
+[; ;I2C_conf/memory/memory.c: 264:     }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 41  ]
 [e :U 42 ]
 }
-"138
-[; ;I2C_conf/memory/memory.c: 138:     if(indice == (10 + 1))
+"265
+[; ;I2C_conf/memory/memory.c: 265:     if(indice == (10 + 1))
 [e $ ! == -> _indice `i + -> 10 `i -> 1 `i 45  ]
-"139
-[; ;I2C_conf/memory/memory.c: 139:         return (-1);
+"266
+[; ;I2C_conf/memory/memory.c: 266:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 39  ]
 [e :U 45 ]
-"140
-[; ;I2C_conf/memory/memory.c: 140:     if(array.Tab[indice].State == 0)
-[e $ ! == -> . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 2 `i -> 0 `i 46  ]
-"141
-[; ;I2C_conf/memory/memory.c: 141:         return (-1);
+"267
+[; ;I2C_conf/memory/memory.c: 267:     if(array[memoryNumber].Tab[indice].State == 0)
+[e $ ! == -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 2 `i -> 0 `i 46  ]
+"268
+[; ;I2C_conf/memory/memory.c: 268:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 39  ]
 [e $U 47  ]
-"142
-[; ;I2C_conf/memory/memory.c: 142:     else
+"269
+[; ;I2C_conf/memory/memory.c: 269:     else
 [e :U 46 ]
-"143
-[; ;I2C_conf/memory/memory.c: 143:         return array.Tab[indice].ID;
-[e ) -> . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 3 `i ]
+"270
+[; ;I2C_conf/memory/memory.c: 270:         return array[memoryNumber].Tab[indice].ID;
+[e ) -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 3 `i ]
 [e $UE 39  ]
 [e :U 47 ]
-"144
-[; ;I2C_conf/memory/memory.c: 144: }
+"271
+[; ;I2C_conf/memory/memory.c: 271: }
 [e :UE 39 ]
 }
-"146
-[; ;I2C_conf/memory/memory.c: 146: void getFreeFull(void)
-[v _getFreeFull `(v ~T0 @X0 1 ef ]
-"147
-[; ;I2C_conf/memory/memory.c: 147: {
+"288
+[; ;I2C_conf/memory/memory.c: 288: void getFreeFull(u8 memoryNumber)
+[v _getFreeFull `(v ~T0 @X0 1 ef1`uc ]
+"289
+[; ;I2C_conf/memory/memory.c: 289: {
 {
 [e :U _getFreeFull ]
+"288
+[; ;I2C_conf/memory/memory.c: 288: void getFreeFull(u8 memoryNumber)
+[v _memoryNumber `uc ~T0 @X0 1 r1 ]
+"289
+[; ;I2C_conf/memory/memory.c: 289: {
 [f ]
-"148
-[; ;I2C_conf/memory/memory.c: 148:     u8 i;
+"290
+[; ;I2C_conf/memory/memory.c: 290:     u8 i;
 [v _i `uc ~T0 @X0 1 a ]
-"149
-[; ;I2C_conf/memory/memory.c: 149:     memory.use = 0;
-[e = . _memory 1 -> -> 0 `i `uc ]
-"150
-[; ;I2C_conf/memory/memory.c: 150:     array.indice = 0;
-[e = . _array 1 -> -> 0 `i `uc ]
-"151
-[; ;I2C_conf/memory/memory.c: 151:     for(i = 0; i < 10 ; i++)
+"291
+[; ;I2C_conf/memory/memory.c: 291:     memory[memoryNumber].use = 0;
+[e = . *U + &U _memory * -> _memoryNumber `ux -> -> # *U &U _memory `ui `ux 1 -> -> 0 `i `uc ]
+"292
+[; ;I2C_conf/memory/memory.c: 292:     array[memoryNumber].indice = 0;
+[e = . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 1 -> -> 0 `i `uc ]
+"293
+[; ;I2C_conf/memory/memory.c: 293:     for(i = 0; i < 10 ; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 49  ]
 [e $U 50  ]
 [e :U 49 ]
-"152
-[; ;I2C_conf/memory/memory.c: 152:         array.Tab[i].State = 0;
-[e = . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 2 -> -> 0 `i `uc ]
+"294
+[; ;I2C_conf/memory/memory.c: 294:         array[memoryNumber].Tab[i].State = 0;
+[e = . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 2 -> -> 0 `i `uc ]
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 49  ]
 [e :U 50 ]
 }
-"153
-[; ;I2C_conf/memory/memory.c: 153: }
+"295
+[; ;I2C_conf/memory/memory.c: 295: }
 [e :UE 48 ]
 }
-"155
-[; ;I2C_conf/memory/memory.c: 155: t_mem getMemoryFromID(u8 ID)
-[v _getMemoryFromID `(**uc ~T0 @X0 1 ef1`uc ]
-"156
-[; ;I2C_conf/memory/memory.c: 156: {
+"316
+[; ;I2C_conf/memory/memory.c: 316: t_mem getMemoryFromID(u8 ID, u8 memoryNumber)
+[v _getMemoryFromID `(**uc ~T0 @X0 1 ef2`uc`uc ]
+"317
+[; ;I2C_conf/memory/memory.c: 317: {
 {
 [e :U _getMemoryFromID ]
-"155
-[; ;I2C_conf/memory/memory.c: 155: t_mem getMemoryFromID(u8 ID)
+"316
+[; ;I2C_conf/memory/memory.c: 316: t_mem getMemoryFromID(u8 ID, u8 memoryNumber)
 [v _ID `uc ~T0 @X0 1 r1 ]
-"156
-[; ;I2C_conf/memory/memory.c: 156: {
+[v _memoryNumber `uc ~T0 @X0 1 r2 ]
+"317
+[; ;I2C_conf/memory/memory.c: 317: {
 [f ]
-"157
-[; ;I2C_conf/memory/memory.c: 157:     u8 i;
+"318
+[; ;I2C_conf/memory/memory.c: 318:     u8 i;
 [v _i `uc ~T0 @X0 1 a ]
-"158
-[; ;I2C_conf/memory/memory.c: 158:     t_mem dP;
+"319
+[; ;I2C_conf/memory/memory.c: 319:     t_mem dP;
 [v _dP `**uc ~T0 @X0 1 a ]
-"159
-[; ;I2C_conf/memory/memory.c: 159:     u8 indice = 10 + 1;
+"320
+[; ;I2C_conf/memory/memory.c: 320:     u8 indice = 10 + 1;
 [v _indice `uc ~T0 @X0 1 a ]
 [e = _indice -> + -> 10 `i -> 1 `i `uc ]
-"160
-[; ;I2C_conf/memory/memory.c: 160:     for(i = 0; i < 10 ; i++)
+"321
+[; ;I2C_conf/memory/memory.c: 321:     for(i = 0; i < 10 ; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 53  ]
 [e $U 54  ]
 [e :U 53 ]
-"161
-[; ;I2C_conf/memory/memory.c: 161:     {
+"322
+[; ;I2C_conf/memory/memory.c: 322:     {
 {
-"162
-[; ;I2C_conf/memory/memory.c: 162:         if(ID == array.Tab[i].ID)
-[e $ ! == -> _ID `i -> . *U + &U . _array 0 * -> _i `ux -> -> # *U &U . _array 0 `ui `ux 3 `i 56  ]
-"163
-[; ;I2C_conf/memory/memory.c: 163:         {
+"323
+[; ;I2C_conf/memory/memory.c: 323:         if(ID == array[memoryNumber].Tab[i].ID)
+[e $ ! == -> _ID `i -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _i `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 3 `i 56  ]
+"324
+[; ;I2C_conf/memory/memory.c: 324:         {
 {
-"164
-[; ;I2C_conf/memory/memory.c: 164:             indice = i;
+"325
+[; ;I2C_conf/memory/memory.c: 325:             indice = i;
 [e = _indice _i ]
-"165
-[; ;I2C_conf/memory/memory.c: 165:             break;
+"326
+[; ;I2C_conf/memory/memory.c: 326:             break;
 [e $U 54  ]
-"166
-[; ;I2C_conf/memory/memory.c: 166:         }
+"327
+[; ;I2C_conf/memory/memory.c: 327:         }
 }
 [e :U 56 ]
-"167
-[; ;I2C_conf/memory/memory.c: 167:     }
+"328
+[; ;I2C_conf/memory/memory.c: 328:     }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 53  ]
 [e :U 54 ]
 }
-"168
-[; ;I2C_conf/memory/memory.c: 168:     if(indice == (10 + 1))
+"329
+[; ;I2C_conf/memory/memory.c: 329:     if(indice == (10 + 1))
 [e $ ! == -> _indice `i + -> 10 `i -> 1 `i 57  ]
-"169
-[; ;I2C_conf/memory/memory.c: 169:     {
+"330
+[; ;I2C_conf/memory/memory.c: 330:     {
 {
-"170
-[; ;I2C_conf/memory/memory.c: 170:         dP = &nulPointer;
+"331
+[; ;I2C_conf/memory/memory.c: 331:         dP = &nulPointer;
 [e = _dP &U _nulPointer ]
-"171
-[; ;I2C_conf/memory/memory.c: 171:         return dP;
+"332
+[; ;I2C_conf/memory/memory.c: 332:         return dP;
 [e ) _dP ]
 [e $UE 52  ]
-"172
-[; ;I2C_conf/memory/memory.c: 172:     }
+"333
+[; ;I2C_conf/memory/memory.c: 333:     }
 }
 [e :U 57 ]
-"173
-[; ;I2C_conf/memory/memory.c: 173:     if(array.Tab[indice].State == 0)
-[e $ ! == -> . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 2 `i -> 0 `i 58  ]
-"174
-[; ;I2C_conf/memory/memory.c: 174:     {
+"334
+[; ;I2C_conf/memory/memory.c: 334:     if(array[memoryNumber].Tab[indice].State == 0)
+[e $ ! == -> . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 2 `i -> 0 `i 58  ]
+"335
+[; ;I2C_conf/memory/memory.c: 335:     {
 {
-"175
-[; ;I2C_conf/memory/memory.c: 175:         dP = &nulPointer;
+"336
+[; ;I2C_conf/memory/memory.c: 336:         dP = &nulPointer;
 [e = _dP &U _nulPointer ]
-"176
-[; ;I2C_conf/memory/memory.c: 176:         return dP;
+"337
+[; ;I2C_conf/memory/memory.c: 337:         return dP;
 [e ) _dP ]
 [e $UE 52  ]
-"177
-[; ;I2C_conf/memory/memory.c: 177:     }
+"338
+[; ;I2C_conf/memory/memory.c: 338:     }
 }
 [e $U 59  ]
-"178
-[; ;I2C_conf/memory/memory.c: 178:     else
+"339
+[; ;I2C_conf/memory/memory.c: 339:     else
 [e :U 58 ]
-"179
-[; ;I2C_conf/memory/memory.c: 179:     {
+"340
+[; ;I2C_conf/memory/memory.c: 340:     {
 {
-"180
-[; ;I2C_conf/memory/memory.c: 180:         dP = &array.Tab[indice].Pointer;
-[e = _dP &U . *U + &U . _array 0 * -> _indice `ux -> -> # *U &U . _array 0 `ui `ux 0 ]
-"181
-[; ;I2C_conf/memory/memory.c: 181:         return dP;
+"341
+[; ;I2C_conf/memory/memory.c: 341:         dP = &array[memoryNumber].Tab[indice].Pointer;
+[e = _dP &U . *U + &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 * -> _indice `ux -> -> # *U &U . *U + &U _array * -> _memoryNumber `ux -> -> # *U &U _array `ui `ux 0 `ui `ux 0 ]
+"342
+[; ;I2C_conf/memory/memory.c: 342:         return dP;
 [e ) _dP ]
 [e $UE 52  ]
-"182
-[; ;I2C_conf/memory/memory.c: 182:     }
+"343
+[; ;I2C_conf/memory/memory.c: 343:     }
 }
 [e :U 59 ]
-"183
-[; ;I2C_conf/memory/memory.c: 183: }
+"344
+[; ;I2C_conf/memory/memory.c: 344: }
 [e :UE 52 ]
 }

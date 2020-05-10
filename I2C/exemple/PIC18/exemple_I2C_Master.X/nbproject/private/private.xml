@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/asus/Desktop/Projects/Code_test/exemple_I2C_Master.X/I2C_conf/memory/memory.h</file>
-            <file>file:/C:/Users/asus/Desktop/Projects/Code_test/exemple_I2C_Master.X/main.c</file>
-            <file>file:/C:/Users/asus/Desktop/Projects/Code_test/exemple_I2C_Master.X/I2C.c</file>
-            <file>file:/C:/Users/asus/Desktop/Projects/Code_test/exemple_I2C_Master.X/I2C_conf/I2C_PIC_Support.c</file>
-            <file>file:/C:/Users/asus/Desktop/Projects/Code_test/exemple_I2C_Master.X/I2C_conf/I2C_PIC_Support.h</file>
-            <file>file:/C:/Users/asus/Desktop/Projects/Code_test/exemple_I2C_Master.X/I2C_conf/memory/memory.c</file>
-            <file>file:/C:/Users/asus/Desktop/Projects/Code_test/exemple_I2C_Master.X/I2C.h</file>
-            <file>file:/C:/Users/asus/Desktop/Projects/Code_test/exemple_I2C_Master.X/interrupt.c</file>
+            <file>file:/C:/Users/asus/Desktop/Projects/Pictave/trunk/I2C/exemple/PIC18/exemple_I2C_Master.X/I2C.h</file>
+            <file>file:/C:/Users/asus/Desktop/Projects/Pictave/trunk/I2C/exemple/PIC18/exemple_I2C_Master.X/main.c</file>
+            <file>file:/C:/Users/asus/Desktop/Projects/Pictave/trunk/I2C/exemple/PIC18/exemple_I2C_Master.X/I2C.c</file>
+            <file>file:/C:/Users/asus/Desktop/Projects/Pictave/trunk/I2C/exemple/PIC18/exemple_I2C_Master.X/I2C_conf/I2C_PIC_Support.h</file>
         </group>
     </open-files>
 </project-private>

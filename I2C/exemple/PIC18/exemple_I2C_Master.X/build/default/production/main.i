@@ -9666,9 +9666,9 @@ void ISR_Tasks(void);
 # 77 "main.c" 2
 
 # 1 "./I2C.h" 1
-# 24 "./I2C.h"
+# 26 "./I2C.h"
 # 1 "./I2C_conf/I2C_PIC_Support.h" 1
-# 40 "./I2C_conf/I2C_PIC_Support.h"
+# 41 "./I2C_conf/I2C_PIC_Support.h"
 # 1 "./I2C_conf/memory/memory.h" 1
 # 43 "./I2C_conf/memory/memory.h"
 typedef unsigned char u8;
@@ -9705,8 +9705,8 @@ int getMemorySize(t_mem Pointer, u8 memoryNumber);
 int getMemoryID(t_mem Pointer, u8 memoryNumber);
 void getFreeFull(u8 memoryNumber);
 t_mem getMemoryFromID(u8 ID, u8 memoryNumber);
-# 40 "./I2C_conf/I2C_PIC_Support.h" 2
-# 78 "./I2C_conf/I2C_PIC_Support.h"
+# 41 "./I2C_conf/I2C_PIC_Support.h" 2
+# 79 "./I2C_conf/I2C_PIC_Support.h"
 typedef unsigned int u16;
 typedef unsigned char u8;
 
@@ -9778,7 +9778,7 @@ typedef struct
     u8 sizeData;
     u8 MsgID;
 }t_I2CMyMsg;
-# 158 "./I2C_conf/I2C_PIC_Support.h"
+# 159 "./I2C_conf/I2C_PIC_Support.h"
 typedef struct
 {
     u8 PointTab[10];
@@ -9796,7 +9796,7 @@ int I2C_Master_RepeatStart(int adresse);
 int I2C_EEPROM_Write(char adresse,int EEadresse, char data);
 int I2C_EEPROM_Read(char adresse, int EEadresse);
 void I2C_timer_prescaler(float period, u16 *prUsed, u16 presc, u16 *prescUsed, float *min);
-# 24 "./I2C.h" 2
+# 26 "./I2C.h" 2
 
 
 

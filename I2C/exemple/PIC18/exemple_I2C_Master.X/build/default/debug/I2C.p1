@@ -1,24 +1,24 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"25 I2C.c
-[; ;I2C.c: 25: t_I2CConfig I2CConfig;
-[c E6152 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 .. ]
-[n E6152 . BUS_READY MASTER_START MASTER_ADRESSE MASTER_ACK_AD MASTER_WRITE MASTER_ACK_DA MASTER_READ MASTER_READ_NOACK MASTER_RESTART MASTER_STOP I2C_OVERFLOW I2C_COLISION DELAY_TIMEOUT DELAY_INTER DELAY_DA SCAN  ]
-[c E6170 0 1 2 3 .. ]
-[n E6170 . I2C_MASTER_WRITE I2C_MASTER_READ I2C_MASTER_WRITE_WITH_RESTART I2C_MASTER_SCAN  ]
-"110 ./I2C_conf/I2C_PIC_Support.h
-[; ;./I2C_conf/I2C_PIC_Support.h: 110: {
-[s S855 `E6170 1 `uc 1 `**uc 1 `uc 1 `uc 1 `uc 1 ]
+"28 I2C.c
+[; ;I2C.c: 28: t_I2CConfig I2CConfig;
+[c E6159 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 .. ]
+[n E6159 . BUS_READY MASTER_START MASTER_ADRESSE MASTER_ACK_AD MASTER_WRITE MASTER_ACK_DA MASTER_READ MASTER_READ_NOACK MASTER_RESTART MASTER_STOP I2C_OVERFLOW I2C_COLISION DELAY_TIMEOUT DELAY_INTER DELAY_DA SCAN  ]
+[c E6177 0 1 2 3 .. ]
+[n E6177 . I2C_MASTER_WRITE I2C_MASTER_READ I2C_MASTER_WRITE_WITH_RESTART I2C_MASTER_SCAN  ]
+"111 ./I2C_conf/I2C_PIC_Support.h
+[; ;./I2C_conf/I2C_PIC_Support.h: 111: {
+[s S855 `E6177 1 `uc 1 `**uc 1 `uc 1 `uc 1 `uc 1 ]
 [n S855 . type adress data memID sizeData delay ]
-"124
-[; ;./I2C_conf/I2C_PIC_Support.h: 124: {
-[s S856 `E6152 1 `S855 -> 10 `i `S855 -> 10 `i `uc -> 11 `i `uc -> 11 `i `uc 1 `uc 1 `uc 1 `uc 1 ]
+"125
+[; ;./I2C_conf/I2C_PIC_Support.h: 125: {
+[s S856 `E6159 1 `S855 -> 10 `i `S855 -> 10 `i `uc -> 11 `i `uc -> 11 `i `uc 1 `uc 1 `uc 1 `uc 1 ]
 [n S856 . State Buffer RcvBuffer MsgID RcvMsgID BufferNbr RcvBufferNbr Status Options ]
-"137
-[; ;./I2C_conf/I2C_PIC_Support.h: 137: {
+"138
+[; ;./I2C_conf/I2C_PIC_Support.h: 138: {
 [s S857 `uc -> 10 `i `uc 1 `uc 1 ]
 [n S857 . Adress NbrAdress State ]
-"159
-[; ;./I2C_conf/I2C_PIC_Support.h: 159: {
+"160
+[; ;./I2C_conf/I2C_PIC_Support.h: 160: {
 [s S859 `uc -> 10 `i `uc 1 ]
 [n S859 . PointTab sizePoint ]
 "19798 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic18f45k22.h
@@ -56,20 +56,20 @@ Version 4.0 HI-TECH Software Intermediate Code
 "7896
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic18f45k22.h: 7896: extern volatile unsigned char LATD __attribute__((address(0xF8C)));
 [v _LATD `Vuc ~T0 @X0 0 e@3980 ]
-"41 ./I2C_conf/memory/memory.h
-[; ;./I2C_conf/memory/memory.h: 41: void getFree(t_mem Pointer);
-[v _getFree `(v ~T0 @X0 0 ef1`**uc ]
+"72 ./I2C_conf/memory/memory.h
+[; ;./I2C_conf/memory/memory.h: 72: void getFree(t_mem Pointer, u8 memoryNumber);
+[v _getFree `(v ~T0 @X0 0 ef2`**uc`uc ]
 "19312 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic18f45k22.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic18f45k22.h: 19312: extern volatile __bit PEIE __attribute__((address(0x7F96)));
 [v _PEIE `Vb ~T0 @X0 0 e@32662 ]
 "18451
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic18f45k22.h: 18451: extern volatile __bit GIE __attribute__((address(0x7F97)));
 [v _GIE `Vb ~T0 @X0 0 e@32663 ]
-"38 ./I2C_conf/memory/memory.h
-[; ;./I2C_conf/memory/memory.h: 38: void memory_init(void);
+"69 ./I2C_conf/memory/memory.h
+[; ;./I2C_conf/memory/memory.h: 69: void memory_init(void);
 [v _memory_init `(v ~T0 @X0 0 ef ]
-"174 ./I2C_conf/I2C_PIC_Support.h
-[; ;./I2C_conf/I2C_PIC_Support.h: 174: void I2C_timer_prescaler(float period, u16 *prUsed, u16 presc, u16 *prescUsed, float *min);
+"175 ./I2C_conf/I2C_PIC_Support.h
+[; ;./I2C_conf/I2C_PIC_Support.h: 175: void I2C_timer_prescaler(float period, u16 *prUsed, u16 presc, u16 *prescUsed, float *min);
 [v _I2C_timer_prescaler `(v ~T0 @X0 0 ef5`f`*ui`ui`*ui`*f ]
 "29 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\c99\string.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\c99\string.h: 29: void *memset (void *, int, size_t);
@@ -194,30 +194,30 @@ Version 4.0 HI-TECH Software Intermediate Code
 "14447
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic18f45k22.h: 14447: extern volatile SSP1STATbits_t SSP1STATbits __attribute__((address(0xFC7)));
 [v _SSP1STATbits `VS675 ~T0 @X0 0 e@4039 ]
-"170 ./I2C_conf/I2C_PIC_Support.h
-[; ;./I2C_conf/I2C_PIC_Support.h: 170: int I2C_Master_Start(int adresse);
+"171 ./I2C_conf/I2C_PIC_Support.h
+[; ;./I2C_conf/I2C_PIC_Support.h: 171: int I2C_Master_Start(int adresse);
 [v _I2C_Master_Start `(i ~T0 @X0 0 ef1`i ]
-"169
-[; ;./I2C_conf/I2C_PIC_Support.h: 169: int I2C_Master_Write(int data);
+"170
+[; ;./I2C_conf/I2C_PIC_Support.h: 170: int I2C_Master_Write(int data);
 [v _I2C_Master_Write `(i ~T0 @X0 0 ef1`i ]
-"168
-[; ;./I2C_conf/I2C_PIC_Support.h: 168: int I2C_Master_Stop(void);
+"169
+[; ;./I2C_conf/I2C_PIC_Support.h: 169: int I2C_Master_Stop(void);
 [v _I2C_Master_Stop `(i ~T0 @X0 0 ef ]
-"40 ./I2C_conf/memory/memory.h
-[; ;./I2C_conf/memory/memory.h: 40: t_mem getMemoryPointer(u8 sizeData);
-[v _getMemoryPointer `(**uc ~T0 @X0 0 ef1`uc ]
-"43
-[; ;./I2C_conf/memory/memory.h: 43: int getMemoryID(t_mem Pointer);
-[v _getMemoryID `(i ~T0 @X0 0 ef1`**uc ]
+"71 ./I2C_conf/memory/memory.h
+[; ;./I2C_conf/memory/memory.h: 71: t_mem getMemoryPointer(u8 sizeData, u8 memoryNumber);
+[v _getMemoryPointer `(**uc ~T0 @X0 0 ef2`uc`uc ]
+"74
+[; ;./I2C_conf/memory/memory.h: 74: int getMemoryID(t_mem Pointer, u8 memoryNumber);
+[v _getMemoryID `(i ~T0 @X0 0 ef2`**uc`uc ]
 "27 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\c99\string.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\c99\string.h: 27: void *memcpy (void *restrict, const void *restrict, size_t);
 [v _memcpy `(*v ~T0 @X0 0 ef3`*v`*Cv`ui ]
-"45 ./I2C_conf/memory/memory.h
-[; ;./I2C_conf/memory/memory.h: 45: t_mem getMemoryFromID(u8 ID);
-[v _getMemoryFromID `(**uc ~T0 @X0 0 ef1`uc ]
-"42 ./I2C.h
-[; ;./I2C.h: 42: void I2C_TabRefresh(void);
+"44 ./I2C.h
+[; ;./I2C.h: 44: void I2C_TabRefresh(void);
 [v _I2C_TabRefresh `(v ~T0 @X0 0 ef ]
+"76 ./I2C_conf/memory/memory.h
+[; ;./I2C_conf/memory/memory.h: 76: t_mem getMemoryFromID(u8 ID, u8 memoryNumber);
+[v _getMemoryFromID `(**uc ~T0 @X0 0 ef2`uc`uc ]
 "54 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic18f45k22.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic18f45k22.h: 54: __asm("ANSELA equ 0F38h");
 [; <" ANSELA equ 0F38h ;# ">
@@ -974,1902 +974,1892 @@ Version 4.0 HI-TECH Software Intermediate Code
 "17372
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic18f45k22.h: 17372: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
-"25 I2C.c
-[; ;I2C.c: 25: t_I2CConfig I2CConfig;
+"28 I2C.c
+[; ;I2C.c: 28: t_I2CConfig I2CConfig;
 [v _I2CConfig `S856 ~T0 @X0 1 e ]
-"26
-[; ;I2C.c: 26: t_I2CScan *I2Cadress;
-[v _I2Cadress `*S857 ~T0 @X0 1 e ]
-"27
-[; ;I2C.c: 27: t_I2CMemory I2CMemory;
-[v _I2CMemory `S859 ~T0 @X0 1 e ]
-"28
-[; ;I2C.c: 28: u16 PointerRefresh;
-[v _PointerRefresh `ui ~T0 @X0 1 e ]
 "29
-[; ;I2C.c: 29: u16 timer;
-[v _timer `ui ~T0 @X0 1 e ]
+[; ;I2C.c: 29: t_I2CScan *I2Cadress;
+[v _I2Cadress `*S857 ~T0 @X0 1 e ]
 "30
-[; ;I2C.c: 30: u8 myMsgID;
-[v _myMsgID `uc ~T0 @X0 1 e ]
+[; ;I2C.c: 30: t_I2CMemory I2CMemory;
+[v _I2CMemory `S859 ~T0 @X0 1 e ]
 "31
-[; ;I2C.c: 31: t_I2CState debugTab[40];
-[v _debugTab `E6152 ~T0 @X0 -> 40 `i e ]
+[; ;I2C.c: 31: u16 PointerRefresh;
+[v _PointerRefresh `ui ~T0 @X0 1 e ]
 "32
-[; ;I2C.c: 32: u8 debugIndice;
-[v _debugIndice `uc ~T0 @X0 1 e ]
-"34
-[; ;I2C.c: 34: u8 *nulPointer;
+[; ;I2C.c: 32: u16 timer;
+[v _timer `ui ~T0 @X0 1 e ]
+"33
+[; ;I2C.c: 33: u8 myMsgID;
+[v _myMsgID `uc ~T0 @X0 1 e ]
+"35
+[; ;I2C.c: 35: u8 *nulPointer;
 [v _nulPointer `*uc ~T0 @X0 1 e ]
-"52
-[; ;I2C.c: 52: void I2C_ISR(void)
-[v _I2C_ISR `(v ~T0 @X0 1 ef ]
 "53
-[; ;I2C.c: 53: {
+[; ;I2C.c: 53: void I2C_ISR(void)
+[v _I2C_ISR `(v ~T0 @X0 1 ef ]
+"54
+[; ;I2C.c: 54: {
 {
 [e :U _I2C_ISR ]
 [f ]
-"54
-[; ;I2C.c: 54:     static u8 i = 0;
-[v F6269 `uc ~T0 @X0 1 s i ]
-[i F6269
--> -> 0 `i `uc
-]
 "55
-[; ;I2C.c: 55:     static u8 ack = 0;
-[v F6270 `uc ~T0 @X0 1 s ack ]
-[i F6270
+[; ;I2C.c: 55:     static u8 i = 0;
+[v F6274 `uc ~T0 @X0 1 s i ]
+[i F6274
 -> -> 0 `i `uc
 ]
 "56
-[; ;I2C.c: 56:     u8 type;
+[; ;I2C.c: 56:     static u8 ack = 0;
+[v F6275 `uc ~T0 @X0 1 s ack ]
+[i F6275
+-> -> 0 `i `uc
+]
+"57
+[; ;I2C.c: 57:     u8 type;
 [v _type `uc ~T0 @X0 1 a ]
-"62
-[; ;I2C.c: 62:     if((SSP1IF == 1) || ((TMR2IF == 1) && ((I2CConfig.State == DELAY_DA) || (I2CConfig.State == DELAY_INTER) || (I2CConfig.State == DELAY_TIMEOUT))))
-[e $ ! || == -> _SSP1IF `i -> 1 `i && == -> _TMR2IF `i -> 1 `i || || == -> . _I2CConfig 0 `ui -> . `E6152 14 `ui == -> . _I2CConfig 0 `ui -> . `E6152 13 `ui == -> . _I2CConfig 0 `ui -> . `E6152 12 `ui 861  ]
 "63
-[; ;I2C.c: 63:     {
+[; ;I2C.c: 63:     if((SSP1IF == 1) || ((TMR2IF == 1) && ((I2CConfig.State == DELAY_DA) || (I2CConfig.State == DELAY_INTER) || (I2CConfig.State == DELAY_TIMEOUT))))
+[e $ ! || == -> _SSP1IF `i -> 1 `i && == -> _TMR2IF `i -> 1 `i || || == -> . _I2CConfig 0 `ui -> . `E6159 14 `ui == -> . _I2CConfig 0 `ui -> . `E6159 13 `ui == -> . _I2CConfig 0 `ui -> . `E6159 12 `ui 861  ]
+"64
+[; ;I2C.c: 64:     {
 {
-"65
-[; ;I2C.c: 65:         delay_end:
-[e :U 862 ]
 "66
-[; ;I2C.c: 66:         if((I2CConfig.State != DELAY_DA) && (I2CConfig.State != DELAY_INTER) && (I2CConfig.State != DELAY_TIMEOUT))
-[e $ ! && && != -> . _I2CConfig 0 `ui -> . `E6152 14 `ui != -> . _I2CConfig 0 `ui -> . `E6152 13 `ui != -> . _I2CConfig 0 `ui -> . `E6152 12 `ui 863  ]
+[; ;I2C.c: 66:         delay_end:
+[e :U 862 ]
 "67
-[; ;I2C.c: 67:         {
-{
-"68
-[; ;I2C.c: 68:             debugIndice++;
-[e ++ _debugIndice -> -> 1 `i `uc ]
-"69
-[; ;I2C.c: 69:             debugTab[debugIndice] = I2CConfig.State;
-[e = *U + &U _debugTab * -> _debugIndice `ux -> -> # *U &U _debugTab `ui `ux . _I2CConfig 0 ]
-"70
-[; ;I2C.c: 70:         }
-}
-[e :U 863 ]
-"71
-[; ;I2C.c: 71:         switch(I2CConfig.State)
-[e $U 865  ]
-"72
-[; ;I2C.c: 72:         {
-{
-"73
-[; ;I2C.c: 73:             case MASTER_START:
-[e :U 866 ]
-"75
-[; ;I2C.c: 75:                 i = 0;
-[e = F6269 -> -> 0 `i `uc ]
-"76
-[; ;I2C.c: 76:                 ack = 0;
-[e = F6270 -> -> 0 `i `uc ]
-"77
-[; ;I2C.c: 77:                 if(I2CConfig.Buffer[0].delay > 0)
-[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `i -> 0 `i 867  ]
-"78
-[; ;I2C.c: 78:                 {
-{
-"79
-[; ;I2C.c: 79:                     timer = I2CConfig.Buffer[0].delay;
-[e = _timer -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `ui ]
-"80
-[; ;I2C.c: 80:                     I2CConfig.State = DELAY_DA;
-[e = . _I2CConfig 0 . `E6152 14 ]
-"81
-[; ;I2C.c: 81:                 }
-}
-[e $U 868  ]
-"82
-[; ;I2C.c: 82:                 else
-[e :U 867 ]
-"83
-[; ;I2C.c: 83:                 {
-{
-"84
-[; ;I2C.c: 84:                     timer = 10;
-[e = _timer -> -> 10 `i `ui ]
-"85
-[; ;I2C.c: 85:                     I2CConfig.State = DELAY_TIMEOUT;
-[e = . _I2CConfig 0 . `E6152 12 ]
-"86
-[; ;I2C.c: 86:                 }
-}
-[e :U 868 ]
-"90
-[; ;I2C.c: 90:                 SSP1BUF = I2CConfig.Buffer[0].adress;
-[e = _SSP1BUF . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 1 ]
-"92
-[; ;I2C.c: 92:                 break;
+[; ;I2C.c: 67:         switch(I2CConfig.State)
 [e $U 864  ]
-"93
-[; ;I2C.c: 93:             case MASTER_WRITE:
-[e :U 869 ]
+"68
+[; ;I2C.c: 68:         {
+{
+"69
+[; ;I2C.c: 69:             case MASTER_START:
+[e :U 865 ]
+"71
+[; ;I2C.c: 71:                 i = 0;
+[e = F6274 -> -> 0 `i `uc ]
+"72
+[; ;I2C.c: 72:                 ack = 0;
+[e = F6275 -> -> 0 `i `uc ]
+"73
+[; ;I2C.c: 73:                 if(I2CConfig.Buffer[0].delay > 0)
+[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `i -> 0 `i 866  ]
+"74
+[; ;I2C.c: 74:                 {
+{
+"75
+[; ;I2C.c: 75:                     timer = I2CConfig.Buffer[0].delay;
+[e = _timer -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `ui ]
+"76
+[; ;I2C.c: 76:                     I2CConfig.State = DELAY_DA;
+[e = . _I2CConfig 0 . `E6159 14 ]
+"77
+[; ;I2C.c: 77:                 }
+}
+[e $U 867  ]
+"78
+[; ;I2C.c: 78:                 else
+[e :U 866 ]
+"79
+[; ;I2C.c: 79:                 {
+{
+"80
+[; ;I2C.c: 80:                     timer = 10;
+[e = _timer -> -> 10 `i `ui ]
+"81
+[; ;I2C.c: 81:                     I2CConfig.State = DELAY_TIMEOUT;
+[e = . _I2CConfig 0 . `E6159 12 ]
+"82
+[; ;I2C.c: 82:                 }
+}
+[e :U 867 ]
+"86
+[; ;I2C.c: 86:                 SSP1BUF = I2CConfig.Buffer[0].adress;
+[e = _SSP1BUF . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 1 ]
+"88
+[; ;I2C.c: 88:                 break;
+[e $U 863  ]
+"89
+[; ;I2C.c: 89:             case MASTER_WRITE:
+[e :U 868 ]
+"94
+[; ;I2C.c: 94:                 if(SSP1CON2bits.ACKSTAT==0)
+[e $ ! == -> . . _SSP1CON2bits 0 6 `i -> 0 `i 869  ]
+"95
+[; ;I2C.c: 95:                 {
+{
+"97
+[; ;I2C.c: 97:                     if(I2CConfig.Buffer[0].sizeData > 1)
+[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 4 `i -> 1 `i 870  ]
 "98
-[; ;I2C.c: 98:                 if(SSP1CON2bits.ACKSTAT==0)
-[e $ ! == -> . . _SSP1CON2bits 0 6 `i -> 0 `i 870  ]
-"99
-[; ;I2C.c: 99:                 {
+[; ;I2C.c: 98:                     {
 {
-"101
-[; ;I2C.c: 101:                     if(I2CConfig.Buffer[0].sizeData > 1)
-[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 4 `i -> 1 `i 871  ]
 "102
-[; ;I2C.c: 102:                     {
-{
-"106
-[; ;I2C.c: 106:                         t_mem Pointeur = I2CConfig.Buffer[0].data;
+[; ;I2C.c: 102:                         t_mem Pointeur = I2CConfig.Buffer[0].data;
 [v _Pointeur `**uc ~T0 @X0 1 a ]
 [e = _Pointeur . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 ]
-"107
-[; ;I2C.c: 107:                         u8 *point;
+"103
+[; ;I2C.c: 103:                         u8 *point;
 [v _point `*uc ~T0 @X0 1 a ]
-"108
-[; ;I2C.c: 108:                         point = *Pointeur;
+"104
+[; ;I2C.c: 104:                         point = *Pointeur;
 [e = _point *U _Pointeur ]
-"109
-[; ;I2C.c: 109:                         SSP1BUF = point[i];
-[e = _SSP1BUF *U + _point * -> F6269 `ux -> -> # *U _point `ui `ux ]
-"111
-[; ;I2C.c: 111:                         i++;
-[e ++ F6269 -> -> 1 `i `uc ]
-"112
-[; ;I2C.c: 112:                         I2CConfig.Buffer[0].sizeData--;
+"105
+[; ;I2C.c: 105:                         SSP1BUF = point[i];
+[e = _SSP1BUF *U + _point * -> F6274 `ux -> -> # *U _point `ui `ux ]
+"107
+[; ;I2C.c: 107:                         i++;
+[e ++ F6274 -> -> 1 `i `uc ]
+"108
+[; ;I2C.c: 108:                         I2CConfig.Buffer[0].sizeData--;
 [e -- . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 4 -> -> 1 `i `uc ]
-"113
-[; ;I2C.c: 113:                         if(I2CConfig.Buffer[0].delay > 0)
-[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `i -> 0 `i 872  ]
-"114
-[; ;I2C.c: 114:                         {
+"109
+[; ;I2C.c: 109:                         if(I2CConfig.Buffer[0].delay > 0)
+[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `i -> 0 `i 871  ]
+"110
+[; ;I2C.c: 110:                         {
 {
-"115
-[; ;I2C.c: 115:                             ack = 0;
-[e = F6270 -> -> 0 `i `uc ]
-"116
-[; ;I2C.c: 116:                             I2CConfig.State = DELAY_DA;
-[e = . _I2CConfig 0 . `E6152 14 ]
-"117
-[; ;I2C.c: 117:                             timer = I2CConfig.Buffer[0].delay;
+"111
+[; ;I2C.c: 111:                             ack = 0;
+[e = F6275 -> -> 0 `i `uc ]
+"112
+[; ;I2C.c: 112:                             I2CConfig.State = DELAY_DA;
+[e = . _I2CConfig 0 . `E6159 14 ]
+"113
+[; ;I2C.c: 113:                             timer = I2CConfig.Buffer[0].delay;
 [e = _timer -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `ui ]
-"118
-[; ;I2C.c: 118:                         }
+"114
+[; ;I2C.c: 114:                         }
+}
+[e :U 871 ]
+"115
+[; ;I2C.c: 115:                     }
+}
+[e $U 872  ]
+"116
+[; ;I2C.c: 116:                     else
+[e :U 870 ]
+"117
+[; ;I2C.c: 117:                     {
+{
+"121
+[; ;I2C.c: 121:                         t_mem Pointeur = I2CConfig.Buffer[0].data;
+[v _Pointeur `**uc ~T0 @X0 1 a ]
+[e = _Pointeur . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 ]
+"122
+[; ;I2C.c: 122:                         u8 *point;
+[v _point `*uc ~T0 @X0 1 a ]
+"123
+[; ;I2C.c: 123:                         point = *Pointeur;
+[e = _point *U _Pointeur ]
+"124
+[; ;I2C.c: 124:                         SSP1BUF = point[i];
+[e = _SSP1BUF *U + _point * -> F6274 `ux -> -> # *U _point `ui `ux ]
+"126
+[; ;I2C.c: 126:                         i++;
+[e ++ F6274 -> -> 1 `i `uc ]
+"127
+[; ;I2C.c: 127:                         I2CConfig.Buffer[0].sizeData--;
+[e -- . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 4 -> -> 1 `i `uc ]
+"128
+[; ;I2C.c: 128:                         if(I2CConfig.Buffer[0].type == I2C_MASTER_WRITE_WITH_RESTART)
+[e $ ! == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6177 2 `ui 873  ]
+"129
+[; ;I2C.c: 129:                         {
+{
+"130
+[; ;I2C.c: 130:                             I2CConfig.State = MASTER_STOP;
+[e = . _I2CConfig 0 . `E6159 9 ]
+"131
+[; ;I2C.c: 131:                         }
+}
+[e $U 874  ]
+"132
+[; ;I2C.c: 132:                         else
+[e :U 873 ]
+"133
+[; ;I2C.c: 133:                             I2CConfig.State = MASTER_ACK_DA;
+[e = . _I2CConfig 0 . `E6159 5 ]
+[e :U 874 ]
+"135
+[; ;I2C.c: 135:                     }
 }
 [e :U 872 ]
-"119
-[; ;I2C.c: 119:                     }
-}
-[e $U 873  ]
-"120
-[; ;I2C.c: 120:                     else
-[e :U 871 ]
-"121
-[; ;I2C.c: 121:                     {
-{
-"125
-[; ;I2C.c: 125:                         t_mem Pointeur = I2CConfig.Buffer[0].data;
-[v _Pointeur `**uc ~T0 @X0 1 a ]
-[e = _Pointeur . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 ]
-"126
-[; ;I2C.c: 126:                         u8 *point;
-[v _point `*uc ~T0 @X0 1 a ]
-"127
-[; ;I2C.c: 127:                         point = *Pointeur;
-[e = _point *U _Pointeur ]
-"128
-[; ;I2C.c: 128:                         SSP1BUF = point[i];
-[e = _SSP1BUF *U + _point * -> F6269 `ux -> -> # *U _point `ui `ux ]
-"130
-[; ;I2C.c: 130:                         i++;
-[e ++ F6269 -> -> 1 `i `uc ]
-"131
-[; ;I2C.c: 131:                         I2CConfig.Buffer[0].sizeData--;
-[e -- . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 4 -> -> 1 `i `uc ]
-"132
-[; ;I2C.c: 132:                         if(I2CConfig.Buffer[0].type == I2C_MASTER_WRITE_WITH_RESTART)
-[e $ ! == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6170 2 `ui 874  ]
-"133
-[; ;I2C.c: 133:                         {
-{
-"134
-[; ;I2C.c: 134:                             I2CConfig.State = MASTER_STOP;
-[e = . _I2CConfig 0 . `E6152 9 ]
-"135
-[; ;I2C.c: 135:                         }
+"137
+[; ;I2C.c: 137:                 }
 }
 [e $U 875  ]
-"136
-[; ;I2C.c: 136:                         else
-[e :U 874 ]
-"137
-[; ;I2C.c: 137:                             I2CConfig.State = MASTER_ACK_DA;
-[e = . _I2CConfig 0 . `E6152 5 ]
-[e :U 875 ]
+"138
+[; ;I2C.c: 138:                 else
+[e :U 869 ]
 "139
-[; ;I2C.c: 139:                     }
-}
-[e :U 873 ]
+[; ;I2C.c: 139:                 {
+{
+"140
+[; ;I2C.c: 140:                     ack = 0;
+[e = F6275 -> -> 0 `i `uc ]
 "141
-[; ;I2C.c: 141:                 }
-}
-[e $U 876  ]
-"142
-[; ;I2C.c: 142:                 else
-[e :U 870 ]
-"143
-[; ;I2C.c: 143:                 {
-{
-"144
-[; ;I2C.c: 144:                     ack = 0;
-[e = F6270 -> -> 0 `i `uc ]
-"145
-[; ;I2C.c: 145:                     LATD|=1;
+[; ;I2C.c: 141:                     LATD|=1;
 [e =| _LATD -> -> 1 `i `Vuc ]
-"149
-[; ;I2C.c: 149:                     SSP1CON2bits.SEN = 1;
+"145
+[; ;I2C.c: 145:                     SSP1CON2bits.SEN = 1;
 [e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
-"151
-[; ;I2C.c: 151:                     if(I2CConfig.Buffer[0].delay > 0)
-[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `i -> 0 `i 877  ]
-"152
-[; ;I2C.c: 152:                     {
+"147
+[; ;I2C.c: 147:                     if(I2CConfig.Buffer[0].delay > 0)
+[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `i -> 0 `i 876  ]
+"148
+[; ;I2C.c: 148:                     {
 {
-"153
-[; ;I2C.c: 153:                         I2CConfig.State = DELAY_INTER;
-[e = . _I2CConfig 0 . `E6152 13 ]
-"154
-[; ;I2C.c: 154:                         timer = I2CConfig.Buffer[0].delay;
+"149
+[; ;I2C.c: 149:                         I2CConfig.State = DELAY_INTER;
+[e = . _I2CConfig 0 . `E6159 13 ]
+"150
+[; ;I2C.c: 150:                         timer = I2CConfig.Buffer[0].delay;
 [e = _timer -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `ui ]
+"151
+[; ;I2C.c: 151:                     }
+}
+[e $U 877  ]
+"152
+[; ;I2C.c: 152:                     else
+[e :U 876 ]
+"153
+[; ;I2C.c: 153:                     {
+{
+"154
+[; ;I2C.c: 154:                         I2CConfig.State = MASTER_STOP;
+[e = . _I2CConfig 0 . `E6159 9 ]
 "155
 [; ;I2C.c: 155:                     }
 }
-[e $U 878  ]
-"156
-[; ;I2C.c: 156:                     else
 [e :U 877 ]
+"156
+[; ;I2C.c: 156:                 }
+}
+[e :U 875 ]
 "157
-[; ;I2C.c: 157:                     {
-{
+[; ;I2C.c: 157:                 break;
+[e $U 863  ]
 "158
-[; ;I2C.c: 158:                         I2CConfig.State = MASTER_STOP;
-[e = . _I2CConfig 0 . `E6152 9 ]
-"159
-[; ;I2C.c: 159:                     }
-}
+[; ;I2C.c: 158:             case MASTER_READ:
 [e :U 878 ]
-"160
-[; ;I2C.c: 160:                 }
-}
-[e :U 876 ]
-"161
-[; ;I2C.c: 161:                 break;
-[e $U 864  ]
 "162
-[; ;I2C.c: 162:             case MASTER_READ:
-[e :U 879 ]
-"166
-[; ;I2C.c: 166:                 SSP1CON2bits.RCEN = 1;
+[; ;I2C.c: 162:                 SSP1CON2bits.RCEN = 1;
 [e = . . _SSP1CON2bits 0 3 -> -> 1 `i `uc ]
+"164
+[; ;I2C.c: 164:                 I2CConfig.State = MASTER_READ_NOACK;
+[e = . _I2CConfig 0 . `E6159 7 ]
+"165
+[; ;I2C.c: 165:                 break;
+[e $U 863  ]
+"166
+[; ;I2C.c: 166:             case MASTER_READ_NOACK:
+[e :U 879 ]
+"167
+[; ;I2C.c: 167:                 if(i < (I2CConfig.Buffer[0].sizeData - 1))
+[e $ ! < -> F6274 `i - -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 4 `i -> 1 `i 880  ]
 "168
-[; ;I2C.c: 168:                 I2CConfig.State = MASTER_READ_NOACK;
-[e = . _I2CConfig 0 . `E6152 7 ]
-"169
-[; ;I2C.c: 169:                 break;
-[e $U 864  ]
-"170
-[; ;I2C.c: 170:             case MASTER_READ_NOACK:
-[e :U 880 ]
-"171
-[; ;I2C.c: 171:                 if(i < (I2CConfig.Buffer[0].sizeData - 1))
-[e $ ! < -> F6269 `i - -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 4 `i -> 1 `i 881  ]
-"172
-[; ;I2C.c: 172:                 {
+[; ;I2C.c: 168:                 {
 {
-"177
-[; ;I2C.c: 177:                     SSP1CON2bits.ACKDT = 0;
+"173
+[; ;I2C.c: 173:                     SSP1CON2bits.ACKDT = 0;
 [e = . . _SSP1CON2bits 0 5 -> -> 0 `i `uc ]
-"178
-[; ;I2C.c: 178:                     t_mem Pointeur = I2CConfig.Buffer[0].data;
+"174
+[; ;I2C.c: 174:                     t_mem Pointeur = I2CConfig.Buffer[0].data;
 [v _Pointeur `**uc ~T0 @X0 1 a ]
 [e = _Pointeur . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 ]
-"179
-[; ;I2C.c: 179:                     u8 *point;
+"175
+[; ;I2C.c: 175:                     u8 *point;
 [v _point `*uc ~T0 @X0 1 a ]
-"180
-[; ;I2C.c: 180:                     point = *Pointeur;
+"176
+[; ;I2C.c: 176:                     point = *Pointeur;
 [e = _point *U _Pointeur ]
+"177
+[; ;I2C.c: 177:                     point[i] = SSP1BUF;
+[e = *U + _point * -> F6274 `ux -> -> # *U _point `ui `ux _SSP1BUF ]
+"179
+[; ;I2C.c: 179:                     i++;
+[e ++ F6274 -> -> 1 `i `uc ]
+"180
+[; ;I2C.c: 180:                     if(I2CConfig.Buffer[0].delay > 0)
+[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `i -> 0 `i 881  ]
 "181
-[; ;I2C.c: 181:                     point[i] = SSP1BUF;
-[e = *U + _point * -> F6269 `ux -> -> # *U _point `ui `ux _SSP1BUF ]
-"183
-[; ;I2C.c: 183:                     i++;
-[e ++ F6269 -> -> 1 `i `uc ]
-"184
-[; ;I2C.c: 184:                     if(I2CConfig.Buffer[0].delay > 0)
-[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `i -> 0 `i 882  ]
-"185
-[; ;I2C.c: 185:                     {
+[; ;I2C.c: 181:                     {
 {
-"186
-[; ;I2C.c: 186:                         ack = 0;
-[e = F6270 -> -> 0 `i `uc ]
-"187
-[; ;I2C.c: 187:                         I2CConfig.State = DELAY_DA;
-[e = . _I2CConfig 0 . `E6152 14 ]
-"188
-[; ;I2C.c: 188:                         timer = I2CConfig.Buffer[0].delay;
+"182
+[; ;I2C.c: 182:                         ack = 0;
+[e = F6275 -> -> 0 `i `uc ]
+"183
+[; ;I2C.c: 183:                         I2CConfig.State = DELAY_DA;
+[e = . _I2CConfig 0 . `E6159 14 ]
+"184
+[; ;I2C.c: 184:                         timer = I2CConfig.Buffer[0].delay;
 [e = _timer -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `ui ]
-"189
-[; ;I2C.c: 189:                     }
+"185
+[; ;I2C.c: 185:                     }
+}
+[e $U 882  ]
+"186
+[; ;I2C.c: 186:                     else
+[e :U 881 ]
+"187
+[; ;I2C.c: 187:                         I2CConfig.State = MASTER_READ;
+[e = . _I2CConfig 0 . `E6159 6 ]
+[e :U 882 ]
+"188
+[; ;I2C.c: 188:                 }
 }
 [e $U 883  ]
+"189
+[; ;I2C.c: 189:                 else
+[e :U 880 ]
 "190
-[; ;I2C.c: 190:                     else
-[e :U 882 ]
-"191
-[; ;I2C.c: 191:                         I2CConfig.State = MASTER_READ;
-[e = . _I2CConfig 0 . `E6152 6 ]
-[e :U 883 ]
-"192
-[; ;I2C.c: 192:                 }
-}
-[e $U 884  ]
-"193
-[; ;I2C.c: 193:                 else
-[e :U 881 ]
-"194
-[; ;I2C.c: 194:                 {
+[; ;I2C.c: 190:                 {
 {
-"199
-[; ;I2C.c: 199:                     SSP1CON2bits.ACKDT = 1;
+"195
+[; ;I2C.c: 195:                     SSP1CON2bits.ACKDT = 1;
 [e = . . _SSP1CON2bits 0 5 -> -> 1 `i `uc ]
-"200
-[; ;I2C.c: 200:                     t_mem Pointeur = I2CConfig.Buffer[0].data;
+"196
+[; ;I2C.c: 196:                     t_mem Pointeur = I2CConfig.Buffer[0].data;
 [v _Pointeur `**uc ~T0 @X0 1 a ]
 [e = _Pointeur . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 ]
-"201
-[; ;I2C.c: 201:                     u8 *point;
+"197
+[; ;I2C.c: 197:                     u8 *point;
 [v _point `*uc ~T0 @X0 1 a ]
-"202
-[; ;I2C.c: 202:                     point = *Pointeur;
+"198
+[; ;I2C.c: 198:                     point = *Pointeur;
 [e = _point *U _Pointeur ]
+"199
+[; ;I2C.c: 199:                     point[i] = SSP1BUF;
+[e = *U + _point * -> F6274 `ux -> -> # *U _point `ui `ux _SSP1BUF ]
+"201
+[; ;I2C.c: 201:                     i++;
+[e ++ F6274 -> -> 1 `i `uc ]
+"202
+[; ;I2C.c: 202:                     I2CConfig.State = MASTER_ACK_DA;
+[e = . _I2CConfig 0 . `E6159 5 ]
 "203
-[; ;I2C.c: 203:                     point[i] = SSP1BUF;
-[e = *U + _point * -> F6269 `ux -> -> # *U _point `ui `ux _SSP1BUF ]
-"205
-[; ;I2C.c: 205:                     i++;
-[e ++ F6269 -> -> 1 `i `uc ]
-"206
-[; ;I2C.c: 206:                     I2CConfig.State = MASTER_ACK_DA;
-[e = . _I2CConfig 0 . `E6152 5 ]
-"207
-[; ;I2C.c: 207:                 }
+[; ;I2C.c: 203:                 }
 }
+[e :U 883 ]
+"207
+[; ;I2C.c: 207:                 SSP1CON2bits.ACKEN=1;
+[e = . . _SSP1CON2bits 0 4 -> -> 1 `i `uc ]
+"209
+[; ;I2C.c: 209:                 break;
+[e $U 863  ]
+"210
+[; ;I2C.c: 210:             case MASTER_ACK_DA:
 [e :U 884 ]
 "211
-[; ;I2C.c: 211:                 SSP1CON2bits.ACKEN=1;
-[e = . . _SSP1CON2bits 0 4 -> -> 1 `i `uc ]
-"213
-[; ;I2C.c: 213:                 break;
-[e $U 864  ]
-"214
-[; ;I2C.c: 214:             case MASTER_ACK_DA:
-[e :U 885 ]
+[; ;I2C.c: 211:                 ack = 0;
+[e = F6275 -> -> 0 `i `uc ]
 "215
-[; ;I2C.c: 215:                 ack = 0;
-[e = F6270 -> -> 0 `i `uc ]
-"219
-[; ;I2C.c: 219:                 SSP1CON2bits.PEN = 1;
+[; ;I2C.c: 215:                 SSP1CON2bits.PEN = 1;
 [e = . . _SSP1CON2bits 0 2 -> -> 1 `i `uc ]
-"221
-[; ;I2C.c: 221:                 if(I2CConfig.Buffer[0].delay > 0)
-[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `i -> 0 `i 886  ]
-"222
-[; ;I2C.c: 222:                 {
+"217
+[; ;I2C.c: 217:                 if(I2CConfig.Buffer[0].delay > 0)
+[e $ ! > -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `i -> 0 `i 885  ]
+"218
+[; ;I2C.c: 218:                 {
 {
-"223
-[; ;I2C.c: 223:                     I2CConfig.State = DELAY_INTER;
-[e = . _I2CConfig 0 . `E6152 13 ]
-"224
-[; ;I2C.c: 224:                     timer = I2CConfig.Buffer[0].delay;
+"219
+[; ;I2C.c: 219:                     I2CConfig.State = DELAY_INTER;
+[e = . _I2CConfig 0 . `E6159 13 ]
+"220
+[; ;I2C.c: 220:                     timer = I2CConfig.Buffer[0].delay;
 [e = _timer -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 `ui ]
+"221
+[; ;I2C.c: 221:                 }
+}
+[e $U 886  ]
+"222
+[; ;I2C.c: 222:                 else
+[e :U 885 ]
+"223
+[; ;I2C.c: 223:                 {
+{
+"224
+[; ;I2C.c: 224:                     I2CConfig.State = MASTER_STOP;
+[e = . _I2CConfig 0 . `E6159 9 ]
 "225
 [; ;I2C.c: 225:                 }
 }
-[e $U 887  ]
-"226
-[; ;I2C.c: 226:                 else
 [e :U 886 ]
+"226
+[; ;I2C.c: 226:                 break;
+[e $U 863  ]
 "227
-[; ;I2C.c: 227:                 {
-{
-"228
-[; ;I2C.c: 228:                     I2CConfig.State = MASTER_STOP;
-[e = . _I2CConfig 0 . `E6152 9 ]
-"229
-[; ;I2C.c: 229:                 }
-}
+[; ;I2C.c: 227:             case MASTER_STOP:
 [e :U 887 ]
-"230
-[; ;I2C.c: 230:                 break;
-[e $U 864  ]
-"231
-[; ;I2C.c: 231:             case MASTER_STOP:
-[e :U 888 ]
-"232
-[; ;I2C.c: 232:                 type = I2CConfig.Buffer[0].type;
+"228
+[; ;I2C.c: 228:                 type = I2CConfig.Buffer[0].type;
 [e = _type -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `uc ]
-"233
-[; ;I2C.c: 233:                 if(I2CConfig.Buffer[0].type == I2C_MASTER_READ)
-[e $ ! == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6170 1 `ui 889  ]
-"234
-[; ;I2C.c: 234:                 {
+"229
+[; ;I2C.c: 229:                 if(I2CConfig.Buffer[0].type == I2C_MASTER_READ)
+[e $ ! == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6177 1 `ui 888  ]
+"230
+[; ;I2C.c: 230:                 {
 {
-"235
-[; ;I2C.c: 235:                     if (I2CConfig.RcvBufferNbr > 9)
-[e $ ! > -> . _I2CConfig 6 `i -> 9 `i 890  ]
+"231
+[; ;I2C.c: 231:                     if (I2CConfig.RcvBufferNbr > 9)
+[e $ ! > -> . _I2CConfig 6 `i -> 9 `i 889  ]
+"232
+[; ;I2C.c: 232:                     {
+{
 "236
-[; ;I2C.c: 236:                     {
+[; ;I2C.c: 236:                         getFree(I2CConfig.RcvBuffer[0].data, 0);
+[e ( _getFree (2 , . *U + &U . _I2CConfig 2 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 2 -> -> 0 `i `uc ]
+"238
+[; ;I2C.c: 238:                         for(i = 0; i<(I2CConfig.RcvBufferNbr - 1) ; i++)
+{
+[e = F6274 -> -> 0 `i `uc ]
+[e $U 893  ]
+[e :U 890 ]
+"239
+[; ;I2C.c: 239:                         {
 {
 "240
-[; ;I2C.c: 240:                         getFree(I2CConfig.RcvBuffer[0].data);
-[e ( _getFree (1 . *U + &U . _I2CConfig 2 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 2 ]
+[; ;I2C.c: 240:                             I2CConfig.RcvBuffer[i] = I2CConfig.RcvBuffer[i+1];
+[e = *U + &U . _I2CConfig 2 * -> F6274 `ux -> -> # *U &U . _I2CConfig 2 `ui `ux *U + &U . _I2CConfig 2 * -> -> + -> F6274 `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux ]
+"241
+[; ;I2C.c: 241:                             I2CConfig.RcvMsgID[i] = I2CConfig.RcvMsgID[i+1];
+[e = *U + &U . _I2CConfig 4 * -> F6274 `ux -> -> # *U &U . _I2CConfig 4 `ui `ux *U + &U . _I2CConfig 4 * -> -> + -> F6274 `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 4 `ui `ux ]
 "242
-[; ;I2C.c: 242:                         for(i = 0; i<(I2CConfig.RcvBufferNbr - 1) ; i++)
-{
-[e = F6269 -> -> 0 `i `uc ]
-[e $U 894  ]
+[; ;I2C.c: 242:                         }
+}
+[e ++ F6274 -> -> 1 `i `uc ]
+[e :U 893 ]
+[e $ < -> F6274 `i - -> . _I2CConfig 6 `i -> 1 `i 890  ]
 [e :U 891 ]
+}
 "243
-[; ;I2C.c: 243:                         {
-{
-"244
-[; ;I2C.c: 244:                             I2CConfig.RcvBuffer[i] = I2CConfig.RcvBuffer[i+1];
-[e = *U + &U . _I2CConfig 2 * -> F6269 `ux -> -> # *U &U . _I2CConfig 2 `ui `ux *U + &U . _I2CConfig 2 * -> -> + -> F6269 `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux ]
-"245
-[; ;I2C.c: 245:                             I2CConfig.RcvMsgID[i] = I2CConfig.RcvMsgID[i+1];
-[e = *U + &U . _I2CConfig 4 * -> F6269 `ux -> -> # *U &U . _I2CConfig 4 `ui `ux *U + &U . _I2CConfig 4 * -> -> + -> F6269 `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 4 `ui `ux ]
-"246
-[; ;I2C.c: 246:                         }
-}
-[e ++ F6269 -> -> 1 `i `uc ]
-[e :U 894 ]
-[e $ < -> F6269 `i - -> . _I2CConfig 6 `i -> 1 `i 891  ]
-[e :U 892 ]
-}
-"247
-[; ;I2C.c: 247:                         I2CConfig.RcvBufferNbr--;
+[; ;I2C.c: 243:                         I2CConfig.RcvBufferNbr--;
 [e -- . _I2CConfig 6 -> -> 1 `i `uc ]
-"248
-[; ;I2C.c: 248:                     }
+"244
+[; ;I2C.c: 244:                     }
 }
-[e :U 890 ]
-"249
-[; ;I2C.c: 249:                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].adress = I2CConfig.Buffer[0].adress;
-[e = . *U + &U . _I2CConfig 2 * -> . _I2CConfig 6 `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 1 . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 1 ]
-"250
-[; ;I2C.c: 250:                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].data = I2CConfig.Buffer[0].data;
-[e = . *U + &U . _I2CConfig 2 * -> . _I2CConfig 6 `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 2 . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 ]
-"251
-[; ;I2C.c: 251:                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].sizeData = i;
-[e = . *U + &U . _I2CConfig 2 * -> . _I2CConfig 6 `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 4 F6269 ]
-"253
-[; ;I2C.c: 253:                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].memID = I2CConfig.Buffer[0].memID;
-[e = . *U + &U . _I2CConfig 2 * -> . _I2CConfig 6 `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 3 . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 3 ]
-"255
-[; ;I2C.c: 255:                     I2CConfig.RcvMsgID[I2CConfig.RcvBufferNbr] = I2CConfig.MsgID[0];
-[e = *U + &U . _I2CConfig 4 * -> . _I2CConfig 6 `ux -> -> # *U &U . _I2CConfig 4 `ui `ux *U + &U . _I2CConfig 3 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 3 `ui `ux ]
-"256
-[; ;I2C.c: 256:                     I2CConfig.RcvBufferNbr++;
-[e ++ . _I2CConfig 6 -> -> 1 `i `uc ]
-"257
-[; ;I2C.c: 257:                 }
-}
-[e $U 895  ]
-"259
-[; ;I2C.c: 259:                 else
 [e :U 889 ]
+"245
+[; ;I2C.c: 245:                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].adress = I2CConfig.Buffer[0].adress;
+[e = . *U + &U . _I2CConfig 2 * -> . _I2CConfig 6 `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 1 . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 1 ]
+"246
+[; ;I2C.c: 246:                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].data = I2CConfig.Buffer[0].data;
+[e = . *U + &U . _I2CConfig 2 * -> . _I2CConfig 6 `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 2 . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 ]
+"247
+[; ;I2C.c: 247:                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].sizeData = i;
+[e = . *U + &U . _I2CConfig 2 * -> . _I2CConfig 6 `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 4 F6274 ]
+"249
+[; ;I2C.c: 249:                     I2CConfig.RcvBuffer[I2CConfig.RcvBufferNbr].memID = I2CConfig.Buffer[0].memID;
+[e = . *U + &U . _I2CConfig 2 * -> . _I2CConfig 6 `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 3 . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 3 ]
+"251
+[; ;I2C.c: 251:                     I2CConfig.RcvMsgID[I2CConfig.RcvBufferNbr] = I2CConfig.MsgID[0];
+[e = *U + &U . _I2CConfig 4 * -> . _I2CConfig 6 `ux -> -> # *U &U . _I2CConfig 4 `ui `ux *U + &U . _I2CConfig 3 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 3 `ui `ux ]
+"252
+[; ;I2C.c: 252:                     I2CConfig.RcvBufferNbr++;
+[e ++ . _I2CConfig 6 -> -> 1 `i `uc ]
+"253
+[; ;I2C.c: 253:                 }
+}
+[e $U 894  ]
+"255
+[; ;I2C.c: 255:                 else
+[e :U 888 ]
+"261
+[; ;I2C.c: 261:                 {
+{
+"262
+[; ;I2C.c: 262:                     getFree(I2CConfig.Buffer[0].data, 0);
+[e ( _getFree (2 , . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 -> -> 0 `i `uc ]
+"263
+[; ;I2C.c: 263:                 }
+}
+[e :U 894 ]
 "265
-[; ;I2C.c: 265:                 {
+[; ;I2C.c: 265:                 for(i = 0; i<I2CConfig.BufferNbr ; i++)
 {
-"266
-[; ;I2C.c: 266:                     getFree(I2CConfig.Buffer[0].data);
-[e ( _getFree (1 . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 ]
-"267
-[; ;I2C.c: 267:                 }
-}
+[e = F6274 -> -> 0 `i `uc ]
+[e $U 898  ]
 [e :U 895 ]
+"266
+[; ;I2C.c: 266:                 {
+{
+"267
+[; ;I2C.c: 267:                     I2CConfig.Buffer[i] = I2CConfig.Buffer[i+1];
+[e = *U + &U . _I2CConfig 1 * -> F6274 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux *U + &U . _I2CConfig 1 * -> -> + -> F6274 `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux ]
+"268
+[; ;I2C.c: 268:                     I2CConfig.MsgID[i] = I2CConfig.MsgID[i+1];
+[e = *U + &U . _I2CConfig 3 * -> F6274 `ux -> -> # *U &U . _I2CConfig 3 `ui `ux *U + &U . _I2CConfig 3 * -> -> + -> F6274 `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 3 `ui `ux ]
 "269
-[; ;I2C.c: 269:                 for(i = 0; i<I2CConfig.BufferNbr ; i++)
-{
-[e = F6269 -> -> 0 `i `uc ]
-[e $U 899  ]
+[; ;I2C.c: 269:                 }
+}
+[e ++ F6274 -> -> 1 `i `uc ]
+[e :U 898 ]
+[e $ < -> F6274 `i -> . _I2CConfig 5 `i 895  ]
 [e :U 896 ]
+}
 "270
-[; ;I2C.c: 270:                 {
-{
-"271
-[; ;I2C.c: 271:                     I2CConfig.Buffer[i] = I2CConfig.Buffer[i+1];
-[e = *U + &U . _I2CConfig 1 * -> F6269 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux *U + &U . _I2CConfig 1 * -> -> + -> F6269 `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux ]
-"272
-[; ;I2C.c: 272:                     I2CConfig.MsgID[i] = I2CConfig.MsgID[i+1];
-[e = *U + &U . _I2CConfig 3 * -> F6269 `ux -> -> # *U &U . _I2CConfig 3 `ui `ux *U + &U . _I2CConfig 3 * -> -> + -> F6269 `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 3 `ui `ux ]
-"273
-[; ;I2C.c: 273:                 }
-}
-[e ++ F6269 -> -> 1 `i `uc ]
-[e :U 899 ]
-[e $ < -> F6269 `i -> . _I2CConfig 5 `i 896  ]
-[e :U 897 ]
-}
-"274
-[; ;I2C.c: 274:                 I2CConfig.BufferNbr--;
+[; ;I2C.c: 270:                 I2CConfig.BufferNbr--;
 [e -- . _I2CConfig 5 -> -> 1 `i `uc ]
+"271
+[; ;I2C.c: 271:                 if(I2CConfig.BufferNbr > 0)
+[e $ ! > -> . _I2CConfig 5 `i -> 0 `i 899  ]
+"272
+[; ;I2C.c: 272:                 {
+{
+"273
+[; ;I2C.c: 273:                     I2CConfig.State = MASTER_START;
+[e = . _I2CConfig 0 . `E6159 1 ]
+"274
+[; ;I2C.c: 274:                     if(type == I2C_MASTER_WRITE_WITH_RESTART)
+[e $ ! == -> _type `i -> . `E6177 2 `i 900  ]
 "275
-[; ;I2C.c: 275:                 if(I2CConfig.BufferNbr > 0)
-[e $ ! > -> . _I2CConfig 5 `i -> 0 `i 900  ]
-"276
-[; ;I2C.c: 276:                 {
+[; ;I2C.c: 275:                     {
 {
-"277
-[; ;I2C.c: 277:                     I2CConfig.State = MASTER_START;
-[e = . _I2CConfig 0 . `E6152 1 ]
-"278
-[; ;I2C.c: 278:                     if(type == I2C_MASTER_WRITE_WITH_RESTART)
-[e $ ! == -> _type `i -> . `E6170 2 `i 901  ]
 "279
-[; ;I2C.c: 279:                     {
-{
-"283
-[; ;I2C.c: 283:                         SSP1CON2bits.RSEN = 1;
+[; ;I2C.c: 279:                         SSP1CON2bits.RSEN = 1;
 [e = . . _SSP1CON2bits 0 1 -> -> 1 `i `uc ]
-"285
-[; ;I2C.c: 285:                     }
+"281
+[; ;I2C.c: 281:                     }
+}
+[e $U 901  ]
+"282
+[; ;I2C.c: 282:                     else
+[e :U 900 ]
+"283
+[; ;I2C.c: 283:                     {
+{
+"287
+[; ;I2C.c: 287:                         SSP1CON2bits.SEN = 1;
+[e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
+"289
+[; ;I2C.c: 289:                     }
+}
+[e :U 901 ]
+"290
+[; ;I2C.c: 290:                 }
 }
 [e $U 902  ]
-"286
-[; ;I2C.c: 286:                     else
-[e :U 901 ]
-"287
-[; ;I2C.c: 287:                     {
-{
 "291
-[; ;I2C.c: 291:                         SSP1CON2bits.SEN = 1;
-[e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
-"293
-[; ;I2C.c: 293:                     }
-}
+[; ;I2C.c: 291:                 else
+[e :U 899 ]
+"292
+[; ;I2C.c: 292:                     I2CConfig.State = BUS_READY;
+[e = . _I2CConfig 0 . `E6159 0 ]
 [e :U 902 ]
+"293
+[; ;I2C.c: 293:                 break;
+[e $U 863  ]
 "294
-[; ;I2C.c: 294:                 }
-}
-[e $U 903  ]
-"295
-[; ;I2C.c: 295:                 else
-[e :U 900 ]
-"296
-[; ;I2C.c: 296:                     I2CConfig.State = BUS_READY;
-[e = . _I2CConfig 0 . `E6152 0 ]
+[; ;I2C.c: 294:             case DELAY_DA:
 [e :U 903 ]
-"297
-[; ;I2C.c: 297:                 break;
-[e $U 864  ]
-"298
-[; ;I2C.c: 298:             case DELAY_DA:
+"299
+[; ;I2C.c: 299:                 if(SSP1IF)
+[e $ ! _SSP1IF 904  ]
+"300
+[; ;I2C.c: 300:                     ack = 1;
+[e = F6275 -> -> 1 `i `uc ]
 [e :U 904 ]
+"302
+[; ;I2C.c: 302:                 if((timer == 0) && ack)
+[e $ ! && == _timer -> -> 0 `i `ui != -> F6275 `i -> 0 `i 905  ]
 "303
-[; ;I2C.c: 303:                 if(SSP1IF)
-[e $ ! _SSP1IF 905  ]
+[; ;I2C.c: 303:                 {
+{
 "304
-[; ;I2C.c: 304:                     ack = 1;
-[e = F6270 -> -> 1 `i `uc ]
-[e :U 905 ]
+[; ;I2C.c: 304:                     if((I2CConfig.Buffer[0].type == I2C_MASTER_WRITE)||(I2CConfig.Buffer[0].type == I2C_MASTER_WRITE_WITH_RESTART))
+[e $ ! || == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6177 0 `ui == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6177 2 `ui 906  ]
+"305
+[; ;I2C.c: 305:                     {
+{
 "306
-[; ;I2C.c: 306:                 if((timer == 0) && ack)
-[e $ ! && == _timer -> -> 0 `i `ui != -> F6270 `i -> 0 `i 906  ]
+[; ;I2C.c: 306:                         I2CConfig.State = MASTER_WRITE;
+[e = . _I2CConfig 0 . `E6159 4 ]
 "307
-[; ;I2C.c: 307:                 {
-{
+[; ;I2C.c: 307:                         goto delay_end;
+[e $U 862  ]
 "308
-[; ;I2C.c: 308:                     if((I2CConfig.Buffer[0].type == I2C_MASTER_WRITE)||(I2CConfig.Buffer[0].type == I2C_MASTER_WRITE_WITH_RESTART))
-[e $ ! || == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6170 0 `ui == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6170 2 `ui 907  ]
-"309
-[; ;I2C.c: 309:                     {
-{
-"310
-[; ;I2C.c: 310:                         I2CConfig.State = MASTER_WRITE;
-[e = . _I2CConfig 0 . `E6152 4 ]
-"311
-[; ;I2C.c: 311:                         goto delay_end;
-[e $U 862  ]
-"312
-[; ;I2C.c: 312:                     }
-}
-[e :U 907 ]
-"313
-[; ;I2C.c: 313:                     if(I2CConfig.Buffer[0].type == I2C_MASTER_READ)
-[e $ ! == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6170 1 `ui 908  ]
-"314
-[; ;I2C.c: 314:                     {
-{
-"315
-[; ;I2C.c: 315:                         I2CConfig.State = MASTER_READ;
-[e = . _I2CConfig 0 . `E6152 6 ]
-"316
-[; ;I2C.c: 316:                         goto delay_end;
-[e $U 862  ]
-"317
-[; ;I2C.c: 317:                     }
-}
-[e :U 908 ]
-"318
-[; ;I2C.c: 318:                 }
+[; ;I2C.c: 308:                     }
 }
 [e :U 906 ]
-"319
-[; ;I2C.c: 319:                 if((timer == 0) && (ack == 0))
-[e $ ! && == _timer -> -> 0 `i `ui == -> F6270 `i -> 0 `i 909  ]
-"320
-[; ;I2C.c: 320:                 {
+"309
+[; ;I2C.c: 309:                     if(I2CConfig.Buffer[0].type == I2C_MASTER_READ)
+[e $ ! == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6177 1 `ui 907  ]
+"310
+[; ;I2C.c: 310:                     {
 {
-"325
-[; ;I2C.c: 325:                     SSP1CON2bits.SEN = 0;
-[e = . . _SSP1CON2bits 0 0 -> -> 0 `i `uc ]
-"326
-[; ;I2C.c: 326:                     SSP1CON2bits.SEN = 1;
-[e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
-"328
-[; ;I2C.c: 328:                     I2CConfig.State = MASTER_START;
-[e = . _I2CConfig 0 . `E6152 1 ]
-"329
-[; ;I2C.c: 329:                 }
-}
-[e :U 909 ]
-"330
-[; ;I2C.c: 330:                 break;
-[e $U 864  ]
-"331
-[; ;I2C.c: 331:             case DELAY_TIMEOUT:
-[e :U 910 ]
-"336
-[; ;I2C.c: 336:                 if(SSP1IF)
-[e $ ! _SSP1IF 911  ]
-"337
-[; ;I2C.c: 337:                 {
-{
-"340
-[; ;I2C.c: 340:                     if((I2CConfig.Buffer[0].type == I2C_MASTER_WRITE)||(I2CConfig.Buffer[0].type == I2C_MASTER_WRITE_WITH_RESTART))
-[e $ ! || == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6170 0 `ui == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6170 2 `ui 912  ]
-"341
-[; ;I2C.c: 341:                     {
-{
-"342
-[; ;I2C.c: 342:                         I2CConfig.State = MASTER_WRITE;
-[e = . _I2CConfig 0 . `E6152 4 ]
-"343
-[; ;I2C.c: 343:                         goto delay_end;
+"311
+[; ;I2C.c: 311:                         I2CConfig.State = MASTER_READ;
+[e = . _I2CConfig 0 . `E6159 6 ]
+"312
+[; ;I2C.c: 312:                         goto delay_end;
 [e $U 862  ]
+"313
+[; ;I2C.c: 313:                     }
+}
+[e :U 907 ]
+"314
+[; ;I2C.c: 314:                 }
+}
+[e :U 905 ]
+"315
+[; ;I2C.c: 315:                 if((timer == 0) && (ack == 0))
+[e $ ! && == _timer -> -> 0 `i `ui == -> F6275 `i -> 0 `i 908  ]
+"316
+[; ;I2C.c: 316:                 {
+{
+"321
+[; ;I2C.c: 321:                     SSP1CON2bits.SEN = 0;
+[e = . . _SSP1CON2bits 0 0 -> -> 0 `i `uc ]
+"322
+[; ;I2C.c: 322:                     SSP1CON2bits.SEN = 1;
+[e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
+"324
+[; ;I2C.c: 324:                     I2CConfig.State = MASTER_START;
+[e = . _I2CConfig 0 . `E6159 1 ]
+"325
+[; ;I2C.c: 325:                 }
+}
+[e :U 908 ]
+"326
+[; ;I2C.c: 326:                 break;
+[e $U 863  ]
+"327
+[; ;I2C.c: 327:             case DELAY_TIMEOUT:
+[e :U 909 ]
+"332
+[; ;I2C.c: 332:                 if(SSP1IF)
+[e $ ! _SSP1IF 910  ]
+"333
+[; ;I2C.c: 333:                 {
+{
+"336
+[; ;I2C.c: 336:                     if((I2CConfig.Buffer[0].type == I2C_MASTER_WRITE)||(I2CConfig.Buffer[0].type == I2C_MASTER_WRITE_WITH_RESTART))
+[e $ ! || == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6177 0 `ui == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6177 2 `ui 911  ]
+"337
+[; ;I2C.c: 337:                     {
+{
+"338
+[; ;I2C.c: 338:                         I2CConfig.State = MASTER_WRITE;
+[e = . _I2CConfig 0 . `E6159 4 ]
+"339
+[; ;I2C.c: 339:                         goto delay_end;
+[e $U 862  ]
+"340
+[; ;I2C.c: 340:                     }
+}
+[e :U 911 ]
+"341
+[; ;I2C.c: 341:                     if(I2CConfig.Buffer[0].type == I2C_MASTER_READ)
+[e $ ! == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6177 1 `ui 912  ]
+"342
+[; ;I2C.c: 342:                     {
+{
+"343
+[; ;I2C.c: 343:                         I2CConfig.State = MASTER_READ;
+[e = . _I2CConfig 0 . `E6159 6 ]
 "344
-[; ;I2C.c: 344:                     }
+[; ;I2C.c: 344:                         goto delay_end;
+[e $U 862  ]
+"345
+[; ;I2C.c: 345:                     }
 }
 [e :U 912 ]
-"345
-[; ;I2C.c: 345:                     if(I2CConfig.Buffer[0].type == I2C_MASTER_READ)
-[e $ ! == -> . *U + &U . _I2CConfig 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 `ui -> . `E6170 1 `ui 913  ]
 "346
-[; ;I2C.c: 346:                     {
-{
+[; ;I2C.c: 346:                 }
+}
+[e $U 913  ]
 "347
-[; ;I2C.c: 347:                         I2CConfig.State = MASTER_READ;
-[e = . _I2CConfig 0 . `E6152 6 ]
+[; ;I2C.c: 347:                 else
+[e :U 910 ]
 "348
-[; ;I2C.c: 348:                         goto delay_end;
-[e $U 862  ]
+[; ;I2C.c: 348:                 {
+{
 "349
-[; ;I2C.c: 349:                     }
-}
-[e :U 913 ]
+[; ;I2C.c: 349:                     if(timer == 0)
+[e $ ! == _timer -> -> 0 `i `ui 914  ]
 "350
-[; ;I2C.c: 350:                 }
-}
-[e $U 914  ]
-"351
-[; ;I2C.c: 351:                 else
-[e :U 911 ]
-"352
-[; ;I2C.c: 352:                 {
+[; ;I2C.c: 350:                     {
 {
-"353
-[; ;I2C.c: 353:                     if(timer == 0)
-[e $ ! == _timer -> -> 0 `i `ui 915  ]
-"354
-[; ;I2C.c: 354:                     {
-{
-"359
-[; ;I2C.c: 359:                     SSP1CON2bits.SEN = 0;
+"355
+[; ;I2C.c: 355:                     SSP1CON2bits.SEN = 0;
 [e = . . _SSP1CON2bits 0 0 -> -> 0 `i `uc ]
-"360
-[; ;I2C.c: 360:                     SSP1CON2bits.SEN = 1;
+"356
+[; ;I2C.c: 356:                     SSP1CON2bits.SEN = 1;
 [e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
-"362
-[; ;I2C.c: 362:                         I2CConfig.State = MASTER_START;
-[e = . _I2CConfig 0 . `E6152 1 ]
-"363
-[; ;I2C.c: 363:                     }
-}
-[e :U 915 ]
-"364
-[; ;I2C.c: 364:                 }
+"358
+[; ;I2C.c: 358:                         I2CConfig.State = MASTER_START;
+[e = . _I2CConfig 0 . `E6159 1 ]
+"359
+[; ;I2C.c: 359:                     }
 }
 [e :U 914 ]
-"365
-[; ;I2C.c: 365:                 break;
-[e $U 864  ]
-"366
-[; ;I2C.c: 366:             case DELAY_INTER:
+"360
+[; ;I2C.c: 360:                 }
+}
+[e :U 913 ]
+"361
+[; ;I2C.c: 361:                 break;
+[e $U 863  ]
+"362
+[; ;I2C.c: 362:             case DELAY_INTER:
+[e :U 915 ]
+"367
+[; ;I2C.c: 367:                 if(SSP1IF)
+[e $ ! _SSP1IF 916  ]
+"368
+[; ;I2C.c: 368:                     ack = 1;
+[e = F6275 -> -> 1 `i `uc ]
 [e :U 916 ]
+"370
+[; ;I2C.c: 370:                 if((timer == 0) && ack)
+[e $ ! && == _timer -> -> 0 `i `ui != -> F6275 `i -> 0 `i 917  ]
 "371
-[; ;I2C.c: 371:                 if(SSP1IF)
-[e $ ! _SSP1IF 917  ]
-"372
-[; ;I2C.c: 372:                     ack = 1;
-[e = F6270 -> -> 1 `i `uc ]
-[e :U 917 ]
-"374
-[; ;I2C.c: 374:                 if((timer == 0) && ack)
-[e $ ! && == _timer -> -> 0 `i `ui != -> F6270 `i -> 0 `i 918  ]
-"375
-[; ;I2C.c: 375:                 {
+[; ;I2C.c: 371:                 {
 {
-"376
-[; ;I2C.c: 376:                     I2CConfig.State = MASTER_STOP;
-[e = . _I2CConfig 0 . `E6152 9 ]
-"377
-[; ;I2C.c: 377:                     goto delay_end;
+"372
+[; ;I2C.c: 372:                     I2CConfig.State = MASTER_STOP;
+[e = . _I2CConfig 0 . `E6159 9 ]
+"373
+[; ;I2C.c: 373:                     goto delay_end;
 [e $U 862  ]
-"378
-[; ;I2C.c: 378:                 }
+"374
+[; ;I2C.c: 374:                 }
+}
+[e :U 917 ]
+"375
+[; ;I2C.c: 375:                 if((timer == 0) && (ack == 0))
+[e $ ! && == _timer -> -> 0 `i `ui == -> F6275 `i -> 0 `i 918  ]
+"376
+[; ;I2C.c: 376:                 {
+{
+"381
+[; ;I2C.c: 381:                     SSP1CON2bits.SEN = 0;
+[e = . . _SSP1CON2bits 0 0 -> -> 0 `i `uc ]
+"382
+[; ;I2C.c: 382:                     SSP1CON2bits.SEN = 1;
+[e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
+"384
+[; ;I2C.c: 384:                     I2CConfig.State = MASTER_START;
+[e = . _I2CConfig 0 . `E6159 1 ]
+"385
+[; ;I2C.c: 385:                 }
 }
 [e :U 918 ]
-"379
-[; ;I2C.c: 379:                 if((timer == 0) && (ack == 0))
-[e $ ! && == _timer -> -> 0 `i `ui == -> F6270 `i -> 0 `i 919  ]
-"380
-[; ;I2C.c: 380:                 {
-{
-"385
-[; ;I2C.c: 385:                     SSP1CON2bits.SEN = 0;
-[e = . . _SSP1CON2bits 0 0 -> -> 0 `i `uc ]
 "386
-[; ;I2C.c: 386:                     SSP1CON2bits.SEN = 1;
-[e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
+[; ;I2C.c: 386:                 break;
+[e $U 863  ]
 "388
-[; ;I2C.c: 388:                     I2CConfig.State = MASTER_START;
-[e = . _I2CConfig 0 . `E6152 1 ]
-"389
-[; ;I2C.c: 389:                 }
-}
+[; ;I2C.c: 388:             default:
 [e :U 919 ]
+"389
+[; ;I2C.c: 389:                 break;
+[e $U 863  ]
 "390
-[; ;I2C.c: 390:                 break;
-[e $U 864  ]
-"392
-[; ;I2C.c: 392:             default:
-[e :U 920 ]
-"393
-[; ;I2C.c: 393:                 break;
-[e $U 864  ]
-"394
-[; ;I2C.c: 394:         }
+[; ;I2C.c: 390:         }
 }
-[e $U 864  ]
-[e :U 865 ]
-[e [\ -> . _I2CConfig 0 `ui , $ -> . `E6152 1 `ui 866
- , $ -> . `E6152 4 `ui 869
- , $ -> . `E6152 6 `ui 879
- , $ -> . `E6152 7 `ui 880
- , $ -> . `E6152 5 `ui 885
- , $ -> . `E6152 9 `ui 888
- , $ -> . `E6152 14 `ui 904
- , $ -> . `E6152 12 `ui 910
- , $ -> . `E6152 13 `ui 916
- 920 ]
+[e $U 863  ]
 [e :U 864 ]
-"398
-[; ;I2C.c: 398:         SSP1IF = 0;
+[e [\ -> . _I2CConfig 0 `ui , $ -> . `E6159 1 `ui 865
+ , $ -> . `E6159 4 `ui 868
+ , $ -> . `E6159 6 `ui 878
+ , $ -> . `E6159 7 `ui 879
+ , $ -> . `E6159 5 `ui 884
+ , $ -> . `E6159 9 `ui 887
+ , $ -> . `E6159 14 `ui 903
+ , $ -> . `E6159 12 `ui 909
+ , $ -> . `E6159 13 `ui 915
+ 919 ]
+[e :U 863 ]
+"394
+[; ;I2C.c: 394:         SSP1IF = 0;
 [e = _SSP1IF -> -> 0 `i `b ]
-"400
-[; ;I2C.c: 400:     }
+"396
+[; ;I2C.c: 396:     }
 }
 [e :U 861 ]
+"401
+[; ;I2C.c: 401:     if(TMR2IF)
+[e $ ! _TMR2IF 920  ]
+"402
+[; ;I2C.c: 402:     {
+{
+"404
+[; ;I2C.c: 404:         if(timer > 0)
+[e $ ! > _timer -> -> 0 `i `ui 921  ]
 "405
-[; ;I2C.c: 405:     if(TMR2IF)
-[e $ ! _TMR2IF 921  ]
-"406
-[; ;I2C.c: 406:     {
-{
-"408
-[; ;I2C.c: 408:         if(timer > 0)
-[e $ ! > _timer -> -> 0 `i `ui 922  ]
-"409
-[; ;I2C.c: 409:             timer--;
+[; ;I2C.c: 405:             timer--;
 [e -- _timer -> -> 1 `i `ui ]
-[e :U 922 ]
-"411
-[; ;I2C.c: 411:         if(PointerRefresh > 0)
-[e $ ! > _PointerRefresh -> -> 0 `i `ui 923  ]
-"412
-[; ;I2C.c: 412:             PointerRefresh--;
-[e -- _PointerRefresh -> -> 1 `i `ui ]
-[e $U 924  ]
-"413
-[; ;I2C.c: 413:         else
-[e :U 923 ]
-"414
-[; ;I2C.c: 414:         {
-{
-"415
-[; ;I2C.c: 415:             PointerRefresh = 10000;
-[e = _PointerRefresh -> -> 10000 `i `ui ]
-"416
-[; ;I2C.c: 416:         }
-}
-[e :U 924 ]
-"420
-[; ;I2C.c: 420:         TMR2IF = 0;
-[e = _TMR2IF -> -> 0 `i `b ]
-"422
-[; ;I2C.c: 422:     }
-}
 [e :U 921 ]
-"423
-[; ;I2C.c: 423: }
+"407
+[; ;I2C.c: 407:         if(PointerRefresh > 0)
+[e $ ! > _PointerRefresh -> -> 0 `i `ui 922  ]
+"408
+[; ;I2C.c: 408:             PointerRefresh--;
+[e -- _PointerRefresh -> -> 1 `i `ui ]
+[e $U 923  ]
+"409
+[; ;I2C.c: 409:         else
+[e :U 922 ]
+"410
+[; ;I2C.c: 410:         {
+{
+"411
+[; ;I2C.c: 411:             PointerRefresh = 10000;
+[e = _PointerRefresh -> -> 10000 `i `ui ]
+"412
+[; ;I2C.c: 412:         }
+}
+[e :U 923 ]
+"416
+[; ;I2C.c: 416:         TMR2IF = 0;
+[e = _TMR2IF -> -> 0 `i `b ]
+"418
+[; ;I2C.c: 418:     }
+}
+[e :U 920 ]
+"419
+[; ;I2C.c: 419: }
 [e :UE 860 ]
 }
-"551
-[; ;I2C.c: 551: int I2C_Get_Status(u8 MsgID)
+"547
+[; ;I2C.c: 547: int I2C_Get_Status(u8 MsgID)
 [v _I2C_Get_Status `(i ~T0 @X0 1 ef1`uc ]
-"552
-[; ;I2C.c: 552: {
+"548
+[; ;I2C.c: 548: {
 {
 [e :U _I2C_Get_Status ]
-"551
-[; ;I2C.c: 551: int I2C_Get_Status(u8 MsgID)
+"547
+[; ;I2C.c: 547: int I2C_Get_Status(u8 MsgID)
 [v _MsgID `uc ~T0 @X0 1 r1 ]
-"552
-[; ;I2C.c: 552: {
+"548
+[; ;I2C.c: 548: {
 [f ]
-"553
-[; ;I2C.c: 553:     u8 i;
+"549
+[; ;I2C.c: 549:     u8 i;
 [v _i `uc ~T0 @X0 1 a ]
-"554
-[; ;I2C.c: 554:     if(I2CConfig.Status != 1)
-[e $ ! != -> . _I2CConfig 7 `i -> 1 `i 926  ]
-"555
-[; ;I2C.c: 555:         return (-1);
+"550
+[; ;I2C.c: 550:     if(I2CConfig.Status != 1)
+[e $ ! != -> . _I2CConfig 7 `i -> 1 `i 925  ]
+"551
+[; ;I2C.c: 551:         return (-1);
 [e ) -U -> 1 `i ]
-[e $UE 925  ]
+[e $UE 924  ]
+[e :U 925 ]
+"552
+[; ;I2C.c: 552:     for(i = 0; i<I2CConfig.BufferNbr ; i++)
+{
+[e = _i -> -> 0 `i `uc ]
+[e $U 929  ]
 [e :U 926 ]
-"556
-[; ;I2C.c: 556:     for(i = 0; i<I2CConfig.BufferNbr ; i++)
+"553
+[; ;I2C.c: 553:     {
 {
-[e = _i -> -> 0 `i `uc ]
-[e $U 930  ]
-[e :U 927 ]
-"557
-[; ;I2C.c: 557:     {
-{
-"558
-[; ;I2C.c: 558:         if(I2CConfig.MsgID[i] == MsgID)
-[e $ ! == -> *U + &U . _I2CConfig 3 * -> _i `ux -> -> # *U &U . _I2CConfig 3 `ui `ux `i -> _MsgID `i 931  ]
-"559
-[; ;I2C.c: 559:             return 0;
+"554
+[; ;I2C.c: 554:         if(I2CConfig.MsgID[i] == MsgID)
+[e $ ! == -> *U + &U . _I2CConfig 3 * -> _i `ux -> -> # *U &U . _I2CConfig 3 `ui `ux `i -> _MsgID `i 930  ]
+"555
+[; ;I2C.c: 555:             return 0;
 [e ) -> 0 `i ]
-[e $UE 925  ]
-[e :U 931 ]
-"560
-[; ;I2C.c: 560:     }
+[e $UE 924  ]
+[e :U 930 ]
+"556
+[; ;I2C.c: 556:     }
 }
 [e ++ _i -> -> 1 `i `uc ]
-[e :U 930 ]
-[e $ < -> _i `i -> . _I2CConfig 5 `i 927  ]
-[e :U 928 ]
+[e :U 929 ]
+[e $ < -> _i `i -> . _I2CConfig 5 `i 926  ]
+[e :U 927 ]
 }
-"561
-[; ;I2C.c: 561:     for(i = 0; i<I2CConfig.RcvBufferNbr ; i++)
+"557
+[; ;I2C.c: 557:     for(i = 0; i<I2CConfig.RcvBufferNbr ; i++)
 {
 [e = _i -> -> 0 `i `uc ]
-[e $U 935  ]
-[e :U 932 ]
-"562
-[; ;I2C.c: 562:     {
+[e $U 934  ]
+[e :U 931 ]
+"558
+[; ;I2C.c: 558:     {
 {
-"563
-[; ;I2C.c: 563:         if(I2CConfig.RcvMsgID[i] == MsgID)
-[e $ ! == -> *U + &U . _I2CConfig 4 * -> _i `ux -> -> # *U &U . _I2CConfig 4 `ui `ux `i -> _MsgID `i 936  ]
-"564
-[; ;I2C.c: 564:             return 2;
+"559
+[; ;I2C.c: 559:         if(I2CConfig.RcvMsgID[i] == MsgID)
+[e $ ! == -> *U + &U . _I2CConfig 4 * -> _i `ux -> -> # *U &U . _I2CConfig 4 `ui `ux `i -> _MsgID `i 935  ]
+"560
+[; ;I2C.c: 560:             return 2;
 [e ) -> 2 `i ]
-[e $UE 925  ]
-[e :U 936 ]
-"565
-[; ;I2C.c: 565:     }
+[e $UE 924  ]
+[e :U 935 ]
+"561
+[; ;I2C.c: 561:     }
 }
 [e ++ _i -> -> 1 `i `uc ]
-[e :U 935 ]
-[e $ < -> _i `i -> . _I2CConfig 6 `i 932  ]
-[e :U 933 ]
+[e :U 934 ]
+[e $ < -> _i `i -> . _I2CConfig 6 `i 931  ]
+[e :U 932 ]
 }
-"566
-[; ;I2C.c: 566:     return 1;
+"562
+[; ;I2C.c: 562:     return 1;
 [e ) -> 1 `i ]
-[e $UE 925  ]
-"567
-[; ;I2C.c: 567: }
-[e :UE 925 ]
+[e $UE 924  ]
+"563
+[; ;I2C.c: 563: }
+[e :UE 924 ]
 }
-"595
-[; ;I2C.c: 595: int I2C_Init(u8 Options){
+"591
+[; ;I2C.c: 591: int I2C_Init(u8 Options){
 [v _I2C_Init `(i ~T0 @X0 1 ef1`uc ]
 {
 [e :U _I2C_Init ]
 [v _Options `uc ~T0 @X0 1 r1 ]
 [f ]
-"667
-[; ;I2C.c: 667:     debugIndice = 0;
-[e = _debugIndice -> -> 0 `i `uc ]
-"668
-[; ;I2C.c: 668:     PEIE = 1;
+"663
+[; ;I2C.c: 663:     PEIE = 1;
 [e = _PEIE -> -> 1 `i `b ]
-"669
-[; ;I2C.c: 669:     GIE = 1;
+"664
+[; ;I2C.c: 664:     GIE = 1;
 [e = _GIE -> -> 1 `i `b ]
-"670
-[; ;I2C.c: 670:     nulPointer = ((void*)0);
+"665
+[; ;I2C.c: 665:     nulPointer = ((void*)0);
 [e = _nulPointer -> -> -> 0 `i `*v `*uc ]
-"671
-[; ;I2C.c: 671:     memory_init();
+"666
+[; ;I2C.c: 666:     memory_init();
 [e ( _memory_init ..  ]
-"672
-[; ;I2C.c: 672:     float min = 20;
+"667
+[; ;I2C.c: 667:     float min = 20;
 [v _min `f ~T0 @X0 1 a ]
 [e = _min -> -> 20 `i `f ]
-"673
-[; ;I2C.c: 673:     u16 prescUsed = 0;
+"668
+[; ;I2C.c: 668:     u16 prescUsed = 0;
 [v _prescUsed `ui ~T0 @X0 1 a ]
 [e = _prescUsed -> -> 0 `i `ui ]
-"674
-[; ;I2C.c: 674:     u16 prUsed = 0;
+"669
+[; ;I2C.c: 669:     u16 prUsed = 0;
 [v _prUsed `ui ~T0 @X0 1 a ]
 [e = _prUsed -> -> 0 `i `ui ]
-"675
-[; ;I2C.c: 675:     I2C_timer_prescaler(0.0001, &prUsed, 16U, &prescUsed, &min);
+"670
+[; ;I2C.c: 670:     I2C_timer_prescaler(0.0001, &prUsed, 16U, &prescUsed, &min);
 [e ( _I2C_timer_prescaler (4 , , , , -> .0.0001 `f &U _prUsed -> 16 `ui &U _prescUsed &U _min ]
-"676
-[; ;I2C.c: 676:     I2C_timer_prescaler(0.0001, &prUsed, 4U, &prescUsed, &min);
+"671
+[; ;I2C.c: 671:     I2C_timer_prescaler(0.0001, &prUsed, 4U, &prescUsed, &min);
 [e ( _I2C_timer_prescaler (4 , , , , -> .0.0001 `f &U _prUsed -> 4 `ui &U _prescUsed &U _min ]
-"677
-[; ;I2C.c: 677:     I2C_timer_prescaler(0.0001, &prUsed, 1U, &prescUsed, &min);
+"672
+[; ;I2C.c: 672:     I2C_timer_prescaler(0.0001, &prUsed, 1U, &prescUsed, &min);
 [e ( _I2C_timer_prescaler (4 , , , , -> .0.0001 `f &U _prUsed -> 1 `ui &U _prescUsed &U _min ]
-"678
-[; ;I2C.c: 678:     if(min==20)
-[e $ ! == _min -> -> 20 `i `f 938  ]
-"679
-[; ;I2C.c: 679:         return (-1);
+"673
+[; ;I2C.c: 673:     if(min==20)
+[e $ ! == _min -> -> 20 `i `f 937  ]
+"674
+[; ;I2C.c: 674:         return (-1);
 [e ) -U -> 1 `i ]
-[e $UE 937  ]
-[e :U 938 ]
-"680
-[; ;I2C.c: 680:     I2CConfig.BufferNbr = 0;
+[e $UE 936  ]
+[e :U 937 ]
+"675
+[; ;I2C.c: 675:     I2CConfig.BufferNbr = 0;
 [e = . _I2CConfig 5 -> -> 0 `i `uc ]
-"681
-[; ;I2C.c: 681:     I2CConfig.RcvBufferNbr = 0;
+"676
+[; ;I2C.c: 676:     I2CConfig.RcvBufferNbr = 0;
 [e = . _I2CConfig 6 -> -> 0 `i `uc ]
-"682
-[; ;I2C.c: 682:     memset(&I2CConfig.MsgID, 0, sizeof(I2CConfig.MsgID));
+"677
+[; ;I2C.c: 677:     memset(&I2CConfig.MsgID, 0, sizeof(I2CConfig.MsgID));
 [e ( _memset (3 , , -> &U . _I2CConfig 3 `*v -> 0 `i * -> # *U &U . _I2CConfig 3 `ui -> -> 11 `i `ui ]
-"683
-[; ;I2C.c: 683:     myMsgID = 1;
+"678
+[; ;I2C.c: 678:     myMsgID = 1;
 [e = _myMsgID -> -> 1 `i `uc ]
-"684
-[; ;I2C.c: 684:     I2CConfig.State = BUS_READY;
-[e = . _I2CConfig 0 . `E6152 0 ]
-"685
-[; ;I2C.c: 685:     T2CONbits.T2OUTPS = 0b1001;
+"679
+[; ;I2C.c: 679:     I2CConfig.State = BUS_READY;
+[e = . _I2CConfig 0 . `E6159 0 ]
+"680
+[; ;I2C.c: 680:     T2CONbits.T2OUTPS = 0b1001;
 [e = . . _T2CONbits 0 2 -> -> 9 `i `uc ]
-"686
-[; ;I2C.c: 686:     PR2 = (u8) prUsed;
+"681
+[; ;I2C.c: 681:     PR2 = (u8) prUsed;
 [e = _PR2 -> _prUsed `uc ]
-"687
-[; ;I2C.c: 687:     TMR2 = 0;
+"682
+[; ;I2C.c: 682:     TMR2 = 0;
 [e = _TMR2 -> -> 0 `i `uc ]
-"688
-[; ;I2C.c: 688:     TMR2IE = 1;
+"683
+[; ;I2C.c: 683:     TMR2IE = 1;
 [e = _TMR2IE -> -> 1 `i `b ]
-"689
-[; ;I2C.c: 689:     TMR2IF = 0;
+"684
+[; ;I2C.c: 684:     TMR2IF = 0;
 [e = _TMR2IF -> -> 0 `i `b ]
-"690
-[; ;I2C.c: 690:     switch(prescUsed)
-[e $U 940  ]
-"691
-[; ;I2C.c: 691:     {
+"685
+[; ;I2C.c: 685:     switch(prescUsed)
+[e $U 939  ]
+"686
+[; ;I2C.c: 686:     {
 {
-"692
-[; ;I2C.c: 692:         case 16U:
-[e :U 941 ]
-"693
-[; ;I2C.c: 693:             T2CONbits.T2CKPS = 0b10;
-[e = . . _T2CONbits 0 0 -> -> 2 `i `uc ]
-"694
-[; ;I2C.c: 694:             break;
-[e $U 939  ]
-"695
-[; ;I2C.c: 695:         case 4U:
-[e :U 942 ]
-"696
-[; ;I2C.c: 696:             T2CONbits.T2CKPS = 0b01;
-[e = . . _T2CONbits 0 0 -> -> 1 `i `uc ]
-"697
-[; ;I2C.c: 697:             break;
-[e $U 939  ]
-"698
-[; ;I2C.c: 698:         case 1U:
-[e :U 943 ]
-"699
-[; ;I2C.c: 699:             T2CONbits.T2CKPS = 0b00;
-[e = . . _T2CONbits 0 0 -> -> 0 `i `uc ]
-"700
-[; ;I2C.c: 700:             break;
-[e $U 939  ]
-"701
-[; ;I2C.c: 701:         default:
-[e :U 944 ]
-"702
-[; ;I2C.c: 702:             return (-1);
-[e ) -U -> 1 `i ]
-[e $UE 937  ]
-"703
-[; ;I2C.c: 703:             break;
-[e $U 939  ]
-"704
-[; ;I2C.c: 704:     }
-}
-[e $U 939  ]
+"687
+[; ;I2C.c: 687:         case 16U:
 [e :U 940 ]
-[e [\ _prescUsed , $ -> 16 `ui 941
- , $ -> 4 `ui 942
- , $ -> 1 `ui 943
- 944 ]
+"688
+[; ;I2C.c: 688:             T2CONbits.T2CKPS = 0b10;
+[e = . . _T2CONbits 0 0 -> -> 2 `i `uc ]
+"689
+[; ;I2C.c: 689:             break;
+[e $U 938  ]
+"690
+[; ;I2C.c: 690:         case 4U:
+[e :U 941 ]
+"691
+[; ;I2C.c: 691:             T2CONbits.T2CKPS = 0b01;
+[e = . . _T2CONbits 0 0 -> -> 1 `i `uc ]
+"692
+[; ;I2C.c: 692:             break;
+[e $U 938  ]
+"693
+[; ;I2C.c: 693:         case 1U:
+[e :U 942 ]
+"694
+[; ;I2C.c: 694:             T2CONbits.T2CKPS = 0b00;
+[e = . . _T2CONbits 0 0 -> -> 0 `i `uc ]
+"695
+[; ;I2C.c: 695:             break;
+[e $U 938  ]
+"696
+[; ;I2C.c: 696:         default:
+[e :U 943 ]
+"697
+[; ;I2C.c: 697:             return (-1);
+[e ) -U -> 1 `i ]
+[e $UE 936  ]
+"698
+[; ;I2C.c: 698:             break;
+[e $U 938  ]
+"699
+[; ;I2C.c: 699:     }
+}
+[e $U 938  ]
 [e :U 939 ]
-"705
-[; ;I2C.c: 705:     timer = 0;
+[e [\ _prescUsed , $ -> 16 `ui 940
+ , $ -> 4 `ui 941
+ , $ -> 1 `ui 942
+ 943 ]
+[e :U 938 ]
+"700
+[; ;I2C.c: 700:     timer = 0;
 [e = _timer -> -> 0 `i `ui ]
-"706
-[; ;I2C.c: 706:     T2CONbits.TMR2ON = 1;
+"701
+[; ;I2C.c: 701:     T2CONbits.TMR2ON = 1;
 [e = . . _T2CONbits 0 1 -> -> 1 `i `uc ]
-"707
-[; ;I2C.c: 707:     if((Options & (0x04)) != 0)
-[e $ ! != & -> _Options `i -> 4 `i -> 0 `i 945  ]
-"708
-[; ;I2C.c: 708:         SSP1IE = 1;
+"702
+[; ;I2C.c: 702:     if((Options & (0x04)) != 0)
+[e $ ! != & -> _Options `i -> 4 `i -> 0 `i 944  ]
+"703
+[; ;I2C.c: 703:         SSP1IE = 1;
 [e = _SSP1IE -> -> 1 `i `b ]
-[e $U 946  ]
-"709
-[; ;I2C.c: 709:     else
-[e :U 945 ]
-"710
-[; ;I2C.c: 710:         SSP1IE = 0;
+[e $U 945  ]
+"704
+[; ;I2C.c: 704:     else
+[e :U 944 ]
+"705
+[; ;I2C.c: 705:         SSP1IE = 0;
 [e = _SSP1IE -> -> 0 `i `b ]
-[e :U 946 ]
-"711
-[; ;I2C.c: 711:     if((Options & (0x02)) != 0)
-[e $ ! != & -> _Options `i -> 2 `i -> 0 `i 947  ]
-"712
-[; ;I2C.c: 712:     {
+[e :U 945 ]
+"706
+[; ;I2C.c: 706:     if((Options & (0x02)) != 0)
+[e $ ! != & -> _Options `i -> 2 `i -> 0 `i 946  ]
+"707
+[; ;I2C.c: 707:     {
 {
-"713
-[; ;I2C.c: 713:         if((Options & (0x01)) != 0)
-[e $ ! != & -> _Options `i -> 1 `i -> 0 `i 948  ]
-"714
-[; ;I2C.c: 714:             return (-1);
+"708
+[; ;I2C.c: 708:         if((Options & (0x01)) != 0)
+[e $ ! != & -> _Options `i -> 1 `i -> 0 `i 947  ]
+"709
+[; ;I2C.c: 709:             return (-1);
 [e ) -U -> 1 `i ]
-[e $UE 937  ]
-[e :U 948 ]
-"715
-[; ;I2C.c: 715:         SSP1CON1bits.SSPEN = 0;
-[e = . . _SSP1CON1bits 0 2 -> -> 0 `i `uc ]
-"716
-[; ;I2C.c: 716:         SSP1ADD = 65;
-[e = _SSP1ADD -> -> 65 `i `uc ]
-"717
-[; ;I2C.c: 717:         SSP1STATbits.SMP = 0;
-[e = . . _SSP1STATbits 2 7 -> -> 0 `i `uc ]
-"718
-[; ;I2C.c: 718:         SSP1CON1bits.SSPM = 0b1000;
-[e = . . _SSP1CON1bits 0 0 -> -> 8 `i `uc ]
-"719
-[; ;I2C.c: 719:         SSP1CON1bits.SSPEN = 1;
-[e = . . _SSP1CON1bits 0 2 -> -> 1 `i `uc ]
-"720
-[; ;I2C.c: 720:         I2CConfig.Status = 1;
-[e = . _I2CConfig 7 -> -> 1 `i `uc ]
-"721
-[; ;I2C.c: 721:         I2CConfig.Options = Options;
-[e = . _I2CConfig 8 _Options ]
-"722
-[; ;I2C.c: 722:         return 0;
-[e ) -> 0 `i ]
-[e $UE 937  ]
-"723
-[; ;I2C.c: 723:     }
-}
+[e $UE 936  ]
 [e :U 947 ]
-"724
-[; ;I2C.c: 724:     return (-1);
-[e ) -U -> 1 `i ]
-[e $UE 937  ]
-"726
-[; ;I2C.c: 726: }
-[e :UE 937 ]
+"710
+[; ;I2C.c: 710:         SSP1CON1bits.SSPEN = 0;
+[e = . . _SSP1CON1bits 0 2 -> -> 0 `i `uc ]
+"711
+[; ;I2C.c: 711:         int clock = (((((double)80000000)/ (300000*4)) - 1) >= 0)?((((double)80000000) / (300000*4)) - 1):(-1);
+[v _clock `i ~T0 @X0 1 a ]
+[e = _clock -> ? >= - / -> -> 80000000 `l `d -> * -> 300000 `l -> -> 4 `i `l `d -> -> 1 `i `d -> -> 0 `i `d : - / -> -> 80000000 `l `d -> * -> 300000 `l -> -> 4 `i `l `d -> -> 1 `i `d -> -U -> 1 `i `d `i ]
+"712
+[; ;I2C.c: 712:         if(clock==(-1))
+[e $ ! == _clock -U -> 1 `i 948  ]
+"713
+[; ;I2C.c: 713:             return clock;
+[e ) _clock ]
+[e $UE 936  ]
+[e :U 948 ]
+"714
+[; ;I2C.c: 714:         SSP1ADD = (u8)clock;
+[e = _SSP1ADD -> _clock `uc ]
+"715
+[; ;I2C.c: 715:         SSP1STATbits.SMP = 0;
+[e = . . _SSP1STATbits 2 7 -> -> 0 `i `uc ]
+"716
+[; ;I2C.c: 716:         SSP1CON1bits.SSPM = 0b1000;
+[e = . . _SSP1CON1bits 0 0 -> -> 8 `i `uc ]
+"717
+[; ;I2C.c: 717:         SSP1CON1bits.SSPEN = 1;
+[e = . . _SSP1CON1bits 0 2 -> -> 1 `i `uc ]
+"718
+[; ;I2C.c: 718:         I2CConfig.Status = 1;
+[e = . _I2CConfig 7 -> -> 1 `i `uc ]
+"719
+[; ;I2C.c: 719:         I2CConfig.Options = Options;
+[e = . _I2CConfig 8 _Options ]
+"720
+[; ;I2C.c: 720:         return 0;
+[e ) -> 0 `i ]
+[e $UE 936  ]
+"721
+[; ;I2C.c: 721:     }
 }
-"763
-[; ;I2C.c: 763: int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay)
+[e :U 946 ]
+"722
+[; ;I2C.c: 722:     return (-1);
+[e ) -U -> 1 `i ]
+[e $UE 936  ]
+"724
+[; ;I2C.c: 724: }
+[e :UE 936 ]
+}
+"759
+[; ;I2C.c: 759: int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay)
 [v _I2C_Write `(i ~T0 @X0 1 ef4`uc`*uc`uc`uc ]
-"764
-[; ;I2C.c: 764: {
+"760
+[; ;I2C.c: 760: {
 {
 [e :U _I2C_Write ]
-"763
-[; ;I2C.c: 763: int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay)
+"759
+[; ;I2C.c: 759: int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay)
 [v _adresse `uc ~T0 @X0 1 r1 ]
 [v _data `*uc ~T0 @X0 1 r2 ]
 [v _sizeData `uc ~T0 @X0 1 r3 ]
 [v _delay `uc ~T0 @X0 1 r4 ]
-"764
-[; ;I2C.c: 764: {
+"760
+[; ;I2C.c: 760: {
 [f ]
-"765
-[; ;I2C.c: 765:     u8 *myData = ((void*)0);
+"761
+[; ;I2C.c: 761:     u8 *myData = ((void*)0);
 [v _myData `*uc ~T0 @X0 1 a ]
 [e = _myData -> -> -> 0 `i `*v `*uc ]
-"766
-[; ;I2C.c: 766:     u8 i;
+"762
+[; ;I2C.c: 762:     u8 i;
 [v _i `uc ~T0 @X0 1 a ]
-"768
-[; ;I2C.c: 768:     if(I2CConfig.Status != 1)
+"764
+[; ;I2C.c: 764:     if(I2CConfig.Status != 1)
 [e $ ! != -> . _I2CConfig 7 `i -> 1 `i 950  ]
-"769
-[; ;I2C.c: 769:         return (-1);
+"765
+[; ;I2C.c: 765:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 949  ]
 [e :U 950 ]
-"770
-[; ;I2C.c: 770:     if((I2CConfig.Options & (0x01)) != 0)
+"766
+[; ;I2C.c: 766:     if((I2CConfig.Options & (0x01)) != 0)
 [e $ ! != & -> . _I2CConfig 8 `i -> 1 `i -> 0 `i 951  ]
-"771
-[; ;I2C.c: 771:         return (-1);
+"767
+[; ;I2C.c: 767:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 949  ]
 [e :U 951 ]
-"773
-[; ;I2C.c: 773:     if((I2CConfig.Options & (0x04)) == 0)
+"769
+[; ;I2C.c: 769:     if((I2CConfig.Options & (0x04)) == 0)
 [e $ ! == & -> . _I2CConfig 8 `i -> 4 `i -> 0 `i 952  ]
-"774
-[; ;I2C.c: 774:     {
+"770
+[; ;I2C.c: 770:     {
 {
-"775
-[; ;I2C.c: 775:         I2C_Master_Start(adresse);
+"771
+[; ;I2C.c: 771:         I2C_Master_Start(adresse);
 [e ( _I2C_Master_Start (1 -> _adresse `i ]
-"776
-[; ;I2C.c: 776:         if(delay > 0)
+"772
+[; ;I2C.c: 772:         if(delay > 0)
 [e $ ! > -> _delay `i -> 0 `i 953  ]
-"777
-[; ;I2C.c: 777:         {
+"773
+[; ;I2C.c: 773:         {
 {
-"778
-[; ;I2C.c: 778:             timer = delay;
+"774
+[; ;I2C.c: 774:             timer = delay;
 [e = _timer -> _delay `ui ]
-"779
-[; ;I2C.c: 779:             while(timer != 0);
+"775
+[; ;I2C.c: 775:             while(timer != 0);
 [e $U 954  ]
 [e :U 955 ]
 [e :U 954 ]
 [e $ != _timer -> -> 0 `i `ui 955  ]
 [e :U 956 ]
-"780
-[; ;I2C.c: 780:         }
+"776
+[; ;I2C.c: 776:         }
 }
 [e :U 953 ]
-"781
-[; ;I2C.c: 781:         for(i = 0; i < sizeData; i++)
+"777
+[; ;I2C.c: 777:         for(i = 0; i < sizeData; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $U 960  ]
 [e :U 957 ]
-"782
-[; ;I2C.c: 782:         {
+"778
+[; ;I2C.c: 778:         {
 {
-"783
-[; ;I2C.c: 783:             I2C_Master_Write(data[i]);
+"779
+[; ;I2C.c: 779:             I2C_Master_Write(data[i]);
 [e ( _I2C_Master_Write (1 -> *U + _data * -> _i `ux -> -> # *U _data `ui `ux `i ]
-"784
-[; ;I2C.c: 784:             if(delay > 0)
+"780
+[; ;I2C.c: 780:             if(delay > 0)
 [e $ ! > -> _delay `i -> 0 `i 961  ]
-"785
-[; ;I2C.c: 785:         {
+"781
+[; ;I2C.c: 781:         {
 {
-"786
-[; ;I2C.c: 786:             timer = delay;
+"782
+[; ;I2C.c: 782:             timer = delay;
 [e = _timer -> _delay `ui ]
-"787
-[; ;I2C.c: 787:             while(timer != 0);
+"783
+[; ;I2C.c: 783:             while(timer != 0);
 [e $U 962  ]
 [e :U 963 ]
 [e :U 962 ]
 [e $ != _timer -> -> 0 `i `ui 963  ]
 [e :U 964 ]
-"788
-[; ;I2C.c: 788:         }
+"784
+[; ;I2C.c: 784:         }
 }
 [e :U 961 ]
-"789
-[; ;I2C.c: 789:         }
+"785
+[; ;I2C.c: 785:         }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e :U 960 ]
 [e $ < -> _i `i -> _sizeData `i 957  ]
 [e :U 958 ]
 }
-"790
-[; ;I2C.c: 790:         I2C_Master_Stop();
+"786
+[; ;I2C.c: 786:         I2C_Master_Stop();
 [e ( _I2C_Master_Stop ..  ]
-"791
-[; ;I2C.c: 791:         if(delay > 0)
+"787
+[; ;I2C.c: 787:         if(delay > 0)
 [e $ ! > -> _delay `i -> 0 `i 965  ]
-"792
-[; ;I2C.c: 792:         {
+"788
+[; ;I2C.c: 788:         {
 {
-"793
-[; ;I2C.c: 793:             timer = delay;
+"789
+[; ;I2C.c: 789:             timer = delay;
 [e = _timer -> _delay `ui ]
-"794
-[; ;I2C.c: 794:             while(timer != 0);
+"790
+[; ;I2C.c: 790:             while(timer != 0);
 [e $U 966  ]
 [e :U 967 ]
 [e :U 966 ]
 [e $ != _timer -> -> 0 `i `ui 967  ]
 [e :U 968 ]
-"795
-[; ;I2C.c: 795:         }
+"791
+[; ;I2C.c: 791:         }
 }
 [e :U 965 ]
-"796
-[; ;I2C.c: 796:         return 0;
+"792
+[; ;I2C.c: 792:         return 0;
 [e ) -> 0 `i ]
 [e $UE 949  ]
-"797
-[; ;I2C.c: 797:     }
+"793
+[; ;I2C.c: 793:     }
 }
 [e $U 969  ]
-"798
-[; ;I2C.c: 798:     else
+"794
+[; ;I2C.c: 794:     else
 [e :U 952 ]
-"799
-[; ;I2C.c: 799:     {
+"795
+[; ;I2C.c: 795:     {
 {
-"800
-[; ;I2C.c: 800:         if(I2CConfig.BufferNbr >= 9)
+"796
+[; ;I2C.c: 796:         if(I2CConfig.BufferNbr >= 9)
 [e $ ! >= -> . _I2CConfig 5 `i -> 9 `i 970  ]
-"801
-[; ;I2C.c: 801:             return (-2);
+"797
+[; ;I2C.c: 797:             return (-2);
 [e ) -U -> 2 `i ]
 [e $UE 949  ]
 [e :U 970 ]
-"803
-[; ;I2C.c: 803:         myMsgID++;
+"799
+[; ;I2C.c: 799:         myMsgID++;
 [e ++ _myMsgID -> -> 1 `i `uc ]
-"804
-[; ;I2C.c: 804:         if(myMsgID == 0)
+"800
+[; ;I2C.c: 800:         if(myMsgID == 0)
 [e $ ! == -> _myMsgID `i -> 0 `i 971  ]
-"805
-[; ;I2C.c: 805:             myMsgID++;
+"801
+[; ;I2C.c: 801:             myMsgID++;
 [e ++ _myMsgID -> -> 1 `i `uc ]
 [e :U 971 ]
-"816
-[; ;I2C.c: 816:         t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8));
+"812
+[; ;I2C.c: 812:         t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8), 0);
 [v _Pointeur `**uc ~T0 @X0 1 a ]
-[e = _Pointeur ( _getMemoryPointer (1 -> * -> _sizeData `ui -> # `uc `ui `uc ]
-"817
-[; ;I2C.c: 817:         I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur);
-[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 3 -> ( _getMemoryID (1 _Pointeur `uc ]
-"818
-[; ;I2C.c: 818:         if(*Pointeur == ((void*)0))
+[e = _Pointeur ( _getMemoryPointer (2 , -> * -> _sizeData `ui -> # `uc `ui `uc -> -> 0 `i `uc ]
+"813
+[; ;I2C.c: 813:         I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, 0);
+[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 3 -> ( _getMemoryID (2 , _Pointeur -> -> 0 `i `uc `uc ]
+"814
+[; ;I2C.c: 814:         if(*Pointeur == ((void*)0))
 [e $ ! == *U _Pointeur -> -> -> 0 `i `*v `*uc 972  ]
-"819
-[; ;I2C.c: 819:         {
+"815
+[; ;I2C.c: 815:         {
 {
-"820
-[; ;I2C.c: 820:             return (-1);
+"816
+[; ;I2C.c: 816:             return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 949  ]
-"821
-[; ;I2C.c: 821:         }
+"817
+[; ;I2C.c: 817:         }
 }
 [e :U 972 ]
-"822
-[; ;I2C.c: 822:         memcpy(*Pointeur, data, sizeData * sizeof(u8));
+"818
+[; ;I2C.c: 818:         memcpy(*Pointeur, data, sizeData * sizeof(u8));
 [e ( _memcpy (3 , , -> *U _Pointeur `*v -> _data `*Cv * -> _sizeData `ui -> # `uc `ui ]
-"823
-[; ;I2C.c: 823:         I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
+"819
+[; ;I2C.c: 819:         I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 _Pointeur ]
-"829
-[; ;I2C.c: 829:         I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_WRITE;
-[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 . `E6170 0 ]
-"830
-[; ;I2C.c: 830:         I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
+"825
+[; ;I2C.c: 825:         I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_WRITE;
+[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 . `E6177 0 ]
+"826
+[; ;I2C.c: 826:         I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 1 _adresse ]
-"831
-[; ;I2C.c: 831:         I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sizeData;
+"827
+[; ;I2C.c: 827:         I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sizeData;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 4 _sizeData ]
-"832
-[; ;I2C.c: 832:         I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
+"828
+[; ;I2C.c: 828:         I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 _delay ]
-"833
-[; ;I2C.c: 833:         I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
+"829
+[; ;I2C.c: 829:         I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
 [e = *U + &U . _I2CConfig 3 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 3 `ui `ux _myMsgID ]
-"834
-[; ;I2C.c: 834:         I2CConfig.BufferNbr++;
+"830
+[; ;I2C.c: 830:         I2CConfig.BufferNbr++;
 [e ++ . _I2CConfig 5 -> -> 1 `i `uc ]
-"835
-[; ;I2C.c: 835:         if(I2CConfig.State == BUS_READY)
-[e $ ! == -> . _I2CConfig 0 `ui -> . `E6152 0 `ui 973  ]
-"836
-[; ;I2C.c: 836:         {
+"831
+[; ;I2C.c: 831:         if(I2CConfig.State == BUS_READY)
+[e $ ! == -> . _I2CConfig 0 `ui -> . `E6159 0 `ui 973  ]
+"832
+[; ;I2C.c: 832:         {
 {
+"833
+[; ;I2C.c: 833:             I2CConfig.State = MASTER_START;
+[e = . _I2CConfig 0 . `E6159 1 ]
 "837
-[; ;I2C.c: 837:             I2CConfig.State = MASTER_START;
-[e = . _I2CConfig 0 . `E6152 1 ]
-"841
-[; ;I2C.c: 841:             SSP1CON2bits.SEN = 1;
+[; ;I2C.c: 837:             SSP1CON2bits.SEN = 1;
 [e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
-"843
-[; ;I2C.c: 843:         }
+"839
+[; ;I2C.c: 839:         }
 }
 [e :U 973 ]
-"844
-[; ;I2C.c: 844:         return myMsgID;
+"840
+[; ;I2C.c: 840:         return myMsgID;
 [e ) -> _myMsgID `i ]
 [e $UE 949  ]
-"845
-[; ;I2C.c: 845:     }
+"841
+[; ;I2C.c: 841:     }
 }
 [e :U 969 ]
-"846
-[; ;I2C.c: 846: }
+"842
+[; ;I2C.c: 842: }
 [e :UE 949 ]
 }
-"881
-[; ;I2C.c: 881: int I2C_Read_Request(u8 adresse, u8 sizeData, u8 delay)
+"873
+[; ;I2C.c: 873: int I2C_Read_Request(u8 adresse, u8 sizeData, u8 delay)
 [v _I2C_Read_Request `(i ~T0 @X0 1 ef3`uc`uc`uc ]
-"882
-[; ;I2C.c: 882: {
+"874
+[; ;I2C.c: 874: {
 {
 [e :U _I2C_Read_Request ]
-"881
-[; ;I2C.c: 881: int I2C_Read_Request(u8 adresse, u8 sizeData, u8 delay)
+"873
+[; ;I2C.c: 873: int I2C_Read_Request(u8 adresse, u8 sizeData, u8 delay)
 [v _adresse `uc ~T0 @X0 1 r1 ]
 [v _sizeData `uc ~T0 @X0 1 r2 ]
 [v _delay `uc ~T0 @X0 1 r3 ]
-"882
-[; ;I2C.c: 882: {
+"874
+[; ;I2C.c: 874: {
 [f ]
-"883
-[; ;I2C.c: 883:     u8 *myData = ((void*)0);
+"875
+[; ;I2C.c: 875:     u8 *myData = ((void*)0);
 [v _myData `*uc ~T0 @X0 1 a ]
 [e = _myData -> -> -> 0 `i `*v `*uc ]
-"884
-[; ;I2C.c: 884:     if(I2CConfig.Status != 1)
+"876
+[; ;I2C.c: 876:     if(I2CConfig.Status != 1)
 [e $ ! != -> . _I2CConfig 7 `i -> 1 `i 975  ]
-"885
-[; ;I2C.c: 885:         return (-1);
+"877
+[; ;I2C.c: 877:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 974  ]
 [e :U 975 ]
-"886
-[; ;I2C.c: 886:     if((I2CConfig.Options & (0x01)) != 0)
+"878
+[; ;I2C.c: 878:     if((I2CConfig.Options & (0x01)) != 0)
 [e $ ! != & -> . _I2CConfig 8 `i -> 1 `i -> 0 `i 976  ]
-"887
-[; ;I2C.c: 887:         return (-1);
+"879
+[; ;I2C.c: 879:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 974  ]
 [e :U 976 ]
-"888
-[; ;I2C.c: 888:     if(I2CConfig.BufferNbr >= 9)
+"880
+[; ;I2C.c: 880:     if(I2CConfig.BufferNbr >= 9)
 [e $ ! >= -> . _I2CConfig 5 `i -> 9 `i 977  ]
-"889
-[; ;I2C.c: 889:         return (-2);
+"881
+[; ;I2C.c: 881:         return (-2);
 [e ) -U -> 2 `i ]
 [e $UE 974  ]
 [e :U 977 ]
-"891
-[; ;I2C.c: 891:     myMsgID++;
+"883
+[; ;I2C.c: 883:     myMsgID++;
 [e ++ _myMsgID -> -> 1 `i `uc ]
-"892
-[; ;I2C.c: 892:     if(myMsgID == 0)
+"884
+[; ;I2C.c: 884:     if(myMsgID == 0)
 [e $ ! == -> _myMsgID `i -> 0 `i 978  ]
-"893
-[; ;I2C.c: 893:         myMsgID++;
+"885
+[; ;I2C.c: 885:         myMsgID++;
 [e ++ _myMsgID -> -> 1 `i `uc ]
 [e :U 978 ]
-"903
-[; ;I2C.c: 903:     t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8));
+"895
+[; ;I2C.c: 895:     t_mem Pointeur = getMemoryPointer(sizeData * sizeof(u8), 0);
 [v _Pointeur `**uc ~T0 @X0 1 a ]
-[e = _Pointeur ( _getMemoryPointer (1 -> * -> _sizeData `ui -> # `uc `ui `uc ]
-"904
-[; ;I2C.c: 904:     I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur);
-[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 3 -> ( _getMemoryID (1 _Pointeur `uc ]
-"905
-[; ;I2C.c: 905:     if(*Pointeur == ((void*)0))
+[e = _Pointeur ( _getMemoryPointer (2 , -> * -> _sizeData `ui -> # `uc `ui `uc -> -> 0 `i `uc ]
+"896
+[; ;I2C.c: 896:     I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, 0);
+[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 3 -> ( _getMemoryID (2 , _Pointeur -> -> 0 `i `uc `uc ]
+"897
+[; ;I2C.c: 897:     if(*Pointeur == ((void*)0))
 [e $ ! == *U _Pointeur -> -> -> 0 `i `*v `*uc 979  ]
-"906
-[; ;I2C.c: 906:     {
+"898
+[; ;I2C.c: 898:     {
 {
-"907
-[; ;I2C.c: 907:         return (-1);
+"899
+[; ;I2C.c: 899:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 974  ]
-"908
-[; ;I2C.c: 908:     }
+"900
+[; ;I2C.c: 900:     }
 }
 [e :U 979 ]
-"909
-[; ;I2C.c: 909:     I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
+"901
+[; ;I2C.c: 901:     I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 _Pointeur ]
-"914
-[; ;I2C.c: 914:     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_READ;
-[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 . `E6170 1 ]
-"915
-[; ;I2C.c: 915:     I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
+"906
+[; ;I2C.c: 906:     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_READ;
+[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 . `E6177 1 ]
+"907
+[; ;I2C.c: 907:     I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 1 _adresse ]
-"916
-[; ;I2C.c: 916:     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sizeData;
+"908
+[; ;I2C.c: 908:     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sizeData;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 4 _sizeData ]
-"917
-[; ;I2C.c: 917:     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
+"909
+[; ;I2C.c: 909:     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 _delay ]
-"918
-[; ;I2C.c: 918:     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
+"910
+[; ;I2C.c: 910:     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
 [e = *U + &U . _I2CConfig 3 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 3 `ui `ux _myMsgID ]
-"919
-[; ;I2C.c: 919:     I2CConfig.BufferNbr++;
+"911
+[; ;I2C.c: 911:     I2CConfig.BufferNbr++;
 [e ++ . _I2CConfig 5 -> -> 1 `i `uc ]
-"920
-[; ;I2C.c: 920:     if(I2CConfig.State == BUS_READY)
-[e $ ! == -> . _I2CConfig 0 `ui -> . `E6152 0 `ui 980  ]
-"921
-[; ;I2C.c: 921:     {
+"912
+[; ;I2C.c: 912:     if(I2CConfig.State == BUS_READY)
+[e $ ! == -> . _I2CConfig 0 `ui -> . `E6159 0 `ui 980  ]
+"913
+[; ;I2C.c: 913:     {
 {
-"922
-[; ;I2C.c: 922:         I2CConfig.State = MASTER_START;
-[e = . _I2CConfig 0 . `E6152 1 ]
-"926
-[; ;I2C.c: 926:         SSP1CON2bits.SEN = 1;
+"914
+[; ;I2C.c: 914:         I2CConfig.State = MASTER_START;
+[e = . _I2CConfig 0 . `E6159 1 ]
+"918
+[; ;I2C.c: 918:         SSP1CON2bits.SEN = 1;
 [e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
-"928
-[; ;I2C.c: 928:     }
+"920
+[; ;I2C.c: 920:     }
 }
 [e :U 980 ]
-"929
-[; ;I2C.c: 929:     return myMsgID;
+"921
+[; ;I2C.c: 921:     return myMsgID;
 [e ) -> _myMsgID `i ]
 [e $UE 974  ]
-"930
-[; ;I2C.c: 930: }
+"922
+[; ;I2C.c: 922: }
 [e :UE 974 ]
 }
-"970
-[; ;I2C.c: 970: int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvsizeData, u8 delay)
+"958
+[; ;I2C.c: 958: int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvsizeData, u8 delay)
 [v _I2C_Read_Register_Request `(i ~T0 @X0 1 ef5`uc`*uc`uc`uc`uc ]
-"971
-[; ;I2C.c: 971: {
+"959
+[; ;I2C.c: 959: {
 {
 [e :U _I2C_Read_Register_Request ]
-"970
-[; ;I2C.c: 970: int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvsizeData, u8 delay)
+"958
+[; ;I2C.c: 958: int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvsizeData, u8 delay)
 [v _adresse `uc ~T0 @X0 1 r1 ]
 [v _sendData `*uc ~T0 @X0 1 r2 ]
 [v _sendsizeData `uc ~T0 @X0 1 r3 ]
 [v _rcvsizeData `uc ~T0 @X0 1 r4 ]
 [v _delay `uc ~T0 @X0 1 r5 ]
-"971
-[; ;I2C.c: 971: {
+"959
+[; ;I2C.c: 959: {
 [f ]
-"972
-[; ;I2C.c: 972:     u8 *myData = ((void*)0);
+"960
+[; ;I2C.c: 960:     u8 *myData = ((void*)0);
 [v _myData `*uc ~T0 @X0 1 a ]
 [e = _myData -> -> -> 0 `i `*v `*uc ]
-"973
-[; ;I2C.c: 973:     u8 *rcvData = ((void*)0);
+"961
+[; ;I2C.c: 961:     u8 *rcvData = ((void*)0);
 [v _rcvData `*uc ~T0 @X0 1 a ]
 [e = _rcvData -> -> -> 0 `i `*v `*uc ]
-"975
-[; ;I2C.c: 975:     if(I2CConfig.Status != 1)
+"963
+[; ;I2C.c: 963:     if(I2CConfig.Status != 1)
 [e $ ! != -> . _I2CConfig 7 `i -> 1 `i 982  ]
-"976
-[; ;I2C.c: 976:         return (-1);
+"964
+[; ;I2C.c: 964:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 981  ]
 [e :U 982 ]
-"977
-[; ;I2C.c: 977:     if((I2CConfig.Options & (0x01)) != 0)
+"965
+[; ;I2C.c: 965:     if((I2CConfig.Options & (0x01)) != 0)
 [e $ ! != & -> . _I2CConfig 8 `i -> 1 `i -> 0 `i 983  ]
-"978
-[; ;I2C.c: 978:         return (-1);
+"966
+[; ;I2C.c: 966:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 981  ]
 [e :U 983 ]
-"979
-[; ;I2C.c: 979:     if(I2CConfig.BufferNbr >= 8)
+"967
+[; ;I2C.c: 967:     if(I2CConfig.BufferNbr >= 8)
 [e $ ! >= -> . _I2CConfig 5 `i -> 8 `i 984  ]
-"980
-[; ;I2C.c: 980:         return (-2);
+"968
+[; ;I2C.c: 968:         return (-2);
 [e ) -U -> 2 `i ]
 [e $UE 981  ]
 [e :U 984 ]
-"982
-[; ;I2C.c: 982:     myMsgID++;
+"970
+[; ;I2C.c: 970:     myMsgID++;
 [e ++ _myMsgID -> -> 1 `i `uc ]
-"983
-[; ;I2C.c: 983:     if(myMsgID == 0)
+"971
+[; ;I2C.c: 971:     if(myMsgID == 0)
 [e $ ! == -> _myMsgID `i -> 0 `i 985  ]
-"984
-[; ;I2C.c: 984:         myMsgID++;
+"972
+[; ;I2C.c: 972:         myMsgID++;
 [e ++ _myMsgID -> -> 1 `i `uc ]
 [e :U 985 ]
-"995
-[; ;I2C.c: 995:     t_mem Pointeur = getMemoryPointer(sendsizeData * sizeof(u8));
+"983
+[; ;I2C.c: 983:     t_mem Pointeur = getMemoryPointer(sendsizeData * sizeof(u8), 0);
 [v _Pointeur `**uc ~T0 @X0 1 a ]
-[e = _Pointeur ( _getMemoryPointer (1 -> * -> _sendsizeData `ui -> # `uc `ui `uc ]
-"996
-[; ;I2C.c: 996:     I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur);
-[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 3 -> ( _getMemoryID (1 _Pointeur `uc ]
-"997
-[; ;I2C.c: 997:     if(*Pointeur == ((void*)0))
+[e = _Pointeur ( _getMemoryPointer (2 , -> * -> _sendsizeData `ui -> # `uc `ui `uc -> -> 0 `i `uc ]
+"984
+[; ;I2C.c: 984:     I2CConfig.Buffer[I2CConfig.BufferNbr].memID = getMemoryID(Pointeur, 0);
+[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 3 -> ( _getMemoryID (2 , _Pointeur -> -> 0 `i `uc `uc ]
+"985
+[; ;I2C.c: 985:     if(*Pointeur == ((void*)0))
 [e $ ! == *U _Pointeur -> -> -> 0 `i `*v `*uc 986  ]
-"998
-[; ;I2C.c: 998:     {
+"986
+[; ;I2C.c: 986:     {
 {
-"999
-[; ;I2C.c: 999:         return (-1);
+"987
+[; ;I2C.c: 987:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 981  ]
-"1000
-[; ;I2C.c: 1000:     }
+"988
+[; ;I2C.c: 988:     }
 }
 [e :U 986 ]
-"1001
-[; ;I2C.c: 1001:     memcpy(*Pointeur, sendData, sendsizeData*sizeof(u8));
+"989
+[; ;I2C.c: 989:     memcpy(*Pointeur, sendData, sendsizeData*sizeof(u8));
 [e ( _memcpy (3 , , -> *U _Pointeur `*v -> _sendData `*Cv * -> _sendsizeData `ui -> # `uc `ui ]
-"1002
-[; ;I2C.c: 1002:     I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
+"990
+[; ;I2C.c: 990:     I2CConfig.Buffer[I2CConfig.BufferNbr].data = Pointeur;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 _Pointeur ]
-"1014
-[; ;I2C.c: 1014:     Pointeur = getMemoryPointer(rcvsizeData * sizeof(u8));
-[e = _Pointeur ( _getMemoryPointer (1 -> * -> _rcvsizeData `ui -> # `uc `ui `uc ]
-"1015
-[; ;I2C.c: 1015:     if(*Pointeur == ((void*)0))
+"1002
+[; ;I2C.c: 1002:     Pointeur = getMemoryPointer(rcvsizeData * sizeof(u8), 0);
+[e = _Pointeur ( _getMemoryPointer (2 , -> * -> _rcvsizeData `ui -> # `uc `ui `uc -> -> 0 `i `uc ]
+"1003
+[; ;I2C.c: 1003:     if(*Pointeur == ((void*)0))
 [e $ ! == *U _Pointeur -> -> -> 0 `i `*v `*uc 987  ]
-"1016
-[; ;I2C.c: 1016:     {
+"1004
+[; ;I2C.c: 1004:     {
 {
-"1017
-[; ;I2C.c: 1017:         return (-1);
+"1005
+[; ;I2C.c: 1005:         return (-1);
 [e ) -U -> 1 `i ]
 [e $UE 981  ]
-"1018
-[; ;I2C.c: 1018:     }
+"1006
+[; ;I2C.c: 1006:     }
 }
 [e :U 987 ]
-"1019
-[; ;I2C.c: 1019:     I2CConfig.Buffer[I2CConfig.BufferNbr+1].data = Pointeur;
+"1007
+[; ;I2C.c: 1007:     I2CConfig.Buffer[I2CConfig.BufferNbr+1].data = Pointeur;
 [e = . *U + &U . _I2CConfig 1 * -> -> + -> . _I2CConfig 5 `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 2 _Pointeur ]
-"1020
-[; ;I2C.c: 1020:     I2CConfig.Buffer[I2CConfig.BufferNbr+1].memID = getMemoryID(Pointeur);
-[e = . *U + &U . _I2CConfig 1 * -> -> + -> . _I2CConfig 5 `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 3 -> ( _getMemoryID (1 _Pointeur `uc ]
-"1026
-[; ;I2C.c: 1026:     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_WRITE_WITH_RESTART;
-[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 . `E6170 2 ]
-"1027
-[; ;I2C.c: 1027:     I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
+"1008
+[; ;I2C.c: 1008:     I2CConfig.Buffer[I2CConfig.BufferNbr+1].memID = getMemoryID(Pointeur, 0);
+[e = . *U + &U . _I2CConfig 1 * -> -> + -> . _I2CConfig 5 `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 3 -> ( _getMemoryID (2 , _Pointeur -> -> 0 `i `uc `uc ]
+"1014
+[; ;I2C.c: 1014:     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_WRITE_WITH_RESTART;
+[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 . `E6177 2 ]
+"1015
+[; ;I2C.c: 1015:     I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 1 _adresse ]
-"1028
-[; ;I2C.c: 1028:     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sendsizeData;
+"1016
+[; ;I2C.c: 1016:     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = sendsizeData;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 4 _sendsizeData ]
-"1029
-[; ;I2C.c: 1029:     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
+"1017
+[; ;I2C.c: 1017:     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 _delay ]
-"1030
-[; ;I2C.c: 1030:     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
+"1018
+[; ;I2C.c: 1018:     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
 [e = *U + &U . _I2CConfig 3 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 3 `ui `ux _myMsgID ]
-"1032
-[; ;I2C.c: 1032:     myMsgID++;
+"1020
+[; ;I2C.c: 1020:     myMsgID++;
 [e ++ _myMsgID -> -> 1 `i `uc ]
-"1033
-[; ;I2C.c: 1033:     if(myMsgID == 0)
+"1021
+[; ;I2C.c: 1021:     if(myMsgID == 0)
 [e $ ! == -> _myMsgID `i -> 0 `i 988  ]
-"1034
-[; ;I2C.c: 1034:         myMsgID++;
+"1022
+[; ;I2C.c: 1022:         myMsgID++;
 [e ++ _myMsgID -> -> 1 `i `uc ]
 [e :U 988 ]
-"1036
-[; ;I2C.c: 1036:     I2CConfig.BufferNbr++;
+"1024
+[; ;I2C.c: 1024:     I2CConfig.BufferNbr++;
 [e ++ . _I2CConfig 5 -> -> 1 `i `uc ]
-"1037
-[; ;I2C.c: 1037:     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_READ;
-[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 . `E6170 1 ]
-"1038
-[; ;I2C.c: 1038:     I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse | 1;
+"1025
+[; ;I2C.c: 1025:     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_READ;
+[e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 0 . `E6177 1 ]
+"1026
+[; ;I2C.c: 1026:     I2CConfig.Buffer[I2CConfig.BufferNbr].adress = adresse | 1;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 1 -> | -> _adresse `i -> 1 `i `uc ]
-"1039
-[; ;I2C.c: 1039:     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = rcvsizeData;
+"1027
+[; ;I2C.c: 1027:     I2CConfig.Buffer[I2CConfig.BufferNbr].sizeData = rcvsizeData;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 4 _rcvsizeData ]
-"1040
-[; ;I2C.c: 1040:     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
+"1028
+[; ;I2C.c: 1028:     I2CConfig.Buffer[I2CConfig.BufferNbr].delay = delay;
 [e = . *U + &U . _I2CConfig 1 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 1 `ui `ux 5 _delay ]
-"1041
-[; ;I2C.c: 1041:     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
+"1029
+[; ;I2C.c: 1029:     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
 [e = *U + &U . _I2CConfig 3 * -> . _I2CConfig 5 `ux -> -> # *U &U . _I2CConfig 3 `ui `ux _myMsgID ]
-"1042
-[; ;I2C.c: 1042:     I2CConfig.BufferNbr++;
+"1030
+[; ;I2C.c: 1030:     I2CConfig.BufferNbr++;
 [e ++ . _I2CConfig 5 -> -> 1 `i `uc ]
-"1043
-[; ;I2C.c: 1043:     if(I2CConfig.State == BUS_READY)
-[e $ ! == -> . _I2CConfig 0 `ui -> . `E6152 0 `ui 989  ]
-"1044
-[; ;I2C.c: 1044:     {
+"1031
+[; ;I2C.c: 1031:     if(I2CConfig.State == BUS_READY)
+[e $ ! == -> . _I2CConfig 0 `ui -> . `E6159 0 `ui 989  ]
+"1032
+[; ;I2C.c: 1032:     {
 {
-"1045
-[; ;I2C.c: 1045:         I2CConfig.State = MASTER_START;
-[e = . _I2CConfig 0 . `E6152 1 ]
-"1049
-[; ;I2C.c: 1049:         SSP1CON2bits.SEN = 1;
+"1033
+[; ;I2C.c: 1033:         I2CConfig.State = MASTER_START;
+[e = . _I2CConfig 0 . `E6159 1 ]
+"1037
+[; ;I2C.c: 1037:         SSP1CON2bits.SEN = 1;
 [e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
-"1051
-[; ;I2C.c: 1051:     }
+"1039
+[; ;I2C.c: 1039:     }
 }
 [e :U 989 ]
-"1052
-[; ;I2C.c: 1052:     return myMsgID;
+"1040
+[; ;I2C.c: 1040:     return myMsgID;
 [e ) -> _myMsgID `i ]
 [e $UE 981  ]
-"1053
-[; ;I2C.c: 1053: }
+"1041
+[; ;I2C.c: 1041: }
 [e :UE 981 ]
 }
-"1087
-[; ;I2C.c: 1087: t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData)
+"1075
+[; ;I2C.c: 1075: t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData)
 [v _I2C_Read_Buffer `(**uc ~T0 @X0 1 ef2`*uc`*uc ]
-"1089
-[; ;I2C.c: 1089: {
+"1077
+[; ;I2C.c: 1077: {
 {
 [e :U _I2C_Read_Buffer ]
-"1087
-[; ;I2C.c: 1087: t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData)
+"1075
+[; ;I2C.c: 1075: t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData)
 [v _adresse `*uc ~T0 @X0 1 r1 ]
 [v _sizeData `*uc ~T0 @X0 1 r2 ]
-"1089
-[; ;I2C.c: 1089: {
+"1077
+[; ;I2C.c: 1077: {
 [f ]
-"1090
-[; ;I2C.c: 1090:     u8 i;
+"1078
+[; ;I2C.c: 1078:     u8 i;
 [v _i `uc ~T0 @X0 1 a ]
-"1091
-[; ;I2C.c: 1091:     u8 *data;
+"1079
+[; ;I2C.c: 1079:     u8 *data;
 [v _data `*uc ~T0 @X0 1 a ]
-"1092
-[; ;I2C.c: 1092:     u8 ID;
+"1080
+[; ;I2C.c: 1080:     u8 ID;
 [v _ID `uc ~T0 @X0 1 a ]
-"1097
-[; ;I2C.c: 1097:     if((I2CConfig.Options & (0x04)) == 0)
+"1085
+[; ;I2C.c: 1085:     if((I2CConfig.Options & (0x04)) == 0)
 [e $ ! == & -> . _I2CConfig 8 `i -> 4 `i -> 0 `i 991  ]
-"1098
-[; ;I2C.c: 1098:         return &nulPointer;
+"1086
+[; ;I2C.c: 1086:         return &nulPointer;
 [e ) &U _nulPointer ]
 [e $UE 990  ]
 [e :U 991 ]
-"1100
-[; ;I2C.c: 1100:     if(I2CConfig.RcvBufferNbr > 0)
+"1088
+[; ;I2C.c: 1088:     if(I2CConfig.RcvBufferNbr > 0)
 [e $ ! > -> . _I2CConfig 6 `i -> 0 `i 992  ]
-"1101
-[; ;I2C.c: 1101:     {
+"1089
+[; ;I2C.c: 1089:     {
 {
-"1105
-[; ;I2C.c: 1105:         ID = I2CConfig.RcvBuffer[0].memID;
-[e = _ID . *U + &U . _I2CConfig 2 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 3 ]
-"1106
-[; ;I2C.c: 1106:         t_mem Pointer = getMemoryFromID(ID);
-[v _Pointer `**uc ~T0 @X0 1 a ]
-[e = _Pointer ( _getMemoryFromID (1 _ID ]
-"1108
-[; ;I2C.c: 1108:         *sizeData = I2CConfig.RcvBuffer[0].sizeData;
+"1093
+[; ;I2C.c: 1093:         t_mem Pointeur = getMemoryPointer(I2CConfig.RcvBuffer[0].sizeData, 1);
+[v _Pointeur `**uc ~T0 @X0 1 a ]
+[e = _Pointeur ( _getMemoryPointer (2 , . *U + &U . _I2CConfig 2 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 4 -> -> 1 `i `uc ]
+"1094
+[; ;I2C.c: 1094:         ID = getMemoryID(Pointeur, 1);
+[e = _ID -> ( _getMemoryID (2 , _Pointeur -> -> 1 `i `uc `uc ]
+"1095
+[; ;I2C.c: 1095:         memcpy(*Pointeur, *I2CConfig.RcvBuffer[0].data, I2CConfig.RcvBuffer[0].sizeData);
+[e ( _memcpy (3 , , -> *U _Pointeur `*v -> *U . *U + &U . _I2CConfig 2 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 2 `*Cv -> . *U + &U . _I2CConfig 2 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 4 `ui ]
+"1097
+[; ;I2C.c: 1097:         *sizeData = I2CConfig.RcvBuffer[0].sizeData;
 [e = *U _sizeData . *U + &U . _I2CConfig 2 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 4 ]
-"1109
-[; ;I2C.c: 1109:         *adresse = I2CConfig.RcvBuffer[0].adress;
-[e = *U _adresse . *U + &U . _I2CConfig 2 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 1 ]
-"1110
-[; ;I2C.c: 1110:         for(i = 0; i<I2CConfig.RcvBufferNbr ; i++)
+"1098
+[; ;I2C.c: 1098:         *adresse = I2CConfig.RcvBuffer[0].adress & 0xFE;
+[e = *U _adresse -> & -> . *U + &U . _I2CConfig 2 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux 1 `i -> 254 `i `uc ]
+"1099
+[; ;I2C.c: 1099:         for(i = 0; i<I2CConfig.RcvBufferNbr ; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $U 996  ]
 [e :U 993 ]
-"1111
-[; ;I2C.c: 1111:         {
+"1100
+[; ;I2C.c: 1100:         {
 {
-"1112
-[; ;I2C.c: 1112:             I2CConfig.RcvBuffer[i] = I2CConfig.RcvBuffer[i+1];
+"1101
+[; ;I2C.c: 1101:             I2CConfig.RcvBuffer[i] = I2CConfig.RcvBuffer[i+1];
 [e = *U + &U . _I2CConfig 2 * -> _i `ux -> -> # *U &U . _I2CConfig 2 `ui `ux *U + &U . _I2CConfig 2 * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 2 `ui `ux ]
-"1113
-[; ;I2C.c: 1113:             I2CConfig.RcvMsgID[i] = I2CConfig.RcvMsgID[i+1];
+"1102
+[; ;I2C.c: 1102:             I2CConfig.RcvMsgID[i] = I2CConfig.RcvMsgID[i+1];
 [e = *U + &U . _I2CConfig 4 * -> _i `ux -> -> # *U &U . _I2CConfig 4 `ui `ux *U + &U . _I2CConfig 4 * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U . _I2CConfig 4 `ui `ux ]
-"1114
-[; ;I2C.c: 1114:         }
+"1103
+[; ;I2C.c: 1103:         }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e :U 996 ]
 [e $ < -> _i `i -> . _I2CConfig 6 `i 993  ]
 [e :U 994 ]
 }
-"1115
-[; ;I2C.c: 1115:         I2CConfig.RcvBufferNbr--;
+"1104
+[; ;I2C.c: 1104:         I2CConfig.RcvBufferNbr--;
 [e -- . _I2CConfig 6 -> -> 1 `i `uc ]
-"1128
-[; ;I2C.c: 1128:         if (I2CMemory.sizePoint > 9)
+"1117
+[; ;I2C.c: 1117:         if (I2CMemory.sizePoint > 9)
 [e $ ! > -> . _I2CMemory 1 `i -> 9 `i 997  ]
-"1129
-[; ;I2C.c: 1129:             I2C_TabRefresh();
+"1118
+[; ;I2C.c: 1118:             I2C_TabRefresh();
 [e ( _I2C_TabRefresh ..  ]
 [e :U 997 ]
-"1131
-[; ;I2C.c: 1131:         I2CMemory.PointTab[I2CMemory.sizePoint] = ID;
+"1120
+[; ;I2C.c: 1120:         I2CMemory.PointTab[I2CMemory.sizePoint] = ID;
 [e = *U + &U . _I2CMemory 0 * -> . _I2CMemory 1 `ux -> -> # *U &U . _I2CMemory 0 `ui `ux _ID ]
-"1132
-[; ;I2C.c: 1132:         I2CMemory.sizePoint++;
+"1121
+[; ;I2C.c: 1121:         I2CMemory.sizePoint++;
 [e ++ . _I2CMemory 1 -> -> 1 `i `uc ]
-"1133
-[; ;I2C.c: 1133:         PointerRefresh = 10000;
+"1122
+[; ;I2C.c: 1122:         PointerRefresh = 10000;
 [e = _PointerRefresh -> -> 10000 `i `ui ]
-"1134
-[; ;I2C.c: 1134:         return Pointer;
-[e ) _Pointer ]
+"1123
+[; ;I2C.c: 1123:         return Pointeur;
+[e ) _Pointeur ]
 [e $UE 990  ]
-"1135
-[; ;I2C.c: 1135:         }
+"1124
+[; ;I2C.c: 1124:         }
 }
 [e $U 998  ]
-"1136
-[; ;I2C.c: 1136:     else
+"1125
+[; ;I2C.c: 1125:     else
 [e :U 992 ]
-"1137
-[; ;I2C.c: 1137:         return &nulPointer;
+"1126
+[; ;I2C.c: 1126:         return &nulPointer;
 [e ) &U _nulPointer ]
 [e $UE 990  ]
 [e :U 998 ]
-"1140
-[; ;I2C.c: 1140: }
+"1129
+[; ;I2C.c: 1129: }
 [e :UE 990 ]
 }
-"1144
-[; ;I2C.c: 1144: void I2C_TabRefresh(void)
+"1149
+[; ;I2C.c: 1149: void I2C_TabRefresh(void)
 [v _I2C_TabRefresh `(v ~T0 @X0 1 ef ]
-"1145
-[; ;I2C.c: 1145: {
+"1150
+[; ;I2C.c: 1150: {
 {
 [e :U _I2C_TabRefresh ]
 [f ]
-"1146
-[; ;I2C.c: 1146:     u8 i;
+"1151
+[; ;I2C.c: 1151:     u8 i;
 [v _i `uc ~T0 @X0 1 a ]
-"1147
-[; ;I2C.c: 1147:     if(I2CMemory.sizePoint > 0)
-[e $ ! > -> . _I2CMemory 1 `i -> 0 `i 1000  ]
-"1148
-[; ;I2C.c: 1148:     {
-{
 "1152
-[; ;I2C.c: 1152:         t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[0]);
-[v _Pointer `**uc ~T0 @X0 1 a ]
-[e = _Pointer ( _getMemoryFromID (1 *U + &U . _I2CMemory 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CMemory 0 `ui `ux ]
+[; ;I2C.c: 1152:     if(I2CMemory.sizePoint > 0)
+[e $ ! > -> . _I2CMemory 1 `i -> 0 `i 1000  ]
 "1153
-[; ;I2C.c: 1153:         getFree(Pointer);
-[e ( _getFree (1 _Pointer ]
-"1155
-[; ;I2C.c: 1155:         for (i = 0; i < I2CMemory.sizePoint; i++)
+[; ;I2C.c: 1153:     {
+{
+"1157
+[; ;I2C.c: 1157:         t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[0], 1);
+[v _Pointer `**uc ~T0 @X0 1 a ]
+[e = _Pointer ( _getMemoryFromID (2 , *U + &U . _I2CMemory 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . _I2CMemory 0 `ui `ux -> -> 1 `i `uc ]
+"1158
+[; ;I2C.c: 1158:         getFree(Pointer, 1);
+[e ( _getFree (2 , _Pointer -> -> 1 `i `uc ]
+"1160
+[; ;I2C.c: 1160:         for (i = 0; i < I2CMemory.sizePoint; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $U 1004  ]
 [e :U 1001 ]
-"1156
-[; ;I2C.c: 1156:             I2CMemory.PointTab[i] = I2CMemory.PointTab[i+1];
+"1161
+[; ;I2C.c: 1161:             I2CMemory.PointTab[i] = I2CMemory.PointTab[i+1];
 [e = *U + &U . _I2CMemory 0 * -> _i `ux -> -> # *U &U . _I2CMemory 0 `ui `ux *U + &U . _I2CMemory 0 * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U . _I2CMemory 0 `ui `ux ]
 [e ++ _i -> -> 1 `i `uc ]
 [e :U 1004 ]
 [e $ < -> _i `i -> . _I2CMemory 1 `i 1001  ]
 [e :U 1002 ]
 }
-"1157
-[; ;I2C.c: 1157:         I2CMemory.sizePoint--;
+"1162
+[; ;I2C.c: 1162:         I2CMemory.sizePoint--;
 [e -- . _I2CMemory 1 -> -> 1 `i `uc ]
-"1158
-[; ;I2C.c: 1158:     }
+"1163
+[; ;I2C.c: 1163:     }
 }
 [e :U 1000 ]
-"1159
-[; ;I2C.c: 1159: }
+"1164
+[; ;I2C.c: 1164: }
 [e :UE 999 ]
 }
-"1161
-[; ;I2C.c: 1161: int I2C_Free(void)
+"1183
+[; ;I2C.c: 1183: int I2C_Free(void)
 [v _I2C_Free `(i ~T0 @X0 1 ef ]
-"1162
-[; ;I2C.c: 1162: {
+"1184
+[; ;I2C.c: 1184: {
 {
 [e :U _I2C_Free ]
 [f ]
-"1163
-[; ;I2C.c: 1163:     u8 i;
+"1185
+[; ;I2C.c: 1185:     u8 i;
 [v _i `uc ~T0 @X0 1 a ]
-"1168
-[; ;I2C.c: 1168:     for (i = 0; i < I2CMemory.sizePoint; i++)
+"1190
+[; ;I2C.c: 1190:     for (i = 0; i < I2CMemory.sizePoint; i++)
 {
 [e = _i -> -> 0 `i `uc ]
 [e $U 1009  ]
 [e :U 1006 ]
-"1169
-[; ;I2C.c: 1169:     {
+"1191
+[; ;I2C.c: 1191:     {
 {
-"1170
-[; ;I2C.c: 1170:         t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[i]);
+"1192
+[; ;I2C.c: 1192:         t_mem Pointer = getMemoryFromID(I2CMemory.PointTab[i], 1);
 [v _Pointer `**uc ~T0 @X0 1 a ]
-[e = _Pointer ( _getMemoryFromID (1 *U + &U . _I2CMemory 0 * -> _i `ux -> -> # *U &U . _I2CMemory 0 `ui `ux ]
-"1171
-[; ;I2C.c: 1171:         getFree(Pointer);
-[e ( _getFree (1 _Pointer ]
-"1172
-[; ;I2C.c: 1172:     }
+[e = _Pointer ( _getMemoryFromID (2 , *U + &U . _I2CMemory 0 * -> _i `ux -> -> # *U &U . _I2CMemory 0 `ui `ux -> -> 1 `i `uc ]
+"1193
+[; ;I2C.c: 1193:         getFree(Pointer, 1);
+[e ( _getFree (2 , _Pointer -> -> 1 `i `uc ]
+"1194
+[; ;I2C.c: 1194:     }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e :U 1009 ]
 [e $ < -> _i `i -> . _I2CMemory 1 `i 1006  ]
 [e :U 1007 ]
 }
-"1174
-[; ;I2C.c: 1174:     I2CMemory.sizePoint = 0;
+"1196
+[; ;I2C.c: 1196:     I2CMemory.sizePoint = 0;
 [e = . _I2CMemory 1 -> -> 0 `i `uc ]
-"1175
-[; ;I2C.c: 1175:     return 0;
+"1197
+[; ;I2C.c: 1197:     return 0;
 [e ) -> 0 `i ]
 [e $UE 1005  ]
-"1176
-[; ;I2C.c: 1176: }
+"1198
+[; ;I2C.c: 1198: }
 [e :UE 1005 ]
 }

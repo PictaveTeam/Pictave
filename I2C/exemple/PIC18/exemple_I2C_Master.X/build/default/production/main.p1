@@ -95,27 +95,27 @@ Version 4.0 HI-TECH Software Intermediate Code
 "47 ./interrupt.h
 [; ;./interrupt.h: 47: int ISR_Init(void);
 [v _ISR_Init `(i ~T0 @X0 0 ef ]
-"31 ./I2C.h
-[; ;./I2C.h: 31: int I2C_Init(u8 Options);
+"33 ./I2C.h
+[; ;./I2C.h: 33: int I2C_Init(u8 Options);
 [v _I2C_Init `(i ~T0 @X0 0 ef1`uc ]
 [v F6131 `(v ~T0 @X0 0 tf ]
 "48 ./interrupt.h
 [; ;./interrupt.h: 48: int ISR_ConnectFunction(ISR_FunctionPtr Function);
 [v _ISR_ConnectFunction `(i ~T0 @X0 0 ef1`*F6131 ]
-"28 ./I2C.h
-[; ;./I2C.h: 28: void I2C_ISR(void);
+"30 ./I2C.h
+[; ;./I2C.h: 30: void I2C_ISR(void);
 [v _I2C_ISR `(v ~T0 @X0 0 ef ]
-"32
-[; ;./I2C.h: 32: int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay);
-[v _I2C_Write `(i ~T0 @X0 0 ef4`uc`*uc`uc`uc ]
 "34
-[; ;./I2C.h: 34: int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvsizeData, u8 delay);
+[; ;./I2C.h: 34: int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay);
+[v _I2C_Write `(i ~T0 @X0 0 ef4`uc`*uc`uc`uc ]
+"36
+[; ;./I2C.h: 36: int I2C_Read_Register_Request(u8 adresse, u8 *sendData, u8 sendsizeData, u8 rcvsizeData, u8 delay);
 [v _I2C_Read_Register_Request `(i ~T0 @X0 0 ef5`uc`*uc`uc`uc`uc ]
-"38
-[; ;./I2C.h: 38: t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData);
+"40
+[; ;./I2C.h: 40: t_mem I2C_Read_Buffer(u8 *adresse, u8 *sizeData);
 [v _I2C_Read_Buffer `(**uc ~T0 @X0 0 ef2`*uc`*uc ]
-"43
-[; ;./I2C.h: 43: int I2C_Free(void);
+"45
+[; ;./I2C.h: 45: int I2C_Free(void);
 [v _I2C_Free `(i ~T0 @X0 0 ef ]
 "12 main.c
 [p x FOSC = HSHP ]

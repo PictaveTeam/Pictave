@@ -16,6 +16,7 @@
 * 2.01	epeu   06/05/20 bug fix
 * 3.00  epeu   07/05/20 Changing the handling of incoming and outgoing
 *                       messages for PIC18. Correction of a PIC18 bug.
+* 3.01  epeu   10/05/20 Add Bus Speed calcul for PIC18 : 300kbs
 * 
 *****************************************************************************/
 
@@ -708,7 +709,10 @@ int I2C_Init(u8 Options){
         if((Options & SLAVE) != 0)
             return PIC_FAILED;
         SSP1CON1bits.SSPEN = 0; 
-        SSP1ADD = 65;  // 300 kbps (clk 80 MHz) 
+        int clock = (((FOSC/ (300000*4)) - 1) >= 0)?((FOSC / (300000*4)) - 1):PIC_FAILED; // 300kbs 
+        if(clock==PIC_FAILED)
+            return clock;
+        SSP1ADD = (u8)clock; 
         SSP1STATbits.SMP = 0; 
         SSP1CON1bits.SSPM = 0b1000;  // Master mode 
         SSP1CON1bits.SSPEN = 1; 
