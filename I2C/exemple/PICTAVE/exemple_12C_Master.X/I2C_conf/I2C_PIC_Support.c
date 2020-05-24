@@ -14,6 +14,7 @@
 * ----- ------ -------- ----------------------------------------------
 * 1.00	epeu   02/05/20 First Release
 * 1.01  epeu   07/05/20 Add of memory library for 8 bits microcontroller.
+* 1.02  epeu   23/05/20 Add new struct for I2C library.  
 * 
 *****************************************************************************/
 

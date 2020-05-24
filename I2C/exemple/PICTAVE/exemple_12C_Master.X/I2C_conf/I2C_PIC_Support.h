@@ -14,6 +14,7 @@
 * ----- ------ -------- ----------------------------------------------
 * 1.00	epeu   02/05/20 First Release
 * 1.01  epeu   07/05/20 Add of memory library for 8 bits microcontroller.
+* 1.02  epeu   23/05/20 Add new struct for I2C library. 
 * 
 *****************************************************************************/
 
@@ -47,6 +48,9 @@
 #define I2C_END                   1
 #define I2C_RECEIVED              2
 #define I2C_PROCESSING            0
+#define I2C_TIMEOUT               3
+#define I2C_NO_SLAVE              4
+#define I2C_ERROR                 5
 #define PIC_SUCCESS               0
 #define PIC_FAILED              (-1)
 #define I2C_SEND_OVERFLOW       (-2)
@@ -96,7 +100,7 @@ typedef enum
     DELAY_TIMEOUT,
     DELAY_INTER,
     DELAY_DA,
-    SCAN
+    I2C_SCAN
 }t_I2CState;
 
 typedef enum
@@ -136,17 +140,11 @@ typedef struct
 
 typedef struct
 {
-    u8 Adress[10];
+    u8 *Adress;
     u8 NbrAdress;
+    u8 Max;
     u8 State;
 }t_I2CScan;
-
-typedef struct
-{
-    u8 *data;
-    u8 sizeData;
-    u8 MsgID;
-}t_I2CMyMsg;
 
 #ifdef PICTAVE
 typedef u8 *t_I2CPointerTab[10];
@@ -162,6 +160,12 @@ typedef struct
     u8 sizePoint;
 }t_I2CMemory;
 #endif /* PICTAVE | ENEMEA */
+
+typedef struct
+{
+    u8 MsgID;
+    u8 error;
+}t_I2CError;
 
 /************************** Function Prototypes *****************************/
 

@@ -15,7 +15,8 @@
 * 2.00	epeu   02/05/20 Add support of PIC18FXXK22 and non-blocking functions
 * 3.00  epeu   07/05/20 Changing the handling of incoming and outgoing
 *                       messages for PIC18. Correction of a PIC18 bug.
-* 3.01  epeu   10/05/20 Add Bus Speed calcul for PIC18 : 300kbs
+* 3.01  epeu   10/05/20 Add Bus Speed calcul for PIC18 : 300kbs.
+* 3.02  epeu   23/05/20 Added error handling. Added an Address Scan function.
 * 
 *****************************************************************************/
 
@@ -29,7 +30,7 @@
 /************************** Function Prototypes *****************************/
 
 void I2C_ISR(void);
-int I2C_Scan(t_I2CScan *Adresses, u8 NbrAdress);
+int I2C_Scan(u8 *Adresses, u8 NbrAdress);
 int I2C_Get_Status(u8 MsgID);
 int I2C_Init(u8 Options);
 int I2C_Write(u8 adresse, u8 *data, u8 sizeData, u8 delay);

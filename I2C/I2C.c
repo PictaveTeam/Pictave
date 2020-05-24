@@ -17,6 +17,7 @@
 * 3.00  epeu   07/05/20 Changing the handling of incoming and outgoing
 *                       messages for PIC18. Correction of a PIC18 bug.
 * 3.01  epeu   10/05/20 Add Bus Speed calcul for PIC18 : 300kbs
+* 3.02  epeu   23/05/20 Added error handling. Added an Address Scan function.
 * 
 *****************************************************************************/
 
@@ -27,11 +28,13 @@
 /************************** Variable Definitions ****************************/
 
 t_I2CConfig I2CConfig;
-t_I2CScan *I2Cadress;
+t_I2CScan I2Cadress;
 t_I2CMemory I2CMemory;
 u16 PointerRefresh;
 u16 timer;
 u8 myMsgID;
+t_I2CError I2CError[10];
+u8 sizeError;
 #ifdef ENEMEA
 u8 *nulPointer;
 #endif /* ENEMEA */
@@ -55,6 +58,7 @@ void I2C_ISR(void)
 {
     static u8 i = 0;
     static u8 ack = 0;
+    static u16 adressScan = 0x02;
     u8 type;
     
 #ifdef PICTAVE
@@ -86,6 +90,34 @@ void I2C_ISR(void)
 #elif defined(ENEMEA)
                 SSP1BUF = I2CConfig.Buffer[0].adress;
 #endif /* PICTAVE | ENEMEA */
+                break;
+            case I2C_SCAN:
+                if(SSP1CON2bits.ACKSTAT==0)
+                {
+                    I2Cadress.Adress[I2Cadress.NbrAdress] = adressScan;
+                    I2Cadress.NbrAdress++;
+                }
+                adressScan+=2;
+                if((adressScan > 0xFE)||(I2Cadress.NbrAdress >= I2Cadress.Max))
+                {
+#ifdef PICTAVE
+                    I2C1CONbits.PEN = 1;
+#elif defined(ENEMEA)
+                    SSP1CON2bits.PEN = 1;
+#endif /* PICTAVE | ENEMEA */
+                    I2CConfig.State = MASTER_STOP;
+                    adressScan = 0x02;
+                }
+                else
+                {
+#ifdef PICTAVE
+                    I2C1CONbits.SEN = 1;
+#elif defined(ENEMEA)
+                    SSP1CON2bits.SEN = 1;
+#endif /* PICTAVE | ENEMEA */
+                    I2CConfig.State = MASTER_START;
+                    I2CConfig.Buffer[0].adress = adressScan;
+                }
                 break;
             case MASTER_WRITE:
 #ifdef PICTAVE
@@ -139,20 +171,22 @@ void I2C_ISR(void)
                 else
                 {
                     ack = 0;
-                    LATD|=1;
 #ifdef PICTAVE
-                    I2C1CONbits.SEN = 1;
+                    I2C1CONbits.PEN = 1;
 #elif defined(ENEMEA)
-                    SSP1CON2bits.SEN = 1;
+                    SSP1CON2bits.PEN = 1;
 #endif /* PICTAVE | ENEMEA */
-                    if(I2CConfig.Buffer[0].delay > 0)
+                    I2CConfig.State = MASTER_STOP;
+                    I2CError[sizeError].MsgID = I2CConfig.MsgID[0];
+                    I2CError[sizeError].error = I2C_NO_SLAVE;
+                    sizeError++;
+                    if(sizeError > 9)
                     {
-                        I2CConfig.State = DELAY_INTER;
-                        timer = I2CConfig.Buffer[0].delay;
-                    }
-                    else
-                    {
-                        I2CConfig.State = MASTER_STOP;
+                        for(i=0;i<=9;i++)
+                        {
+                            I2CError[i] = I2CError[i+1];
+                        }
+                        sizeError--;
                     }
                 }
                 break;
@@ -317,12 +351,23 @@ void I2C_ISR(void)
                 {
 #ifdef PICTAVE
                     I2C1CONbits.SEN = 0;
-                    I2C1CONbits.SEN = 1;
+                    I2C1CONbits.PEN = 1;
 #elif defined(ENEMEA)
                     SSP1CON2bits.SEN = 0;
-                    SSP1CON2bits.SEN = 1;
+                    SSP1CON2bits.PEN = 1;
 #endif /* PICTAVE | ENEMEA */
-                    I2CConfig.State = MASTER_START;
+                    I2CConfig.State = MASTER_STOP;
+                    I2CError[sizeError].MsgID = I2CConfig.MsgID[0];
+                    I2CError[sizeError].error = I2C_TIMEOUT;
+                    sizeError++;
+                    if(sizeError > 9)
+                    {
+                        for(i=0;i<=9;i++)
+                        {
+                            I2CError[i] = I2CError[i+1];
+                        }
+                        sizeError--;
+                    }
                 }
                 break;
             case DELAY_TIMEOUT:
@@ -344,6 +389,11 @@ void I2C_ISR(void)
                         I2CConfig.State = MASTER_READ;
                         goto delay_end;
                     }
+                    if(I2CConfig.Buffer[0].type == I2C_MASTER_SCAN)
+                    {
+                        I2CConfig.State = I2C_SCAN;
+                        goto delay_end;
+                    }
                 }
                 else
                 {
@@ -351,12 +401,23 @@ void I2C_ISR(void)
                     {
 #ifdef PICTAVE
                     I2C1CONbits.SEN = 0;
-                    I2C1CONbits.SEN = 1;
+                    I2C1CONbits.PEN = 1;
 #elif defined(ENEMEA)
                     SSP1CON2bits.SEN = 0;
-                    SSP1CON2bits.SEN = 1;
+                    SSP1CON2bits.PEN = 1;
 #endif /* PICTAVE | ENEMEA */
-                        I2CConfig.State = MASTER_START;
+                        I2CConfig.State = MASTER_STOP;
+                        I2CError[sizeError].MsgID = I2CConfig.MsgID[0];
+                        I2CError[sizeError].error = I2C_TIMEOUT;
+                        sizeError++;
+                        if(sizeError > 9)
+                        {
+                            for(i=0;i<=9;i++)
+                            {
+                                I2CError[i] = I2CError[i+1];
+                            }
+                            sizeError--;
+                        }
                     }
                 }
                 break;
@@ -377,12 +438,23 @@ void I2C_ISR(void)
                 {
 #ifdef PICTAVE
                     I2C1CONbits.SEN = 0;
-                    I2C1CONbits.SEN = 1;
+                    I2C1CONbits.PEN = 1;
 #elif defined(ENEMEA)
                     SSP1CON2bits.SEN = 0;
-                    SSP1CON2bits.SEN = 1;
+                    SSP1CON2bits.PEN = 1;
 #endif /* PICTAVE | ENEMEA */
-                    I2CConfig.State = MASTER_START;
+                    I2CConfig.State = MASTER_STOP;
+                    I2CError[sizeError].MsgID = I2CConfig.MsgID[0];
+                    I2CError[sizeError].error = I2C_ERROR;
+                    sizeError++;
+                    if(sizeError > 9)
+                    {
+                        for(i=0;i<=9;i++)
+                        {
+                            I2CError[i] = I2CError[i+1];
+                        }
+                        sizeError--;
+                    }
                 }
                 break;
             
@@ -461,36 +533,32 @@ void _ISR_ROUTINE _MI2C1Interrupt ( void )
 
 #endif
 
-#ifdef BETA
-
 /****************************************************************************/
 /**
 *
 * I2C address scan function. This function returns an array with 
 * the addresses of the connected I2C slaves.
 *
-* @param  - OUT Parameter : Adresses is a structure that contains an array
-*                           where the addresses will be stored, an unsigned
-*                           char with the number of addresses detected,
-*                           and an unsigned char with the current scan status.
+* @param  - IN/OUT Parameter : Adresses is an array
+*                           where the addresses will be stored.
 * 
 *         - IN  Parameter : NbrMaxAdress is an unsigned char which contains
 *                           the number of addresses to be searched for.
 *
 * @return
 * 
-*		- PIC_SUCCESS if Scan request was successful
+*		- Number of adresses founded if Scan request was successful
 *		- PIC_FAILED if I2C is not init or PIC is not master or option
-*         not equal to INTERRUPT 
+*         not equal to INTERRUPT. PIC_FAILED if bus TIMEOUT
 *
-* @note
+* @note None.
 *
-* 10 adresses max. The function is not done.
 *
 *****************************************************************************/
 
-int I2C_Scan(t_I2CScan *Adresses, u8 NbrMaxAdress)
+int I2C_Scan(u8 *Adresses, u8 NbrMaxAdress)
 {
+    int Status = I2C_PROCESSING;
     if((I2CConfig.Options & INTERRUPT) == 0)
         return PIC_FAILED;
     if(I2CConfig.Status != I2C_READY)
@@ -500,12 +568,15 @@ int I2C_Scan(t_I2CScan *Adresses, u8 NbrMaxAdress)
     if(myMsgID == 0)
         myMsgID++;
     
-    I2Cadress = Adresses;
-    I2Cadress->NbrAdress = 0;
-    I2Cadress->State = I2C_NOT_READY;
+    I2Cadress.Adress = Adresses;
+    I2Cadress.Max = NbrMaxAdress;
+    I2Cadress.NbrAdress = 0;
+    I2Cadress.State = I2C_PROCESSING;
     if(I2CConfig.BufferNbr >= 9)
         return I2C_SEND_OVERFLOW;
     I2CConfig.Buffer[I2CConfig.BufferNbr].type = I2C_MASTER_SCAN;
+    I2CConfig.Buffer[I2CConfig.BufferNbr].adress = 0x02;
+    I2CConfig.Buffer[I2CConfig.BufferNbr].delay = 0;
     I2CConfig.MsgID[I2CConfig.BufferNbr] = myMsgID;
     I2CConfig.BufferNbr++;
     if(I2CConfig.State == BUS_READY)
@@ -517,9 +588,13 @@ int I2C_Scan(t_I2CScan *Adresses, u8 NbrMaxAdress)
         SSP1CON2bits.SEN = 1;
 #endif /* PICTAVE | ENEMEA */
     }
-    return PIC_SUCCESS;
+    while(Status==I2C_PROCESSING)
+        Status = I2C_Get_Status(myMsgID);
+    if(Status == I2C_END)
+        return I2Cadress.NbrAdress;
+    else
+        return PIC_FAILED;
 }
-#endif /* BETA */
 
 /****************************************************************************/
 /**
@@ -539,10 +614,14 @@ int I2C_Scan(t_I2CScan *Adresses, u8 NbrMaxAdress)
 *       - I2C_END if the message is sent
 *		- PIC_FAILED if I2C is not init or PIC is not master or option
 *         not equal to INTERRUPT 
+*       - I2C_TIMEOUT if timeout error on bus.
+*       - I2C_ERROR if connexion error.
+*       - I2C_NO_SLAVE if slave not connected.   
 *
 * @note
 *
-* None.
+* If an error is detected, the message is deleted. It is not taken into
+* account. Valid for: I2C_ERROR, I2C_TIMEOUT, I2C_NO_SLAVE.
 *
 *****************************************************************************/
 int I2C_Get_Status(u8 MsgID)
@@ -550,6 +629,11 @@ int I2C_Get_Status(u8 MsgID)
     u8 i;
     if(I2CConfig.Status != I2C_READY)
         return PIC_FAILED;
+    for(i = 0; i<sizeError ; i++)
+    {
+        if(I2CError[i].MsgID == MsgID)
+            return I2CError[i].error;
+    }
     for(i = 0; i<I2CConfig.BufferNbr ; i++)
     {
         if(I2CConfig.MsgID[i] == MsgID)
@@ -590,6 +674,7 @@ int I2C_Get_Status(u8 MsgID)
 *****************************************************************************/
 
 int I2C_Init(u8 Options){
+    sizeError = 0;
 #ifdef PICTAVE
     float min = 20;
     u16 prescUsed = 0;
