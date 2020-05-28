@@ -198,7 +198,7 @@ void Uart_Flush(const Uart uart){
     #error [Uart Library] PIC18F2X_4XK22_FAMILY not supported
     //#include "devices/pic18f/pic18f2x_4xk22_serial.c"
 #elif defined DEVICE_PIC24FJ128GA010_FAMILY
-    //#include "hardware/pic24f/pic24fj128ga010_family_serial.c"
+    #include "./hardware/pic24f/pic24fj128ga010_family_serial.c"
 #else
     #error [Serial Library] Device not supported
 #endif

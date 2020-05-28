@@ -20,7 +20,6 @@
                    projectFiles="true">
       <logicalFolder name="f1" displayName="Uart" projectFiles="true">
         <itemPath>../../Uart/Uart.c</itemPath>
-        <itemPath>../../Uart/hardware/pic24f/pic24fj128ga010_family_serial.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>../../Utils/ByteQueue.c</itemPath>
@@ -74,22 +73,6 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <item path="../../Uart/hardware/pic24f/pic24fj128ga010_family_serial.c"
-            ex="false"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
       <C30>
         <property key="code-model" value="default"/>
         <property key="const-model" value="default"/>
