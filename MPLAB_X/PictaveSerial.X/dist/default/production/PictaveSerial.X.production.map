@@ -358,11 +358,11 @@ __CONFIG1
  .debug_abbrev    0x000251         0xd7 build/default/production/main.o
  .debug_abbrev    0x000328         0xc7 build/default/production/_ext/1606905585/ByteQueue.o
 
-.debug_line       0x000000        0x4ef
+.debug_line       0x000000        0x4f1
  *(.debug_line)
  .debug_line      0x000000        0x29a build/default/production/_ext/1852933006/Uart.o
  .debug_line      0x00029a        0x17b build/default/production/main.o
- .debug_line      0x000415         0xda build/default/production/_ext/1606905585/ByteQueue.o
+ .debug_line      0x000415         0xdc build/default/production/_ext/1606905585/ByteQueue.o
 
 .debug_frame      0x000000        0x448
  *(.debug_frame)

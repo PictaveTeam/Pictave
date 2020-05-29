@@ -81,15 +81,32 @@ uint ByteQueue_Capacity(ByteQueue queue);
 
 #endif	// !BYTE_QUEUE_H_INCLUDED
 
+
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/*
+ * La partie suivante contient l'implémentation de la structure ByteQueue_t
+ * 
+ * Pour include la définition de ByteQueue_t, INCLUDE_QUEUE_DEFINITION
+ * doit être défini avant l'inclusion de ce fichier.
+ */
 #if !defined(QUEUE_DEFINITION_INCLUDED) && defined(INCLUDE_QUEUE_DEFINITION)
 #define QUEUE_DEFINITION_INCLUDED
 
+/**
+ * @struct ByteQueue_t
+ * 
+ * Contient les données nécéssaires à la manipulation d'une queue.
+ */
 struct ByteQueue_t{
-    byte_t *pBuffer;
-    uint backCursor;
-    uint frontCursor;
-    uint capacity;
-    uint size;
+    byte_t *pBuffer;   /**< Le tableau dans lequel sera stocké les données de la queue */
+    uint backCursor;   /**< La case du tableau dans laquelle sera écrite la nouvelle donnée */
+    uint frontCursor;  /**< La case du tableau contenant la valeur en tête de queue */
+    uint capacity;     /**< La capacité maximale de la queue en octet */
+    uint size;         /**< Le nombre d'octets actuellement dans la queue */
 };
 
 
