@@ -345,11 +345,11 @@ __CONFIG1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x1e05
+.debug_info       0x000000       0x1e1d
  *(.debug_info)
- .debug_info      0x000000       0x16ce build/default/production/_ext/1852933006/Uart.o
- .debug_info      0x0016ce        0x390 build/default/production/main.o
- .debug_info      0x001a5e        0x3a7 build/default/production/_ext/1606905585/ByteQueue.o
+ .debug_info      0x000000       0x16da build/default/production/_ext/1852933006/Uart.o
+ .debug_info      0x0016da        0x39c build/default/production/main.o
+ .debug_info      0x001a76        0x3a7 build/default/production/_ext/1606905585/ByteQueue.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x3ef

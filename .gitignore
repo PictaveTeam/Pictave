@@ -2,3 +2,7 @@
 ./doxygen.exe
 **/build
 *.o
+./MPLAB_X/PictaveSerial.X/build
+./MPLAB_X/PictaveSerial.X/debug
+./MPLAB_X/PictaveSerial.X/dist
+./MPLAB_X/PictaveSerial.X/nbproject

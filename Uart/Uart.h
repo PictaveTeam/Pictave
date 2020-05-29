@@ -2,7 +2,7 @@
 #define	PICTAVE_UART_H
 
 #include "../core.h"
-#include "./Uart_Configuration.h
+#include "./Uart_Configuration.h"
 
 struct Uart_t;
 typedef struct Uart_t* Uart;
