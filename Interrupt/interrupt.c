@@ -13,6 +13,7 @@
 * Ver   Who    Date	    Changes
 * ----- ------ -------- ----------------------------------------------
 * 1.00	epeu   03/03/20 First Release
+* 1.01	epeu   03/02/21 Bug fix : Overflow
 * 
 *****************************************************************************/
 
@@ -74,12 +75,15 @@ int ISR_Init(void)
 * @return
 *
 *		- PIC_SUCCESS
+*		- PIC_FAILED
 *
 * @note    None
 *
 *****************************************************************************/
 int ISR_ConnectFunction(ISR_FunctionPtr Function)
 {
+	if(ISRConfig.ISRnbr > 9)
+		return PIC_FAILED;
     ISRConfig.FunctTab[ISRConfig.ISRnbr] = Function;
     ISRConfig.ISRnbr++;
     return PIC_SUCCESS;
@@ -92,9 +96,8 @@ int ISR_ConnectFunction(ISR_FunctionPtr Function)
 *
 * @param	pointer to a Function
 *
-* @return
+* @return   None
 *
-*		- PIC_SUCCESS
 *
 * @note   This function performs all functions that have been added 
 * to the interrupt routine.
